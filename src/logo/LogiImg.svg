@@ -1,0 +1,23 @@
+<svg width="600" height="600" viewBox="0 0 600 600" fill="none" xmlns="http://www.w3.org/2000/svg">
+<circle cx="150" cy="150" r="145" fill="#5D6BFF" stroke="black" stroke-width="10"/>
+<circle cx="150" cy="450" r="145" fill="#5D6BFF" stroke="black" stroke-width="10"/>
+<circle cx="450" cy="150" r="145" fill="white" stroke="black" stroke-width="10"/>
+<circle cx="450" cy="450" r="145" fill="white" stroke="black" stroke-width="10"/>
+<circle cx="300" cy="300" r="150" fill="black"/>
+<rect x="226" y="217" width="148" height="166" fill="white" stroke="black" stroke-width="10"/>
+<line x1="254" y1="252" x2="347" y2="252" stroke="black" stroke-width="10"/>
+<line x1="254" y1="295" x2="347" y2="295" stroke="black" stroke-width="10"/>
+<line x1="254" y1="342" x2="347" y2="342" stroke="black" stroke-width="10"/>
+<circle cx="550" cy="50" r="45" fill="white"/>
+<circle cx="550" cy="50" r="45" fill="white"/>
+<circle cx="550" cy="50" r="45" fill="white"/>
+<circle cx="550" cy="50" r="45" fill="white"/>
+<circle cx="550" cy="50" r="45" stroke="black" stroke-width="10"/>
+<circle cx="550" cy="550" r="45" fill="white"/>
+<circle cx="550" cy="550" r="45" fill="white"/>
+<circle cx="550" cy="550" r="45" fill="white"/>
+<circle cx="550" cy="550" r="45" fill="white"/>
+<circle cx="550" cy="550" r="45" stroke="black" stroke-width="10"/>
+<circle cx="50" cy="550" r="45" fill="#5D6BFF" stroke="black" stroke-width="10"/>
+<circle cx="50" cy="50" r="45" fill="#5D6BFF" stroke="black" stroke-width="10"/>
+</svg>

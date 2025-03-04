@@ -16,7 +16,7 @@
       <change beforePath="$PROJECT_DIR$/../collaboproject-be/src/main/java/com/ohgiraffers/collaboprojectbe/CollaboprojectBeApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/../collaboproject-be/src/main/java/com/ohgiraffers/collaboprojectbe/CollaboprojectBeApplication.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../collaboproject-be/src/main/resources/application.yml" beforeDir="false" afterPath="$PROJECT_DIR$/../collaboproject-be/src/main/resources/application.yml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/landings/Feature.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/landings/Feature.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/Header/indext.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Header/indext.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../../LandofPatience/.idea/.idea.Land of Patience/.idea/.gitignore" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/../../LandofPatience/.idea/.idea.Land of Patience/.idea/encodings.xml" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/../../LandofPatience/.idea/.idea.Land of Patience/.idea/indexLayout.xml" beforeDir="false" />
@@ -187,6 +187,8 @@
       <workItem from="1740233614003" duration="198000" />
       <workItem from="1740744041754" duration="1286000" />
       <workItem from="1740834996801" duration="2923000" />
+      <workItem from="1741086716910" duration="389000" />
+      <workItem from="1741104524101" duration="3971000" />
     </task>
     <servers />
   </component>
