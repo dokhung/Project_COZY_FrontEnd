@@ -16,11 +16,12 @@
       <change beforePath="$PROJECT_DIR$/../collaboproject-be/src/main/java/com/ohgiraffers/collaboprojectbe/CollaboprojectBeApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/../collaboproject-be/src/main/java/com/ohgiraffers/collaboprojectbe/CollaboprojectBeApplication.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../collaboproject-be/src/main/resources/application.yml" beforeDir="false" afterPath="$PROJECT_DIR$/../collaboproject-be/src/main/resources/application.yml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app/login/page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/login/page.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/api/Axios.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/api/Axios.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/api/auth.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/api/auth.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/app/signup/page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/signup/page.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/components/Header/AvatarMenu.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Header/AvatarMenu.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/Header/indext.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Header/indext.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/landings/Hero.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/landings/Hero.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/store/userStore.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/store/userStore.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../../LandofPatience/.idea/.idea.Land of Patience/.idea/.gitignore" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/../../LandofPatience/.idea/.idea.Land of Patience/.idea/encodings.xml" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/../../LandofPatience/.idea/.idea.Land of Patience/.idea/indexLayout.xml" beforeDir="false" />
@@ -55,8 +56,8 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
-        <option value="TypeScript JSX File" />
         <option value="TypeScript File" />
+        <option value="TypeScript JSX File" />
       </list>
     </option>
   </component>
@@ -97,6 +98,7 @@
     &quot;nodejs_interpreter_path&quot;: &quot;node&quot;,
     &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
     &quot;npm.dev.executor&quot;: &quot;Run&quot;,
+    &quot;prettierjs.PrettierConfiguration.Package&quot;: &quot;/Users/kuredogyon/Documents/CollaborationManagement_Project/collaboproject-fe/node_modules/prettier&quot;,
     &quot;settings.editor.selected.configurable&quot;: &quot;preferences.pluginManager&quot;,
     &quot;ts.external.directory.path&quot;: &quot;/Users/kuredogyon/Documents/CollaborationManagement_Project/collaboproject-fe/node_modules/typescript/lib&quot;,
     &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
@@ -110,6 +112,7 @@
         <entry key="com.haulmont.rcb.storybook" value="false" />
         <entry key="com.intellij.reactbuddy.reactComponents" value="false" />
         <entry key="com.intellij.reactbuddy.reactInspector" value="false" />
+        <entry key="com.intellij.reactbuddy.storybook" value="false" />
       </map>
     </option>
   </component>
@@ -211,7 +214,9 @@
       <workItem from="1741240458512" duration="21258000" />
       <workItem from="1741352534243" duration="60000" />
       <workItem from="1741441656721" duration="4231000" />
-      <workItem from="1741524583230" duration="9155000" />
+      <workItem from="1741524583230" duration="9184000" />
+      <workItem from="1741613245709" duration="15651000" />
+      <workItem from="1741672981288" duration="22365000" />
     </task>
     <servers />
   </component>
