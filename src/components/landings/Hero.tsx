@@ -3,8 +3,8 @@
 import { easeInOut, motion } from 'motion/react';
 import Link from 'next/link';
 import { Skeleton } from '@/components/ui/skeleton';
+import { useUserStore } from '@/store/userStore'; // ✅ Zustand 상태 가져오기
 import ProjectList from "@/components/landings/ProjectList";
-// import ProjectList from "@/components/landings/ProjectList";
 
 const containerVariants = {
     initial: { opacity: 0 },
@@ -24,9 +24,13 @@ const childVariants = {
 const MotionLink = motion.create(Link);
 
 export default function Hero() {
+    const { isLoggedIn } = useUserStore(); // ✅ 로그인 상태 가져오기
+
     return (
         <motion.section initial='initial' whileInView='animate' variants={containerVariants} className='py-20 md:py-40'>
-            <ProjectList />
+            {/* ✅ 로그인 상태일 때만 ProjectList 표시 */}
+            {isLoggedIn && <ProjectList />}
+
             <br/>
             <motion.h1 variants={childVariants} className='mb-6 text-center text-4xl font-bold text-gray-600 md:text-5xl'>
                 목표 달성을 위한 모두의

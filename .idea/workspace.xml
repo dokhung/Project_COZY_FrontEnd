@@ -18,7 +18,8 @@
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/api/Axios.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/api/Axios.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/api/auth.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/api/auth.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app/signup/page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/signup/page.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/app/login/page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/login/page.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/app/myinfo/page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/myinfo/page.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/components/Header/AvatarMenu.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Header/AvatarMenu.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/components/landings/Hero.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/landings/Hero.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/store/userStore.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/store/userStore.ts" afterDir="false" />
@@ -56,8 +57,8 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
-        <option value="TypeScript File" />
         <option value="TypeScript JSX File" />
+        <option value="TypeScript File" />
       </list>
     </option>
   </component>
@@ -216,7 +217,12 @@
       <workItem from="1741441656721" duration="4231000" />
       <workItem from="1741524583230" duration="9184000" />
       <workItem from="1741613245709" duration="15651000" />
-      <workItem from="1741672981288" duration="22365000" />
+      <workItem from="1741672981288" duration="27739000" />
+      <workItem from="1741755692284" duration="365000" />
+      <workItem from="1741796506507" duration="80000" />
+      <workItem from="1741835874945" duration="7065000" />
+      <workItem from="1741857599903" duration="2430000" />
+      <workItem from="1741866392844" duration="6417000" />
     </task>
     <servers />
   </component>

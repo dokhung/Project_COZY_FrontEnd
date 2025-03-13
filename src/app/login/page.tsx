@@ -10,8 +10,8 @@ import { Alert, AlertTitle } from '@/components/ui/alert';
 import KakaoLogin from '@/components/login/KakaoLogin';
 import { GoogleOAuthProvider } from '@react-oauth/google';
 import GoogleLoginComponent, { clientId } from '@/components/login/GoogleLogin';
-import { loginRequest } from '@/api/auth';
 import { useUserStore } from '@/store/userStore';
+import { loginRequest } from '@/api/auth';
 
 export default function Login() {
   const [email, setEmail] = useState('');
@@ -20,24 +20,26 @@ export default function Login() {
   const router = useRouter();
   const { login } = useUserStore();
 
-  const handleLogin = async () => {
+  const handleLogin = async (e: React.FormEvent) => {
+    e.preventDefault();
+
     try {
-      // ✅ 기존 로그인 정보 제거 후 재로그인
-      localStorage.removeItem('accessToken');
+      console.log("🔍 로그인 요청 전송: ", { email, password });
 
-      const response = await loginRequest(email, password);
-      const { token, user } = response.data;
+      const { user, token } = await loginRequest(email, password);
+      console.log("✅ 로그인 응답 수신: ", { user, token });
 
-      console.log('🔹 로그인 성공! 받은 데이터:', user);
+      if (!token) {
+        throw new Error("JWT 토큰이 반환되지 않았습니다.");
+      }
 
       localStorage.setItem('accessToken', token);
-      localStorage.setItem('user', JSON.stringify(user));
-
       login(user, token);
-      router.push('/');
-    } catch (error : any) {
-      console.error('❌ 로그인 실패:', error);
-      setError('로그인 실패: ' + (error.response?.data || '서버 오류'));
+      router.push('/dashboard');
+
+    } catch (err) {
+      console.error("❌ 로그인 실패: ", err);
+      setError('로그인에 실패했습니다.');
     }
   };
 
@@ -45,16 +47,16 @@ export default function Login() {
 
 
   return (
-      <div className='flex min-h-screen items-center justify-center bg-gray-200'>
-        <Card className='w-full max-w-md p-6'>
+      <div className='flex min-h-screen items-center justify-center bg-gray-100'>
+        <Card className='w-full max-w-md p-6 shadow-lg bg-white rounded-lg'>
           <CardHeader>
-            <CardTitle className='text-center text-black'>로그인</CardTitle>
+            <CardTitle className='text-center text-gray-800 text-2xl font-bold'>로그인</CardTitle>
           </CardHeader>
           <CardContent>
             <div className='space-y-4'>
               {/* 이메일 입력 */}
               <div>
-                <Label htmlFor='email' className='text-black'>이메일</Label>
+                <Label htmlFor='email' className='text-gray-700'>이메일</Label>
                 <Input
                     id='email'
                     type='email'
@@ -66,7 +68,7 @@ export default function Login() {
 
               {/* 비밀번호 입력 */}
               <div>
-                <Label htmlFor='password' className='text-black'>비밀번호</Label>
+                <Label htmlFor='password' className='text-gray-700'>비밀번호</Label>
                 <Input
                     id='password'
                     type='password'
@@ -76,19 +78,18 @@ export default function Login() {
                 />
               </div>
 
-              {/* 에러 메시지 표시 */}
+              {/* 에러 메시지 */}
               {error && (
-                  <Alert
-                      variant='destructive'
-                      className="border-red-500 bg-red-100 text-red-800 px-4 py-2 w-full"
-                  >
+                  <Alert variant='destructive' className="border-red-500 bg-red-100 text-red-800 px-4 py-2 w-full">
                     <AlertTitle className="font-bold">오류</AlertTitle>
                     <p className="text-sm">{error}</p>
                   </Alert>
               )}
 
               {/* 로그인 버튼 */}
-              <Button className='w-full' onClick={handleLogin}>로그인</Button>
+              <Button className='w-full bg-blue-600 hover:bg-blue-700 text-white py-2' onClick={handleLogin}>
+                로그인
+              </Button>
 
               {/* 카카오 로그인 */}
               <KakaoLogin />
@@ -101,8 +102,8 @@ export default function Login() {
 
             {/* 회원가입 링크 */}
             <div className='mt-4 text-center'>
-              <p className='text-black'>
-                계정이 없으신가요? <a href='/signup' className='underline'>회원가입</a>
+              <p className='text-gray-600'>
+                계정이 없으신가요? <a href='/signup' className='underline text-blue-600'>회원가입</a>
               </p>
             </div>
           </CardContent>

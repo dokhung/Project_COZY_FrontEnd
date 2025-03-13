@@ -20,19 +20,18 @@ export default function AvatarMenu() {
         router.push('/login');
     };
 
+    // ✅ 프로필 이미지 URL이 undefined일 경우 기본 이미지 설정
+    const profileImageSrc = user?.profileImage && user.profileImage !== "undefined"
+        ? (user.profileImage.startsWith('http') ? user.profileImage : `/uploads/${user.profileImage}`)
+        : "/default-profile.png";
+
     return (
         <DropdownMenu open={isOpen} onOpenChange={setIsOpen}>
             <DropdownMenuTrigger asChild>
                 {isLoggedIn && user ? (
                     <Button variant='ghost' size='icon' className='rounded-full'>
                         <Avatar className='h-8 w-8'>
-                            {user?.profileImage ? (
-                                <Image src={user.profileImage} alt="프로필 이미지" width={32} height={32} className="rounded-full object-cover" />
-                            ) : (
-                                <AvatarFallback className="bg-gray-300 text-lg font-bold text-white">
-                                    {user?.nickname?.charAt(0).toUpperCase()}
-                                </AvatarFallback>
-                            )}
+                            <Image src={profileImageSrc} alt="프로필 이미지" width={32} height={32} className="rounded-full object-cover" />
                         </Avatar>
                     </Button>
                 ) : (
@@ -55,40 +54,31 @@ export default function AvatarMenu() {
                     {/* 🔹 프로필 정보 */}
                     <div className="flex flex-col items-center">
                         <Avatar className="h-16 w-16 mb-2">
-                            {user?.profileImage ? (
-                                <Image src={user.profileImage} alt="프로필 이미지" width={64} height={64} className="rounded-full object-cover" />
-                            ) : (
-                                <AvatarFallback className="bg-gray-300 text-lg font-bold text-white">
-                                    {user?.nickname?.charAt(0).toUpperCase()}
-                                </AvatarFallback>
-                            )}
+                            <Image src={profileImageSrc} alt="프로필 이미지" width={64} height={64} className="rounded-full object-cover" />
                         </Avatar>
                         <span className="font-semibold text-lg text-gray-900">{user?.nickname}</span>
                         <span className="text-sm text-gray-500">
-                            {user?.statusMessage || "상태 메시지를 입력하세요"} {/* ✅ 상태 메시지 출력 */}
+                            {user?.statusMessage || "상태 메시지를 입력하세요"}
                         </span>
                     </div>
 
                     {/* 🔹 구분선 */}
                     <div className="border-t border-gray-200 my-3"/>
 
-                    {/* 🔹 버튼 영역 (2x2 그리드) */}
+                    {/* 🔹 버튼 영역 */}
                     <div className="grid grid-cols-2 gap-3">
                         <DropdownMenuItem asChild>
-                            <Link href='/myinfo'
-                                  className="flex items-center justify-center p-3 rounded-lg bg-gray-100 hover:bg-gray-200 font-semibold">
+                            <Link href='/myinfo' className="flex items-center justify-center p-3 rounded-lg bg-gray-100 hover:bg-gray-200 font-semibold">
                                 내 정보
                             </Link>
                         </DropdownMenuItem>
                         <DropdownMenuItem asChild>
-                            <Link href='/settings'
-                                  className="flex items-center justify-center p-3 rounded-lg bg-gray-100 hover:bg-gray-200 font-semibold">
+                            <Link href='/settings' className="flex items-center justify-center p-3 rounded-lg bg-gray-100 hover:bg-gray-200 font-semibold">
                                 설정
                             </Link>
                         </DropdownMenuItem>
                         <DropdownMenuItem asChild>
-                            <Link href='/participation'
-                                  className="flex items-center justify-center p-3 rounded-lg bg-gray-100 hover:bg-gray-200 font-semibold">
+                            <Link href='/participation' className="flex items-center justify-center p-3 rounded-lg bg-gray-100 hover:bg-gray-200 font-semibold">
                                 나의 참여
                             </Link>
                         </DropdownMenuItem>
