@@ -8,13 +8,15 @@ import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useUserStore } from '@/store/userStore';
 import Image from 'next/image';
+import {logoutRequest} from "@/api/auth";
 
 export default function AvatarMenu() {
     const router = useRouter();
     const { isLoggedIn, user, logout } = useUserStore();
     const [isOpen, setIsOpen] = useState(false);
 
-    const handleLogout = () => {
+    const handleLogout = async () => {
+        await logoutRequest();
         logout();
         setIsOpen(false);
         router.push('/login');
