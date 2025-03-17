@@ -1,5 +1,6 @@
 import apiClient from './Axios';
 import { AxiosError } from 'axios';
+import {aw} from "framer-motion/dist/types.d-6pKw1mTI";
 
 
 export const registerRequest = (formData: FormData) => {
@@ -80,6 +81,18 @@ export const updateUserInfoRequest = async (formData: FormData) => {
         throw new Error("정보 수정 실패");
     }
 };
+
+export const logoutRequest = async () => {
+    const token = localStorage.getItem('accessToken');
+    if (!token) return;
+    await apiClient.post('/api/auth/logout', {
+        headers: {
+            Authorization: `Bearer ${token}`,
+        }
+    });
+
+    localStorage.removeItem('accessToken');
+}
 
 
 

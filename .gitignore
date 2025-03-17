@@ -43,3 +43,5 @@ next-env.d.ts
 # vscode
 .vscode
 
+# JetBrains IDE (WebStorm, IntelliJ, etc.)
+.idea/
