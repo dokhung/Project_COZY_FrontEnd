@@ -28,21 +28,19 @@ export const useUserStore = create<UserState>()(
             user: null,
             accessToken: '',
 
-            // ✅ 유저 상태 업데이트 함수 (토큰 포함 가능)
             setUser: (user, token) => {
-                set((state) => ({
-                    user: { ...state.user, ...user }, // 기존 데이터 유지하면서 업데이트
-                    ...(token ? { accessToken: token } : {}), // 토큰이 있을 때만 저장
-                }));
-                if (token) localStorage.setItem('accessToken', token);
+                set({ user });
+                if (token) {
+                    localStorage.setItem('accessToken', token);
+                    set({ accessToken: token });
+                }
             },
 
-            // ✅ 프로필 이미지 업데이트 (기존 값 유지)
+            // ✅ 수정: 프로필 이미지가 상태에서 즉시 반영되도록 변경
             updateProfileImage: (imageUrl) => {
-                set((state) => {
-                    if (!state.user) return state; // user가 없으면 업데이트하지 않음
-                    return { user: { ...state.user, profileImage: imageUrl } };
-                });
+                set((state) => ({
+                    user: state.user ? { ...state.user, profileImage: imageUrl } : null,
+                }));
             },
 
             login: (user, token) => {
