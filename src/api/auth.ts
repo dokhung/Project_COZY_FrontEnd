@@ -1,6 +1,5 @@
 import apiClient from './Axios';
 import { AxiosError } from 'axios';
-import {aw} from "framer-motion/dist/types.d-6pKw1mTI";
 
 
 export const registerRequest = (formData: FormData) => {
@@ -10,7 +9,7 @@ export const registerRequest = (formData: FormData) => {
 };
 
 
-export const loginRequest = async (email: string, password: string) => {
+export const loginRequest = async (email: string, password: string): Promise<{ user: any; token: any } | undefined> => {
     try {
         const response = await apiClient.post('/api/auth/login', { email, password });
         const { token, user } = response.data;
@@ -21,6 +20,7 @@ export const loginRequest = async (email: string, password: string) => {
         return { user, token };
     } catch (error: unknown) {
         handleApiError(error, "로그인 실패");
+        return undefined;
     }
 };
 

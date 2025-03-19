@@ -5,48 +5,18 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="91994808-6a41-442c-a01a-5609593d19ff" name="변경" comment="">
-      <change beforePath="$PROJECT_DIR$/../../BackEnd/Assets/ForceAcceptAll.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../../BackEnd/Assets/ForceAcceptAll.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../BackEndStudy/chap09-rest-api/src/main/java/com/ohgiraffers/restapi/section02/ResponseEntityTestController.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../BackEndStudy/chap09-rest-api/src/main/java/com/ohgiraffers/restapi/section02/ResponseEntityTestController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../BackEndStudy/chap09-rest-api/src/main/java/com/ohgiraffers/restapi/section02/ResponseMessage.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../BackEndStudy/chap09-rest-api/src/main/java/com/ohgiraffers/restapi/section02/ResponseMessage.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../BackEndStudy/chap09-rest-api/src/main/java/com/ohgiraffers/restapi/section02/UserDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../BackEndStudy/chap09-rest-api/src/main/java/com/ohgiraffers/restapi/section02/UserDTO.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../collaboproject-be/.env" beforeDir="false" afterPath="$PROJECT_DIR$/../collaboproject-be/.env" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../collaboproject-be/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/../collaboproject-be/.gitignore" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../collaboproject-be/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/../collaboproject-be/build.gradle" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../collaboproject-be/docker-compose.yml" beforeDir="false" afterPath="$PROJECT_DIR$/../collaboproject-be/docker-compose.yml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../collaboproject-be/src/main/java/com/ohgiraffers/collaboprojectbe/CollaboprojectBeApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/../collaboproject-be/src/main/java/com/ohgiraffers/collaboprojectbe/CollaboprojectBeApplication.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../collaboproject-be/src/main/resources/application.yml" beforeDir="false" afterPath="$PROJECT_DIR$/../collaboproject-be/src/main/resources/application.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/api/auth.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/api/auth.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/Header/AvatarDropdownMenu.tsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/Header/AvatarMenu.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Header/AvatarMenu.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/Header/UserProfile.tsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/Header/indext.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Header/indext.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../LandofPatience/.idea/.idea.Land of Patience/.idea/.gitignore" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../LandofPatience/.idea/.idea.Land of Patience/.idea/encodings.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../LandofPatience/.idea/.idea.Land of Patience/.idea/indexLayout.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../LandofPatience/.idea/.idea.Land of Patience/.idea/vcs.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../polychat-frontend/src/ImgDocument/BackGround.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../polychat-frontend/src/ImgDocument/PolyChat.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../polychat-frontend/src/ImgDocument/PolyChat.svg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../polychat-frontend/src/ImgDocument/body.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../polychat-frontend/src/ImgDocument/cosmic background.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../polychat-frontend/src/ImgDocument/earth.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../polychat-frontend/src/ImgDocument/food.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../polychat-frontend/src/ImgDocument/kakafrends.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../polychat-frontend/src/ImgDocument/pMap.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../polychat-frontend/src/Midia/InpotalMidia.mp4" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../polychat-frontend/src/Midia/univerBackground.mp4" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../polychat-frontend/src/component/Login/Login.tsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../polychat-frontend/src/component/Login/LoginStyle.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../polychat-frontend/src/component/test/LoginButton.jsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../springbootchchchch/unityspring/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/../../springbootchchchch/unityspring/.gitignore" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../springbootchchchch/unityspring/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/../../springbootchchchch/unityspring/build.gradle" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../untitled/src/src/main/java/com/ohgiraffers/common/Template.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../untitled/src/src/main/java/com/ohgiraffers/config/connection-info.properties" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../untitled/src/src/main/java/com/ohgiraffers/model/dto/EmployeeDTO.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../untitled/src/src/main/java/com/ohgiraffers/section01/statement/Application1.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../untitled/src/src/main/java/com/ohgiraffers/section02/preparedstatment/Application1.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/app/login/page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/login/page.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/app/middleware.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/middleware.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/app/myinfo/page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/myinfo/page.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/CreateProject/ProjectCreateButton.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/CreateProject/ProjectCreateButton.tsx" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -81,30 +51,30 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "ASKED_SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "ReactCreateComponentLastSelected": "arrowFunctionComponent",
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "ToolWindow.Run.ShowToolbar": "false",
-    "WebServerToolWindowFactoryState": "false",
-    "git-widget-placeholder": "feat/header",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.standard": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.standard": "",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_interpreter_path": "node",
-    "nodejs_package_manager_path": "npm",
-    "npm.dev.executor": "Run",
-    "prettierjs.PrettierConfiguration.Package": "/Users/kuredogyon/Documents/CollaborationManagement_Project/collaboproject-fe/node_modules/prettier",
-    "settings.editor.selected.configurable": "preferences.pluginManager",
-    "ts.external.directory.path": "/Users/kuredogyon/Documents/CollaborationManagement_Project/collaboproject-fe/node_modules/typescript/lib",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;ASKED_SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
+    &quot;ReactCreateComponentLastSelected&quot;: &quot;arrowFunctionComponent&quot;,
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;ToolWindow.Run.ShowToolbar&quot;: &quot;false&quot;,
+    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;feat/header&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.standard&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.standard&quot;: &quot;&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_interpreter_path&quot;: &quot;node&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;npm.dev.executor&quot;: &quot;Run&quot;,
+    &quot;prettierjs.PrettierConfiguration.Package&quot;: &quot;/Users/kuredogyon/Documents/CollaborationManagement_Project/collaboproject-fe/node_modules/prettier&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.pluginManager&quot;,
+    &quot;ts.external.directory.path&quot;: &quot;/Users/kuredogyon/Documents/CollaborationManagement_Project/collaboproject-fe/node_modules/typescript/lib&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="ReactDesignerToolWindowState">
     <option name="myId2Visible">
       <map>
@@ -227,6 +197,7 @@
       <workItem from="1741957706254" duration="1902000" />
       <workItem from="1742045481633" duration="2645000" />
       <workItem from="1742185989353" duration="16144000" />
+      <workItem from="1742386879191" duration="8893000" />
     </task>
     <servers />
   </component>
