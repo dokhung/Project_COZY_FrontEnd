@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import React, {useEffect, useState} from 'react';
 import { useRouter } from 'next/navigation';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -20,14 +20,21 @@ export default function Login() {
   const router = useRouter();
   const { login } = useUserStore();
 
+  const { isLoggedIn } = useUserStore();
+
+  useEffect(() => {
+    if (isLoggedIn) {
+      router.push('/dashboard');
+    }
+  },[isLoggedIn, router]);
+
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
 
     try {
       console.log("🔍 로그인 요청 전송: ", { email, password });
 
-      const { user, token } = await loginRequest(email, password);
-      console.log("✅ 로그인 응답 수신: ", { user, token });
+      const { user, token } = (await loginRequest(email, password)) || { user: null, token: null };
 
       if (!token) {
         throw new Error("JWT 토큰이 반환되지 않았습니다.");
