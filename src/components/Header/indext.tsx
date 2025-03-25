@@ -8,8 +8,8 @@ import ProjectCreateButton from "@/components/CreateProject/ProjectCreateButton"
 
 export default function Header() {
     return (
-        <header className='fixed top-0 z-10 flex w-full items-center justify-center border-b border-b-gray-200 bg-white'>
-            <div className='container flex h-16 items-center justify-between px-4 md:px-6'>
+        <header className='fixed top-0 z-10 w-full border-b border-b-gray-200 bg-white h-16'>
+            <div className='container flex h-full items-center justify-between px-4 md:px-6'>
 
                 {/* 왼쪽 - 로고 및 메뉴 */}
                 <div className='flex items-center space-x-4'>
@@ -17,7 +17,7 @@ export default function Header() {
                         <span className='text-blue-500'>
                             <Image src={Logo} alt="Collaboproject Logo" width={40} height={40} />
                         </span>
-                        <span className='font-bold text-blue-500'>Collabo</span>
+                        <span className='font-bold text-blue-500'>COZY</span>
                     </Link>
                     <nav className='hidden md:flex md:items-center md:gap-1'>
                         <Link href='/feature' className='rounded-lg px-3 py-1 text-sm font-semibold hover:bg-gray-200'>기능</Link>
@@ -27,7 +27,7 @@ export default function Header() {
                     </nav>
                 </div>
 
-                {/* ✅ 가운데 - ProjectAction 컴포넌트 */}
+                {/* ✅ 가운데 - ProjectAction 버튼 */}
                 <div className="absolute left-1/2 transform -translate-x-1/2">
                     <ProjectCreateButton />
                 </div>

@@ -3,6 +3,7 @@
 import { useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { useUserStore } from '@/store/userStore';
+import {Button} from "@/components/ui/button";
 
 export default function Dashboard() {
     const router = useRouter();
@@ -16,13 +17,23 @@ export default function Dashboard() {
     }, [isLoggedIn, router]);
 
     return (
-        <div className="flex flex-col items-center justify-center h-screen bg-gray-100">
-            <h1 className="text-2xl font-bold">🚀 대시보드</h1>
-            <p className="mt-2 text-gray-600">현재 로그인된 사용자: {user?.nickname || '알 수 없음'}</p>
+        <div className="flex flex-col items-center justify-center min-h-screen bg-gray-50 px-4">
+            <h1 className="text-3xl font-bold text-black-600">어서오세요 {user?.nickname || '사용자'}님!</h1>
+            <p className="mt-2 text-gray-700 text-center">
+                아직 참여 중인 프로젝트가 없습니다.
+                <br />
+                새로운 프로젝트를 시작해보세요!
+            </p>
 
-            {/* 추후 기능 추가할 자리 */}
-            <div className="mt-6 p-4 bg-white shadow-md rounded-md">
-                <p className="text-gray-700">여기에 원하는 기능을 추가하세요.</p>
+            <div className="mt-6">
+                <Button
+                    className="px-4 py-2 rounded-md bg-blue-600 text-white hover:bg-blue-700"
+                    onClick={() => {
+                        setTimeout(() => router.push('/createproject'), 500);
+                    }}
+                >
+                    새 프로젝트 생성
+                </Button>
             </div>
         </div>
     );

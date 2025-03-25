@@ -5,18 +5,27 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="91994808-6a41-442c-a01a-5609593d19ff" name="변경" comment="">
-      <change beforePath="$PROJECT_DIR$/../collaboproject-be/.env" beforeDir="false" afterPath="$PROJECT_DIR$/../collaboproject-be/.env" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../collaboproject-be/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/../collaboproject-be/.gitignore" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../collaboproject-be/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/../collaboproject-be/build.gradle" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../collaboproject-be/docker-compose.yml" beforeDir="false" afterPath="$PROJECT_DIR$/../collaboproject-be/docker-compose.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../collaboproject-be/src/main/java/com/ohgiraffers/collaboprojectbe/CollaboprojectBeApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/../collaboproject-be/src/main/java/com/ohgiraffers/collaboprojectbe/CollaboprojectBeApplication.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../collaboproject-be/src/main/resources/application.yml" beforeDir="false" afterPath="$PROJECT_DIR$/../collaboproject-be/src/main/resources/application.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../collaboproject-be/.env" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../collaboproject-be/.gitattributes" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../collaboproject-be/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../collaboproject-be/build.gradle" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../collaboproject-be/docker-compose.yml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../collaboproject-be/gradle/wrapper/gradle-wrapper.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../collaboproject-be/gradle/wrapper/gradle-wrapper.properties" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../collaboproject-be/gradlew" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../collaboproject-be/gradlew.bat" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../collaboproject-be/settings.gradle" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../collaboproject-be/src/main/java/com/ohgiraffers/collaboprojectbe/CollaboprojectBeApplication.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../collaboproject-be/src/main/resources/application.yml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../collaboproject-be/src/test/java/com/ohgiraffers/collaboprojectbe/CollaboprojectBeApplicationTests.java" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/api/auth.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/api/auth.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app/login/page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/login/page.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app/middleware.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/middleware.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app/myinfo/page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/myinfo/page.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/app/dashboard/page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/dashboard/page.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/app/layout.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/layout.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/components/CreateProject/ProjectCreateButton.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/CreateProject/ProjectCreateButton.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/Header/ProjectDropdown.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Header/ProjectDropdown.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/Header/indext.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Header/indext.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/Participation/NewProjectButton.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Participation/NewProjectButton.tsx" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -59,7 +68,7 @@
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
     &quot;ToolWindow.Run.ShowToolbar&quot;: &quot;false&quot;,
     &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;feat/header&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;feat/createproject&quot;,
     &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
     &quot;node.js.detected.package.standard&quot;: &quot;true&quot;,
     &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
@@ -197,7 +206,13 @@
       <workItem from="1741957706254" duration="1902000" />
       <workItem from="1742045481633" duration="2645000" />
       <workItem from="1742185989353" duration="16144000" />
-      <workItem from="1742386879191" duration="8893000" />
+      <workItem from="1742553409361" duration="2733000" />
+      <workItem from="1742558197720" duration="5592000" />
+      <workItem from="1742647369223" duration="1899000" />
+      <workItem from="1742649597002" duration="3508000" />
+      <workItem from="1742725389830" duration="47000" />
+      <workItem from="1742725447807" duration="5944000" />
+      <workItem from="1742832300800" duration="27505000" />
     </task>
     <servers />
   </component>

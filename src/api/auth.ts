@@ -1,5 +1,5 @@
 import apiClient from './Axios';
-import { AxiosError } from 'axios';
+import {AxiosError, AxiosResponse} from 'axios';
 
 
 export const registerRequest = (formData: FormData) => {
@@ -94,9 +94,22 @@ export const logoutRequest = async () => {
     localStorage.removeItem('accessToken');
 }
 
+export const checkProjectNameRequest = async (projectName: string) : Promise<boolean> => {
+    try {
+        const res = await apiClient.get('/api/project/check-projectname', {
+            params: { projectName }
+        });
+        return res.data.available;
+    }catch (error: unknown) {
+        handleApiError(error,"프로젝트 이름 중복 확인 실패");
+        return false;
+    }
+
+}
 
 
 
+//TODO: API보조함수
 const handleApiError = (error: unknown, customMessage: string) => {
     if (error instanceof AxiosError) {
         console.error(`❌ ${customMessage}:`, error.response?.data || error.message);

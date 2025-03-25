@@ -33,9 +33,10 @@ export default function ProjectDropdown({ projects }: ProjectDropdownProps) {
                 </DropdownMenu>
             ) : (
                 <Button
-                    variant="primary"
                     className="px-4 py-2 rounded-md bg-blue-600 text-white hover:bg-blue-700"
-                    onClick={() => router.push('/projects/create')}
+                    onClick={() => {
+                        setTimeout(() => router.push('/createproject'), 500);
+                    }}
                 >
                     새 프로젝트 생성
                 </Button>
