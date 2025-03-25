@@ -11,8 +11,7 @@ export default function ProjectCreateButton() {
             <Button
                 className="px-4 py-2 rounded-md bg-blue-600 text-white hover:bg-blue-700"
                 onClick={() => {
-                    alert("개발중");
-                    setTimeout(() => router.push('/'), 500);
+                    setTimeout(() => router.push('/createproject'), 500);
                 }}
             >
                 새 프로젝트 생성

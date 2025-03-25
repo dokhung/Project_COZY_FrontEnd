@@ -10,16 +10,18 @@ const pretendard = localFont({
 });
 
 export default function RootLayout({
-  children,
-}: Readonly<{
+                                     children,
+                                   }: Readonly<{
   children: React.ReactNode;
 }>) {
   return (
-    <html lang='ko'>
-      <body className={pretendard.className}>
-        <Header />
-        {children}
+      <html lang='ko'>
+      <body className={`${pretendard.className} pt-16`}>
+      {/* ✅ 고정된 헤더 */}
+      <Header />
+      {/* ✅ 헤더 밑으로 밀려 내려가는 본문 */}
+      {children}
       </body>
-    </html>
+      </html>
   );
 }
