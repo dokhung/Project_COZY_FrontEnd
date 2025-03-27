@@ -5,27 +5,13 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="91994808-6a41-442c-a01a-5609593d19ff" name="변경" comment="">
-      <change beforePath="$PROJECT_DIR$/../collaboproject-be/.env" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../collaboproject-be/.gitattributes" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../collaboproject-be/.gitignore" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../collaboproject-be/build.gradle" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../collaboproject-be/docker-compose.yml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../collaboproject-be/gradle/wrapper/gradle-wrapper.jar" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../collaboproject-be/gradle/wrapper/gradle-wrapper.properties" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../collaboproject-be/gradlew" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../collaboproject-be/gradlew.bat" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../collaboproject-be/settings.gradle" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../collaboproject-be/src/main/java/com/ohgiraffers/collaboprojectbe/CollaboprojectBeApplication.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../collaboproject-be/src/main/resources/application.yml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../collaboproject-be/src/test/java/com/ohgiraffers/collaboprojectbe/CollaboprojectBeApplicationTests.java" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/api/auth.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/api/auth.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/app/createproject/interest/page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/createproject/interest/page.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/app/dashboard/page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/dashboard/page.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app/layout.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/layout.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/components/CreateProject/ProjectCreateButton.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/CreateProject/ProjectCreateButton.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/Header/ProjectDropdown.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Header/ProjectDropdown.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/Header/indext.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Header/indext.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/Participation/NewProjectButton.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Participation/NewProjectButton.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/landings/ProjectList.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/landings/ProjectList.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/store/projectStore.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/store/projectStore.ts" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -35,8 +21,8 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
-        <option value="TypeScript File" />
         <option value="TypeScript JSX File" />
+        <option value="TypeScript File" />
       </list>
     </option>
   </component>
@@ -60,30 +46,30 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;ASKED_SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
-    &quot;ReactCreateComponentLastSelected&quot;: &quot;arrowFunctionComponent&quot;,
-    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;ToolWindow.Run.ShowToolbar&quot;: &quot;false&quot;,
-    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;feat/createproject&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.standard&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.standard&quot;: &quot;&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_interpreter_path&quot;: &quot;node&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;npm.dev.executor&quot;: &quot;Run&quot;,
-    &quot;prettierjs.PrettierConfiguration.Package&quot;: &quot;/Users/kuredogyon/Documents/CollaborationManagement_Project/collaboproject-fe/node_modules/prettier&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.pluginManager&quot;,
-    &quot;ts.external.directory.path&quot;: &quot;/Users/kuredogyon/Documents/CollaborationManagement_Project/collaboproject-fe/node_modules/typescript/lib&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "ASKED_SHARE_PROJECT_CONFIGURATION_FILES": "true",
+    "ReactCreateComponentLastSelected": "arrowFunctionComponent",
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "ToolWindow.Run.ShowToolbar": "false",
+    "WebServerToolWindowFactoryState": "false",
+    "git-widget-placeholder": "feat/interest.tsx",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.standard": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.standard": "",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_interpreter_path": "node",
+    "nodejs_package_manager_path": "npm",
+    "npm.dev.executor": "Run",
+    "prettierjs.PrettierConfiguration.Package": "/Users/kuredogyon/Documents/CollaborationManagement_Project/collaboproject-fe/node_modules/prettier",
+    "settings.editor.selected.configurable": "preferences.pluginManager",
+    "ts.external.directory.path": "/Users/kuredogyon/Documents/CollaborationManagement_Project/collaboproject-fe/node_modules/typescript/lib",
+    "vue.rearranger.settings.migration": "true"
   }
-}</component>
+}]]></component>
   <component name="ReactDesignerToolWindowState">
     <option name="myId2Visible">
       <map>

@@ -107,12 +107,46 @@ export const checkProjectNameRequest = async (projectName: string) : Promise<boo
 
 }
 
+export const createProjectSaveRequest = async (projectName: string, interest: string) => {
+    const token = localStorage.getItem('accessToken');
+    if (!token) throw new Error("❌ 인증 토큰이 없습니다.");
+
+    try {
+        const response = await apiClient.post(
+            '/api/project/projectCreate',
+            { projectName, interest },
+            {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                    'Content-Type': 'application/json',
+                },
+            }
+        );
+        return response.data;
+    } catch (error: unknown) {
+        return handleApiError(error, "프로젝트 생성 실패");
+    }
+};
+
+export const getMyProjectInfoRequest = async () => {
+    const token = localStorage.getItem('accessToken');
+    if (!token) throw new Error('❌ 인증 토큰이 없습니다.');
+
+    const response = await apiClient.get('/api/project/my-projectInfo', {
+        headers: { Authorization: `Bearer ${token}` },
+    });
+
+    console.log("🎯 프로젝트 API 응답:", response.data);
+    return response.data; // 여기서 실제로 배열을 리턴하는지 확인!
+};
+
+
+
 
 
 //TODO: API보조함수
 const handleApiError = (error: unknown, customMessage: string) => {
     if (error instanceof AxiosError) {
-        console.error(`❌ ${customMessage}:`, error.response?.data || error.message);
         throw new Error(error.response?.data?.error || customMessage);
     }
 
