@@ -8,7 +8,6 @@ import {getMyProjectInfoRequest} from "@/api/auth";
 export default function ProjectCreateButton() {
     const [hasProject, setHasProject] = useState(false);
     const router = useRouter();
-
     useEffect(() => {
         const checkProject = async () => {
             try {
@@ -23,9 +22,9 @@ export default function ProjectCreateButton() {
 
     const handleClick = () => {
         if (hasProject) {
-            router.push('/project'); // 기존 프로젝트 페이지
+            router.push('/project');
         } else {
-            router.push('/createproject'); // 새 프로젝트 생성
+            router.push('/createproject');
         }
     };
 

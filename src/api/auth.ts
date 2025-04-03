@@ -1,5 +1,6 @@
 import apiClient from './Axios';
-import {AxiosError, AxiosResponse} from 'axios';
+import {AxiosError} from 'axios';
+import {useUserStore} from "@/store/userStore";
 
 
 export const registerRequest = (formData: FormData) => {
@@ -48,9 +49,8 @@ export const verifyPasswordRequest = async (password: string) => {
     }
 };
 
-// ✅ 현재 로그인한 유저 정보 요청
-export const getCurrentUserRequest = async () => {
-    const token = localStorage.getItem('accessToken');
+// ✅ 매개변수로 token 받게 변경
+export const getCurrentUserRequest = async (token: string) => {
     if (!token) throw new Error("❌ 인증 토큰이 없습니다.");
 
     try {
@@ -63,6 +63,7 @@ export const getCurrentUserRequest = async () => {
         return handleApiError(error, "현재 유저 정보 가져오기 실패");
     }
 };
+
 
 
 export const updateUserInfoRequest = async (formData: FormData) => {
@@ -82,17 +83,25 @@ export const updateUserInfoRequest = async (formData: FormData) => {
     }
 };
 
+// logoutRequest.ts
 export const logoutRequest = async () => {
     const token = localStorage.getItem('accessToken');
-    if (!token) return;
-    await apiClient.post('/api/auth/logout', {
-        headers: {
-            Authorization: `Bearer ${token}`,
-        }
-    });
-
-    localStorage.removeItem('accessToken');
+    if (!token) {
+        // 그냥 클라이언트에서만 로그아웃 처리
+        useUserStore.getState().logout();
+        return;
+    }
+    try {
+        await apiClient.post('/api/auth/logout', {
+            headers: { Authorization: `Bearer ${token}` }
+        });
+    } catch (e) {
+        console.warn("만료된 토큰으로 로그아웃 시도 → 클라이언트에서만 로그아웃 처리");
+    } finally {
+        useUserStore.getState().logout();
+    }
 }
+
 
 export const checkProjectNameRequest = async (projectName: string) : Promise<boolean> => {
     try {
