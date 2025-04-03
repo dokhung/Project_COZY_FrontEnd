@@ -1,7 +1,6 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 
-// 🔹 User 타입 정의
 type User = {
     id: number;
     email: string;
@@ -10,11 +9,11 @@ type User = {
     statusMessage?: string;
 };
 
-// 🔹 Zustand 상태 정의
 type UserState = {
     isLoggedIn: boolean;
     user: User | null;
     accessToken: string;
+    isHydrated: boolean;
     setUser: (user: User, token?: string) => void;
     updateProfileImage: (imageUrl: string) => void;
     login: (user: User, token: string) => void;
@@ -27,16 +26,15 @@ export const useUserStore = create<UserState>()(
             isLoggedIn: false,
             user: null,
             accessToken: '',
+            isHydrated: false,
 
             setUser: (user, token) => {
-                set({ user });
-                if (token) {
+                if (typeof window !== "undefined" && token) {
                     localStorage.setItem('accessToken', token);
-                    set({ accessToken: token });
                 }
+                set({ user, accessToken: token ?? '', isLoggedIn: true });
             },
 
-            // ✅ 수정: 프로필 이미지가 상태에서 즉시 반영되도록 변경
             updateProfileImage: (imageUrl) => {
                 set((state) => ({
                     user: state.user ? { ...state.user, profileImage: imageUrl } : null,
@@ -44,12 +42,16 @@ export const useUserStore = create<UserState>()(
             },
 
             login: (user, token) => {
-                localStorage.setItem('accessToken', token);
+                if (typeof window !== "undefined") {
+                    localStorage.setItem('accessToken', token);
+                }
                 set({ isLoggedIn: true, user, accessToken: token });
             },
 
             logout: () => {
-                localStorage.removeItem('accessToken');
+                if (typeof window !== "undefined") {
+                    localStorage.removeItem('accessToken');
+                }
                 set({ isLoggedIn: false, user: null, accessToken: '' });
             },
         }),
@@ -60,6 +62,12 @@ export const useUserStore = create<UserState>()(
                 user: state.user,
                 accessToken: state.accessToken,
             }),
+            onRehydrateStorage: (state) => {
+                return () => {
+                    state.isHydrated = true;
+                };
+            }
+
         }
     )
 );

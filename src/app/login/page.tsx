@@ -24,7 +24,7 @@ export default function Login() {
 
   useEffect(() => {
     if (isLoggedIn) {
-      router.push('/dashboard');
+      router.push('/');
     }
   },[isLoggedIn, router]);
 
@@ -32,17 +32,13 @@ export default function Login() {
     e.preventDefault();
 
     try {
-      console.log("🔍 로그인 요청 전송: ", { email, password });
-
       const { user, token } = (await loginRequest(email, password)) || { user: null, token: null };
-
       if (!token) {
         throw new Error("JWT 토큰이 반환되지 않았습니다.");
       }
-
       localStorage.setItem('accessToken', token);
       login(user, token);
-      router.push('/dashboard');
+      router.push('/');
 
     } catch (err) {
       console.error("❌ 로그인 실패: ", err);
