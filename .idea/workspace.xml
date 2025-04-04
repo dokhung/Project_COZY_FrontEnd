@@ -4,16 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="91994808-6a41-442c-a01a-5609593d19ff" name="변경" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/api/auth.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/api/auth.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app/dashboard/page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/dashboard/page.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app/layout.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/layout.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app/login/page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/login/page.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/CreateProject/ProjectCreateButton.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/CreateProject/ProjectCreateButton.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/store/projectStore.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/store/projectStore.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/store/userStore.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/store/userStore.ts" afterDir="false" />
-    </list>
+    <list default="true" id="91994808-6a41-442c-a01a-5609593d19ff" name="변경" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -55,7 +46,7 @@
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
     &quot;ToolWindow.Run.ShowToolbar&quot;: &quot;false&quot;,
     &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;feat/makeProjectbody.tsx&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;feat/projectMain&quot;,
     &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
     &quot;node.js.detected.package.standard&quot;: &quot;true&quot;,
     &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
@@ -202,7 +193,7 @@
       <workItem from="1742832300800" duration="27505000" />
       <workItem from="1743335593899" duration="15331000" />
       <workItem from="1743422324205" duration="11942000" />
-      <workItem from="1743700940808" duration="1855000" />
+      <workItem from="1743700940808" duration="2442000" />
     </task>
     <servers />
   </component>
