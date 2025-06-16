@@ -9,36 +9,42 @@ import { useRouter } from "next/navigation";
 export default function CreateProjectForm() {
     const [projectName, setProjectName] = useState("");
     const [isChecking, setIsChecking] = useState(false);
+    const [isAvailable, setIsAvailable] = useState(false);
     const [errorMessage, setErrorMessage] = useState("");
     const router = useRouter();
 
-    const handleNextStep = async () => {
-        if (!projectName.trim()) {
+    // TODO: 이름을 제크한다.
+    const handleCheckName = async () => {
+        if (!projectName) {
             setErrorMessage("프로젝트 이름을 입력하세요.");
+            setIsAvailable(false);
             return;
         }
 
         setIsChecking(true);
         setErrorMessage("");
+        setIsAvailable(false);
 
         try {
-            const isDuplicate = await checkProjectNameRequest(projectName);
-
-            if (isDuplicate) {
-                setErrorMessage("❌ 이미 사용 중인 프로젝트 이름입니다.");
+            const isDuplicagte = await checkProjectNameRequest(projectName);
+            if (!isDuplicagte) {
+                setErrorMessage("이미 사용 중인 프로젝트 이름 입니다.");
             } else {
-                // 👉 중복이 아니면 다음 단계 진행
-                alert("✅ 사용 가능한 프로젝트 이름입니다. 다음 단계로 이동합니다.");
-                router.push(`/createproject/interest?projectName=${projectName}`);
+                setIsAvailable(true);
             }
-        } catch (error) {
-            setErrorMessage("중복 확인 중 오류가 발생했습니다.");
-            console.error("중복 확인 실패:", error);
-        } finally {
+        }catch (error) {
+            setErrorMessage("중복 확인 중 오류가 발생 했습니다.");
+        }finally {
             setIsChecking(false);
         }
+    }
+
+    // TODO : 다음스탭으로 이동한다.
+    const handleNextStep = () : void => {
+        router.push(`/createproject/interest?projectName=${projectName}`);
     };
 
+    //TODO : HTML
     return (
         <div className="flex flex-col items-center">
             <div className="w-full mb-4">
@@ -46,24 +52,33 @@ export default function CreateProjectForm() {
                 <Input
                     type="text"
                     value={projectName}
-                    onChange={(e) => setProjectName(e.target.value)}
+                    onChange={(e) => {
+                        setProjectName(e.target.value);
+                        setIsAvailable(false); // 이름 변경 시 상태 초기화
+                        setErrorMessage("");
+                    }}
                     placeholder="사용할 프로젝트 이름을 입력하세요"
                 />
             </div>
 
-            {/* 에러 메시지 */}
             {errorMessage && (
-                <p className="text-sm text-red-500 mb-4">{errorMessage}</p>
+                <p className="text-sm text-red-500 mb-2">{errorMessage}</p>
             )}
 
-            {/* 단일 버튼으로 처리 */}
+            {isAvailable && !errorMessage && (
+                <p className="text-sm text-green-600 mb-2">✅ 등록 가능한 프로젝트 이름입니다.</p>
+            )}
+
             <Button
                 className="w-full bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded-md"
-                onClick={handleNextStep}
+                onClick={isAvailable ? handleNextStep : handleCheckName}
                 disabled={isChecking}
             >
-                {/*TODO:확인후에 다음으로 간다.*/}
-                {isChecking ? "확인 중..." : "다음으로"}
+                {isChecking
+                    ? "확인 중..."
+                    : isAvailable
+                        ? "다음으로"
+                        : "중복 확인"}
             </Button>
         </div>
     );

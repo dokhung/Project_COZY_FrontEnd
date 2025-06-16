@@ -48,6 +48,7 @@ export const useUserStore = create<UserState>()(
                 set({ isLoggedIn: true, user, accessToken: token });
             },
 
+            //TODO: 로그아웃
             logout: () => {
                 if (typeof window !== "undefined") {
                     localStorage.removeItem('accessToken');
@@ -57,16 +58,18 @@ export const useUserStore = create<UserState>()(
         }),
         {
             name: 'user-store',
-            partialize: (state) => ({
+            partialize: (state:UserState) => ({
                 isLoggedIn: state.isLoggedIn,
                 user: state.user,
                 accessToken: state.accessToken,
             }),
+
             onRehydrateStorage: (state) => {
                 return () => {
-                    state.isHydrated = true;
+                    set({ isHydrated: true });
                 };
             }
+
 
         }
     )

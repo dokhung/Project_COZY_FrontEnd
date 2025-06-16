@@ -1,15 +1,15 @@
+// ClientWrapper.tsx
 'use client';
 
-import { ReactNode } from "react";
-import Header from "@/components/Header/indext";
-import {Footer} from "@/components/landings/Footer";
 
-export default function ClientWrapper({ children }: { children: ReactNode }) {
+
+import Header from "@/components/Header/indext";
+
+export default function ClientWrapper({ children }: { children: React.ReactNode }) {
     return (
         <>
             <Header />
-            {children}
-            <Footer />
+            <main className="pt-[64px]">{children}</main> {/* 헤더 공간 확보 */}
         </>
     );
 }

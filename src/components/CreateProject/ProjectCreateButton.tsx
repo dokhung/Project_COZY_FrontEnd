@@ -22,7 +22,7 @@ export default function ProjectCreateButton() {
 
     const handleClick = () => {
         if (hasProject) {
-            router.push('/project');
+            router.push('/project/${project.name}');
         } else {
             router.push('/createproject');
         }

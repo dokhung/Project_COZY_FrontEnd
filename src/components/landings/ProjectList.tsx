@@ -73,7 +73,7 @@ const ProjectList = () => {
                                     </p>
                                 </div>
                                 <Button variant="default" size="sm" asChild>
-                                    <Link href={`/project/${project.id}`}>참가하기</Link>
+                                    <Link href={`/project/${project.name}`}>참가하기</Link>
                                 </Button>
                             </li>
                         ))}
