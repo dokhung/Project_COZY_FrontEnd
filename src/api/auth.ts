@@ -1,6 +1,6 @@
 import apiClient from './Axios';
-import {AxiosError} from 'axios';
 import {useUserStore} from "@/store/userStore";
+import {handleApiError} from "@/api/handleApiError";
 
 
 export const registerRequest = (formData: FormData) => {
@@ -9,26 +9,49 @@ export const registerRequest = (formData: FormData) => {
     });
 };
 
-
-export const loginRequest = async (email: string, password: string): Promise<{ user: any; token: any } | undefined> => {
+// TODO : 로그인을 하기 위해서 입력된 아이디와 비밀번호를 서버에 보낸다.
+export const loginRequest = async (
+    email: string,
+    password: string): Promise<{ accessToken : string; refreshToken:string; } | undefined> => {
     try {
         const response = await apiClient.post('/api/auth/login', { email, password });
-        const { token, user } = response.data;
+        const { accessToken, refreshToken } = response.data;
+        console.log("accessToken"+accessToken);
+        console.log("refreshToken"+refreshToken);
+        localStorage.setItem('accessToken', accessToken);
+        localStorage.setItem('refreshToken', refreshToken);
 
-        console.log("✅ 로그인 성공 - 토큰 저장: ", token);
-        localStorage.setItem('accessToken', token);
-
-        return { user, token };
+        return { accessToken, refreshToken };
     } catch (error: unknown) {
         handleApiError(error, "로그인 실패");
         return undefined;
     }
 };
 
+//TODO : 로그인된 유저의 정보를 JWT를 통해서 캐치한다.
+export const getCurrenUserRequest = async () : Promise<any | undefined> => {
+    const token:string|null = localStorage.getItem('accessToken');
+    if (!token) {
+        alert("토큰이 없어요");
+        return undefined;
+    }
+
+    try {
+        const res = await apiClient.get('/api/auth/me', {
+            headers: {
+                Authorization: `Bearer ${token}`,
+            },
+        });
+        return res.data;
+    }catch (error: unknown) {
+    return undefined;
+    }
+};
+
 
 export const verifyPasswordRequest = async (password: string) => {
     const token = localStorage.getItem('accessToken');
-    if (!token) throw new Error("❌ 인증 토큰이 없습니다.");
+    if (!token) throw new Error(' 인증 토큰이 없습니다.');
 
     try {
         const response = await apiClient.post(
@@ -49,45 +72,47 @@ export const verifyPasswordRequest = async (password: string) => {
     }
 };
 
-// ✅ 매개변수로 token 받게 변경
-export const getCurrentUserRequest = async (token: string) => {
-    if (!token) throw new Error("❌ 인증 토큰이 없습니다.");
+
+export const getCurrentUserRequest = async (): Promise<any | undefined> => {
+    const token = localStorage.getItem('accessToken');
+    if (!token) {
+        alert(" 토큰이 없습니다.");
+        return undefined;
+    }
 
     try {
         const response = await apiClient.get('/api/auth/current-user', {
-            headers: { Authorization: `Bearer ${token}` },
+            headers: {
+                Authorization: `Bearer ${token}`,
+            },
         });
 
         return response.data;
     } catch (error: unknown) {
-        return handleApiError(error, "현재 유저 정보 가져오기 실패");
+        handleApiError(error, '유저 정보 조회 실패');
+        return undefined;
     }
 };
 
 
 
 export const updateUserInfoRequest = async (formData: FormData) => {
-    const token = localStorage.getItem('accessToken');
-    if (!token) throw new Error("❌ JWT 토큰이 없습니다. 로그인하세요.");
+    const token : string|null = localStorage.getItem('accessToken');
+    if (!token) throw new Error("토큰이 없습니다.");
 
     try {
         const response = await apiClient.post('/api/auth/update-info', formData, {
             headers: { Authorization: `Bearer ${token}` },
         });
-
-        console.log("✅ 유저 정보 업데이트 성공:", response.data);
-        return response.data; // 🔥 수정된 프로필 정보를 반환
+        return response.data;
     } catch (error: any) {
-        console.error("❌ 유저 정보 업데이트 실패:", error.response?.data || error.message);
         throw new Error("정보 수정 실패");
     }
 };
 
-// logoutRequest.ts
-export const logoutRequest = async () => {
+export const logoutRequest = async () =>  {
     const token = localStorage.getItem('accessToken');
     if (!token) {
-        // 그냥 클라이언트에서만 로그아웃 처리
         useUserStore.getState().logout();
         return;
     }
@@ -95,7 +120,7 @@ export const logoutRequest = async () => {
         await apiClient.post('/api/auth/logout', {
             headers: { Authorization: `Bearer ${token}` }
         });
-    } catch (e) {
+    } catch (e : unknown) {
         console.warn("만료된 토큰으로 로그아웃 시도 → 클라이언트에서만 로그아웃 처리");
     } finally {
         useUserStore.getState().logout();
@@ -104,6 +129,7 @@ export const logoutRequest = async () => {
 
 
 export const checkProjectNameRequest = async (projectName: string) : Promise<boolean> => {
+    console.log(projectName);
     try {
         const res = await apiClient.get('/api/project/check-projectname', {
             params: { projectName }
@@ -118,7 +144,7 @@ export const checkProjectNameRequest = async (projectName: string) : Promise<boo
 
 export const createProjectSaveRequest = async (projectName: string, interest: string) => {
     const token = localStorage.getItem('accessToken');
-    if (!token) throw new Error("❌ 인증 토큰이 없습니다.");
+    if (!token) throw new Error(' 인증 토큰이 없습니다.');
 
     try {
         const response = await apiClient.post(
@@ -139,31 +165,44 @@ export const createProjectSaveRequest = async (projectName: string, interest: st
 
 export const getMyProjectInfoRequest = async () => {
     const token = localStorage.getItem('accessToken');
-    if (!token) throw new Error('❌ 인증 토큰이 없습니다.');
+    if (!token) throw new Error(' 인증 토큰이 없습니다.');
 
     const response = await apiClient.get('/api/project/my-projectInfo', {
         headers: { Authorization: `Bearer ${token}` },
     });
-
-    console.log("🎯 프로젝트 API 응답:", response.data);
-    return response.data; // 여기서 실제로 배열을 리턴하는지 확인!
+    return response.data;
 };
 
+export const getProjectByNameRequest = async (projectName: string) => {
+    const token = typeof window !== 'undefined' ? localStorage.getItem('accessToken') : null;
+    if (!token) throw new Error(' 인증 토큰이 없습니다.');
 
-
-
-
-//TODO: API보조함수
-const handleApiError = (error: unknown, customMessage: string) => {
-    if (error instanceof AxiosError) {
-        throw new Error(error.response?.data?.error || customMessage);
+    try {
+        const response = await apiClient.get(`/api/project/name/${projectName}`, {
+            headers: { Authorization: `Bearer ${token}` },
+        });
+        console.log(response);
+        return response.data;
+    } catch (error: unknown) {
+        return handleApiError(error, '프로젝트 정보 가져오기 실패');
     }
-
-    if (error instanceof Error) {
-        console.error(`❌ ${customMessage}:`, error.message);
-        throw new Error(error.message);
-    }
-
-    console.error(`❌ ${customMessage}: 알 수 없는 오류 발생`);
-    throw new Error(customMessage);
 };
+
+//TODO : 게시판 리스트 가져오기
+export const getBoardListRequest = async () => {
+    try {
+        const res = await apiClient.get('/api/board');
+        return res.data;
+    }
+    catch (error) {
+        return handleApiError(error, " Request Error");
+    }
+
+
+}
+
+
+
+
+
+

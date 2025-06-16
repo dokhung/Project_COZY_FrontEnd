@@ -11,7 +11,7 @@ import KakaoLogin from '@/components/login/KakaoLogin';
 import { GoogleOAuthProvider } from '@react-oauth/google';
 import GoogleLoginComponent, { clientId } from '@/components/login/GoogleLogin';
 import { useUserStore } from '@/store/userStore';
-import { loginRequest } from '@/api/auth';
+import {getCurrentUserRequest, loginRequest} from '@/api/auth';
 
 export default function Login() {
   const [email, setEmail] = useState('');
@@ -28,23 +28,23 @@ export default function Login() {
     }
   },[isLoggedIn, router]);
 
-  const handleLogin = async (e: React.FormEvent) => {
-    e.preventDefault();
+  const handleLogin = async () => {
+    const tokens = await loginRequest(email, password);
+    if (!tokens) {
+      setError("로그인에 실패했습니다.");
+      return;
+    }
 
-    try {
-      const { user, token } = (await loginRequest(email, password)) || { user: null, token: null };
-      if (!token) {
-        throw new Error("JWT 토큰이 반환되지 않았습니다.");
-      }
-      localStorage.setItem('accessToken', token);
-      login(user, token);
+    const userInfo = await getCurrentUserRequest();
+    if (userInfo) {
+      login(userInfo, tokens.accessToken);
       router.push('/');
-
-    } catch (err) {
-      console.error("❌ 로그인 실패: ", err);
-      setError('로그인에 실패했습니다.');
+    } else {
+      setError("유저 정보를 불러오지 못했습니다.");
     }
   };
+
+
 
 
 
@@ -81,9 +81,9 @@ export default function Login() {
                 />
               </div>
 
-              {/* 에러 메시지 */}
+              {/* TODO: 로그인 실패  */}
               {error && (
-                  <Alert variant='destructive' className="border-red-500 bg-red-100 text-red-800 px-4 py-2 w-full">
+                  <Alert variant='destructive' className="border-red-500 bg-red-100 text-red-800 px-4 py-2 w-full whitespace-nowrap overflow-auto">
                     <AlertTitle className="font-bold">오류</AlertTitle>
                     <p className="text-sm">{error}</p>
                   </Alert>

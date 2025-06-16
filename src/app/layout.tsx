@@ -6,7 +6,7 @@ import ClientWrapper from "@/components/common/ClientWrapper";
 const pretendard = localFont({
     src: '../fonts/PretendardVariable.woff2',
     display: 'swap',
-    weight: '45 920',
+    weight: '50 920',
     variable: '--font-pretendard',
 });
 
