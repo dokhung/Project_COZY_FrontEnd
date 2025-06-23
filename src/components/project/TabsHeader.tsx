@@ -9,16 +9,14 @@ export default function TabsHeader({ projectName }: { projectName: string }) {
     const base = `/project/${projectName}`;
 
     const tabs = [
-        { label: '보드', path: '' },
-        { label: '타임라인', path: 'timeline' },
+        { label: '대쉬보드', path: 'dashboard' },
+        { label: '계획', path: 'plan' },
         { label: '캘린더', path: 'calendar' },
-        { label: '파일', path: 'files' },
-        { label: '설정', path: 'settings' },
     ];
 
     return (
-        <div className="bg-white border-b border-gray-200 overflow-x-auto">
-            <div className="flex gap-6 px-4 sm:px-10 pt-6 pb-3 min-w-fit whitespace-nowrap">
+        <aside className="w-40 bg-white border-r border-gray-200 py-6 px-4">
+            <nav className="flex flex-col gap-4">
                 {tabs.map((tab) => {
                     const href = `${base}${tab.path ? `/${tab.path}` : ''}`;
                     const isActive = pathname === href;
@@ -28,17 +26,18 @@ export default function TabsHeader({ projectName }: { projectName: string }) {
                             key={tab.path}
                             href={href}
                             className={cn(
-                                'text-sm font-medium pb-2 border-b-2',
+                                'text-sm font-medium px-2 py-1.5 rounded text-center w-full',
                                 isActive
-                                    ? 'border-blue-600 text-blue-600'
-                                    : 'border-transparent text-gray-500 hover:text-blue-600 hover:border-blue-400'
+                                    ? 'bg-blue-100 text-blue-700 font-semibold'
+                                    : 'text-gray-600 hover:bg-gray-100 hover:text-blue-600'
                             )}
                         >
                             {tab.label}
                         </Link>
+
                     );
                 })}
-            </div>
-        </div>
+            </nav>
+        </aside>
     );
 }

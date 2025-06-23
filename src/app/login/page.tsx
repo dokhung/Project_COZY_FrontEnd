@@ -57,7 +57,6 @@ export default function Login() {
           </CardHeader>
           <CardContent>
             <div className='space-y-4'>
-              {/* 이메일 입력 */}
               <div>
                 <Label htmlFor='email' className='text-gray-700'>이메일</Label>
                 <Input

@@ -1,4 +1,5 @@
 import TabsHeader from "@/components/project/TabsHeader";
+import React from "react";
 
 export default function ProjectLayout({
                                           children,
@@ -8,12 +9,14 @@ export default function ProjectLayout({
     params: { projectName: string };
 }) {
     return (
-        <div>
-            {/* Header는 최상단에서 이미 존재 */}
+        <div className="flex min-h-screen">
+            {/*TODO: 왼쪽 메뉴바*/}
             <TabsHeader projectName={params.projectName} />
-            <div className="pt-[64px] sm:pt-[72px] px-4 sm:px-10 bg-blue-50 min-h-screen">
+
+            {/* TODO : 오른쪽 메뉴바 */}
+            <main className="flex-1 bg-gray-100 p-8">
                 {children}
-            </div>
+            </main>
         </div>
     );
 }

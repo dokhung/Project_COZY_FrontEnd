@@ -17,7 +17,7 @@ export default function AvatarDropdown({ profileImage, nickname, status, handleL
             className="w-72 border border-gray-300 bg-white rounded-lg p-4 shadow-none"
             style={{ borderWidth: '1px' }} // ✅ 테두리 중복 방지
         >
-            {/* 🔹 프로필 정보 */}
+            {/* TODO : 프로필 정보 */}
             <div className="flex flex-col items-center pb-4">
                 <Avatar className="h-20 w-20">
                     {profileImage ? (
@@ -40,10 +40,10 @@ export default function AvatarDropdown({ profileImage, nickname, status, handleL
                 </div>
             </div>
 
-            {/* 🔹 구분선 (테두리 겹침 방지) */}
+
             <hr className="border-t border-gray-300 my-3 w-full" />
 
-            {/* 🔹 버튼들 */}
+
             <div className="grid grid-cols-2 gap-2">
                 <DropdownMenuItem asChild>
                     <Link href='/myinfo' className="flex items-center justify-center p-3 rounded-lg bg-gray-100 hover:bg-gray-200 font-semibold">

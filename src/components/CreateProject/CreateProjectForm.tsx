@@ -32,7 +32,7 @@ export default function CreateProjectForm() {
             } else {
                 setIsAvailable(true);
             }
-        }catch (error) {
+        }catch (error : unknown) {
             setErrorMessage("중복 확인 중 오류가 발생 했습니다.");
         }finally {
             setIsChecking(false);
@@ -54,7 +54,7 @@ export default function CreateProjectForm() {
                     value={projectName}
                     onChange={(e) => {
                         setProjectName(e.target.value);
-                        setIsAvailable(false); // 이름 변경 시 상태 초기화
+                        setIsAvailable(false);
                         setErrorMessage("");
                     }}
                     placeholder="사용할 프로젝트 이름을 입력하세요"
@@ -66,7 +66,7 @@ export default function CreateProjectForm() {
             )}
 
             {isAvailable && !errorMessage && (
-                <p className="text-sm text-green-600 mb-2">✅ 등록 가능한 프로젝트 이름입니다.</p>
+                <p className="text-sm text-green-600 mb-2">등록 가능한 프로젝트 이름입니다.</p>
             )}
 
             <Button

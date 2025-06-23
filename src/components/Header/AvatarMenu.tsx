@@ -22,7 +22,6 @@ export default function AvatarMenu() {
         router.push('/login');
     };
 
-    // ✅ 기본 프로필 이미지 처리
     const profileImageSrc = user?.profileImage
         ? (user.profileImage.startsWith('http') ? user.profileImage : `/uploads/${user.profileImage}`)
         : null;
