@@ -33,7 +33,7 @@ export default function InterestPage() {
 
         try {
             const response = await createProjectSaveRequest(projectName, selectedInterest);
-            console.log("✅ 프로젝트 생성 성공:", response);
+            console.log("response"+response);
             // TODO: 다음 단계로 이동 (예: 라우팅)
             router.push(`/project/${projectName}`);
         } catch (error) {
