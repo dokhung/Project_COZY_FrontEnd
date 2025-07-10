@@ -1,9 +1,9 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { getProjectByNameRequest } from '@/api/auth';
 import {Button} from "@/components/ui/button";
 import {Plus} from "lucide-react";
+import {getProjectByNameRequest} from "@/api/requests/project";
 
 export default function ProjectClientPage({ projectName }: { projectName: string }) {
     const [project, setProject] = useState<any>(null);

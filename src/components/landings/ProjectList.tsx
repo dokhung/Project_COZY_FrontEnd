@@ -2,12 +2,11 @@
 
 import { useEffect } from 'react';
 import { useProjectStore } from '@/store/projectStore';
-import { useUserStore } from '@/store/userStore'; // ✅ 로그인 상태 가져오기
+import { useUserStore } from '@/store/userStore';
 import { motion } from 'framer-motion';
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
-import { getMyProjectInfoRequest } from '@/api/auth';
-
+import {getMyProjectInfoRequest} from "@/api/requests/project";
 const ProjectList = () => {
     const { isLoggedIn } = useUserStore();
     const { projects, addProject } = useProjectStore();
@@ -16,14 +15,14 @@ const ProjectList = () => {
         if (!isLoggedIn) return;
 
         const fetchProjects = async () => {
-                const data = await getMyProjectInfoRequest();
-                console.log(" 프로젝트 API 응답", data);
+            const data = await getMyProjectInfoRequest();
+            console.log(" 프로젝트 API 응답", data);
 
-                const { projectId, projectName } = data;
+            const { projectId, projectName } = data;
 
-                if (projectId && projectName && !projects.some((p) => p.id === projectId)) {
-                    addProject({ id: projectId, name: projectName, description: "" });
-                }
+            if (projectId && projectName && !projects.some((p) => p.id === projectId)) {
+                addProject({ id: projectId, name: projectName, description: "" });
+            }
         };
 
         fetchProjects();
@@ -43,7 +42,6 @@ const ProjectList = () => {
                     <p className="text-lg font-semibold text-gray-600">
                         현재 참여 중인 프로젝트가 없습니다.
                     </p>
-                    {/* ✅ 로그인한 사용자만 볼 수 있는 버튼 */}
                     <Button asChild className="mt-2">
                         <Link href="/createproject">새 프로젝트 만들기</Link>
                     </Button>
@@ -64,7 +62,7 @@ const ProjectList = () => {
                                     </p>
                                 </div>
                                 <Button variant="default" size="sm" asChild>
-                                    <Link href={`/project/${project.name}`}>참가하기</Link>
+                                    <Link href={`/project/${project.name}/dashboard`}>참가하기</Link>
                                 </Button>
                             </li>
                         ))}

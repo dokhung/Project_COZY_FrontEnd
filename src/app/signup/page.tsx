@@ -7,7 +7,7 @@ import { Input } from '@/components/ui/input';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Label } from '@/components/ui/label';
 import { Alert, AlertTitle } from '@/components/ui/alert';
-import { registerRequest } from '@/api/auth';
+import {registerRequest} from "@/api/requests/auth";
 
 export default function Signup() {
   const [email, setEmail] = useState('');

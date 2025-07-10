@@ -3,8 +3,8 @@
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { useUserStore } from '@/store/userStore';
-import { getMyProjectInfoRequest } from '@/api/auth';
 import { Button } from "@/components/ui/button";
+import {getMyProjectInfoRequest} from "@/api/requests/project";
 
 export default function Dashboard() {
     const router = useRouter();
