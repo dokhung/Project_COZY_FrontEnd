@@ -15,9 +15,7 @@ export default function AddPlanDialog({ open, onClose }: AddPlanDialogProps) {
 
     const handleSave = (e: React.FormEvent) => {
         e.preventDefault();
-        // 👉 여기에 저장 로직 추가 가능
-        alert("저장되었습니다.");
-        onClose(); // 저장 후 다이얼로그 닫기
+        onClose();
     };
 
 
@@ -42,8 +40,19 @@ export default function AddPlanDialog({ open, onClose }: AddPlanDialogProps) {
 
                     <div>
                         <label className="block text-sm">상태</label>
-                        <input className="w-full border px-2 py-1 mt-1" defaultValue="진행 전" />
+                        <select
+                            className="w-full border px-2 py-1 mt-1"
+                            defaultValue="시작 전"
+                        >
+                            <option value="시작 전">시작 전</option>
+                            <option value="진행 중">진행 중</option>
+                            <option value="검토 중">검토 중</option>
+                            <option value="승인 중">승인 중</option>
+                            <option value="머지 신청">머지 신청</option>
+                            <option value="머지 완료">머지 완료</option>
+                        </select>
                     </div>
+
 
                     <div className="col-span-2">
                         <label className="block text-sm">설명</label>
@@ -69,7 +78,7 @@ export default function AddPlanDialog({ open, onClose }: AddPlanDialogProps) {
                         <input className="w-full border px-2 py-1 mt-1" placeholder="yyyy-mm-dd" type="date" />
                     </div>
 
-                    {/* ✅ 저장 버튼 */}
+
                     <div className="col-span-2 mt-4 flex justify-end">
                         <button
                             type="submit"

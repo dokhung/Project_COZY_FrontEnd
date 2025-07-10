@@ -19,19 +19,26 @@ export const getCurrentUserRequest = async (): Promise<any | undefined> => {
     }
 };
 
-// 유저 정보 업데이트
-export const updateUserInfoRequest = async (formData: FormData) => {
-    const token = localStorage.getItem('accessToken');
-    if (!token) throw new Error("토큰이 없습니다.");
+export const updateUserInfoRequest = async (
+    nickname: string,
+    statusMessage: string,
+    profileImage?: File
+) => {
+    const token = localStorage.getItem("accessToken");
+    if (!token) throw new Error("❌ 토큰이 없습니다.");
 
-    try {
-        const response = await apiClient.post('/api/auth/update-info', formData, {
-            headers: { Authorization: `Bearer ${token}` },
-        });
-        return response.data;
-    } catch (error: any) {
-        console.error("❌ 정보 수정 실패:", error.message);
-        alert("정보 수정 실패");
-        return undefined;
+    const formData = new FormData();
+    formData.append("nickname", nickname);
+    formData.append("statusMessage", statusMessage);
+    if (profileImage) {
+        formData.append("profileImage", profileImage);
     }
+
+    const response = await apiClient.post("/api/auth/update-info", formData, {
+        headers: {
+            Authorization: `Bearer ${token}`,
+        },
+    });
+
+    return response.data;
 };

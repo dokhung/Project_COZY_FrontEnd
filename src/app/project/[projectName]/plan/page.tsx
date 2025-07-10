@@ -12,6 +12,7 @@ export default function PlanPage() {
     const [selectedCheckbox, setSelectedCheckbox] = useState<number[]>([]);
     const [selectAll, setSelectAll] = useState<boolean>(false);
     const [selectedPostId, setSelectedPostId] = useState<number | null>(null);
+    const [search, setSearch] = useState('');
 
     // 게시글 목록 조회
     useEffect(() => {
@@ -49,11 +50,27 @@ export default function PlanPage() {
         setSelectAll(!selectAll);
     };
 
+    // 검색 필터링
+    const filteredPosts = posts.filter((post: any) =>
+        post.title.includes(search) || post.nickname.includes(search)
+    );
+
     return (
         <div className="min-h-screen bg-gray-100 p-8">
             <div className="mb-4 flex items-center gap-2">
-                <input type="text" placeholder="검색" className="border px-2 py-2 rounded text-base" />
-                <button className="border px-4 py-2 rounded bg-white text-base">검색</button>
+                <input
+                    type="text"
+                    value={search}
+                    onChange={(e) => setSearch(e.target.value)}
+                    placeholder="제목 또는 작성자 검색"
+                    className="border px-2 py-2 rounded text-base"
+                />
+                <button
+                    className="border px-4 py-2 rounded bg-white text-base"
+                    onClick={() => setSearch('')}
+                >
+                    초기화
+                </button>
             </div>
 
             <table className="w-full border bg-white text-lg">
@@ -79,14 +96,14 @@ export default function PlanPage() {
                             로딩 중...
                         </td>
                     </tr>
-                ) : posts.length === 0 ? (
+                ) : filteredPosts.length === 0 ? (
                     <tr>
                         <td colSpan={5} className="text-center py-6 text-base">
                             게시글이 없습니다.
                         </td>
                     </tr>
                 ) : (
-                    posts.map((post: any) => (
+                    filteredPosts.map((post: any) => (
                         <tr
                             key={post.id}
                             className="text-center border-b hover:bg-gray-100 cursor-pointer"
@@ -100,23 +117,28 @@ export default function PlanPage() {
                                 />
                             </td>
                             <td className="p-4">
-                              <span
-                                  className={`inline-block px-5 py-2 rounded-full text-xs font-semibold
-                                  ${
-                                      post.status === "계획"
-                                          ? "bg-gray-200 text-gray-700"
-                                          : post.status === "진행중"
-                                              ? "bg-yellow-200 text-yellow-800"
-                                              : post.status === "완료"
-                                                  ? "bg-green-200 text-green-800"
-                                                  : "bg-gray-200 text-gray-700"
-                                  }
-                                `}
-                              >
-                                {post.status}
-                              </span>
+                                <span
+                                    className={`inline-block px-5 py-2 rounded-full text-xs font-semibold
+                                        ${
+                                        post.status === "시작 전"
+                                            ? "bg-gray-200 text-gray-700"
+                                            : post.status === "진행 중"
+                                                ? "bg-blue-200 text-blue-800"
+                                                : post.status === "검토 중"
+                                                    ? "bg-purple-200 text-purple-800"
+                                                    : post.status === "승인 중"
+                                                        ? "bg-yellow-200 text-yellow-800"
+                                                        : post.status === "머지 신청"
+                                                            ? "bg-pink-200 text-pink-800"
+                                                            : post.status === "머지 완료"
+                                                                ? "bg-green-200 text-green-800"
+                                                                : "bg-gray-200 text-gray-700"
+                                    }
+                                    `}
+                                >
+                                    {post.status}
+                                </span>
                             </td>
-
                             <td className="p-4">{post.title}</td>
                             <td className="p-4">{post.nickname}</td>
                             <td className="p-4">{new Date(post.createdAt).toLocaleDateString()}</td>

@@ -86,10 +86,14 @@ export default function BoardCreateDialog({ onClose, onSuccess }: Props) {
                             onChange={(e) => setStatus(e.target.value)}
                             className="w-80 px-3 py-2 rounded text-sm border border-gray-300 bg-white focus:outline-none focus:ring-2 focus:ring-blue-400"
                         >
-                            <option value="계획">계획</option>
-                            <option value="진행중">진행중</option>
-                            <option value="완료">완료</option>
+                            <option value="시작 전">시작 전</option>
+                            <option value="진행 중">진행 중</option>
+                            <option value="검토 중">검토 중</option>
+                            <option value="승인 중">승인 중</option>
+                            <option value="머지 신청">머지 신청</option>
+                            <option value="머지 완료">머지 완료</option>
                         </select>
+
                     </div>
                     {/* 내용 */}
                     <div>
