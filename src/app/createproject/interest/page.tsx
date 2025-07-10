@@ -2,7 +2,7 @@
 
 import {useRouter, useSearchParams} from "next/navigation";
 import { useState } from "react";
-import { createProjectSaveRequest } from "@/api/auth";
+import {createProjectSaveRequest} from "@/api/requests/project";
 
 const interests: string[] = [
     'Web Development',

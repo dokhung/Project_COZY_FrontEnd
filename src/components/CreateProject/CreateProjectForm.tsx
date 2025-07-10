@@ -3,8 +3,8 @@
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { checkProjectNameRequest } from "@/api/auth";
 import { useRouter } from "next/navigation";
+import {checkProjectNameRequest} from "@/api/requests/project";
 
 export default function CreateProjectForm() {
     const [projectName, setProjectName] = useState("");

@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { verifyPasswordRequest } from '@/api/auth';
+import {verifyPasswordRequest} from "@/api/requests/login";
 
 export default function VerifyPassword({ onVerify }: { onVerify: () => void }) {
     const [password, setPassword] = useState('');
@@ -11,7 +11,7 @@ export default function VerifyPassword({ onVerify }: { onVerify: () => void }) {
             if (result.valid) {
                 onVerify();
             } else {
-                setError('⚠️ 비밀번호가 일치하지 않습니다.');
+                setError('⚠비밀번호가 일치하지 않습니다.');
             }
         } catch (error) {
             setError('❌ 비밀번호 확인 중 오류가 발생했습니다.');

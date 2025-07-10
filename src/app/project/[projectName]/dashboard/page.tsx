@@ -1,9 +1,9 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { getProjectByNameRequest } from '@/api/auth';
 import { useParams } from 'next/navigation';
 import ProjectDashBoard from '@/components/project/ProjectDashBoard';
+import {getProjectByNameRequest} from "@/api/requests/project";
 
 export default function ProjectBoardPage() {
     const [project, setProject] = useState<any>(null);

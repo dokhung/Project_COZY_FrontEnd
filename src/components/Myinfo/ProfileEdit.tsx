@@ -2,7 +2,7 @@
 
 import React, { useState } from 'react';
 import Image from 'next/image';
-import { updateUserInfoRequest } from '@/api/auth';
+import {updateUserInfoRequest} from "@/api/requests/info";
 
 export default function ProfileEdit({ user, setUser, updateProfileImage, onCancel, onSave }: any) {
     const [nickname, setNickname] = useState(user?.nickname || '');
@@ -42,7 +42,7 @@ export default function ProfileEdit({ user, setUser, updateProfileImage, onCance
                 ...prevUser,
                 nickname: updatedUser.nickname,
                 statusMessage: updatedUser.statusMessage,
-                profileImage: updatedUser.profileImage, // 🔥 서버에서 받은 URL 적용
+                profileImage: updatedUser.profileImage,
             }));
 
             updateProfileImage(updatedUser.profileImage);

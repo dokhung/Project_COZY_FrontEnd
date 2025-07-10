@@ -8,7 +8,7 @@ import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useUserStore } from '@/store/userStore';
 import Image from 'next/image';
-import {logoutRequest} from "@/api/auth";
+import {logoutRequest} from "@/api/requests/login";
 
 export default function AvatarMenu() {
     const router = useRouter();
@@ -42,7 +42,6 @@ export default function AvatarMenu() {
                                 )}
                             </Avatar>
                         </Button>
-                        {/* ✅ "님 로그인 중" 스타일 추가 */}
                         <span className="text-gray-800 font-medium text-sm md:text-base">
                             {user?.nickname} 님 로그인 중
                         </span>

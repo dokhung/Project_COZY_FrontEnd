@@ -11,7 +11,8 @@ import KakaoLogin from '@/components/login/KakaoLogin';
 import { GoogleOAuthProvider } from '@react-oauth/google';
 import GoogleLoginComponent, { clientId } from '@/components/login/GoogleLogin';
 import { useUserStore } from '@/store/userStore';
-import {getCurrentUserRequest, loginRequest} from '@/api/auth';
+import {loginRequest} from "@/api/requests/login";
+import {getCurrentUserRequest} from "@/api/requests/info";
 
 export default function Login() {
   const [email, setEmail] = useState('');

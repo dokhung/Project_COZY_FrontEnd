@@ -2,7 +2,6 @@
 
 import { easeInOut, motion } from 'motion/react';
 import { Skeleton } from '../ui/skeleton';
-import Link from 'next/link';
 import {Footer} from "@/components/landings/Footer";
 
 const FEATURE_CONTENTS = [
