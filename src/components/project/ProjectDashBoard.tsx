@@ -27,7 +27,7 @@ export default function ProjectDashBoard() {
 
     return (
         <div className="min-h-screen bg-gray-50 p-10">
-            <h1 className="mb-8 text-3xl font-extrabold text-blue-900">📋 프로젝트 대시보드</h1>
+            <h1 className="mb-8 text-3xl font-extrabold text-blue-900">프로젝트 대시보드</h1>
 
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                 {columns.map((status) => {
@@ -37,12 +37,9 @@ export default function ProjectDashBoard() {
                             key={status}
                             className="flex flex-col gap-2 rounded-xl bg-gray-50 border border-gray-200 shadow-sm"
                         >
-                            {/* 상단 제목 */}
                             <div className="bg-white border-b border-gray-300 py-2 text-center font-bold text-gray-700">
                                 {status}
                             </div>
-
-                            {/* 하단 내용 */}
                             <div className="bg-white min-h-48 flex flex-col gap-2 p-3">
                                 {isLoading ? (
                                     <div className="text-center text-gray-500 text-sm">로딩 중...</div>
@@ -52,12 +49,12 @@ export default function ProjectDashBoard() {
                                     statusPosts.map((post) => (
                                         <div
                                             key={post.id}
-                                            onClick={() => setSelectedPostId(post.id)}
-                                            className="border border-gray-200 rounded-lg p-3 shadow-sm cursor-pointer hover:shadow-md hover:bg-gray-50 transition"
+                                            className="border border-gray-200 rounded-lg p-3 shadow-sm bg-white"
                                         >
                                             <div className="text-sm font-semibold text-gray-800 truncate">{post.title}</div>
                                             <div className="text-xs text-gray-500">{post.nickname}</div>
                                         </div>
+
                                     ))
                                 )}
                             </div>
