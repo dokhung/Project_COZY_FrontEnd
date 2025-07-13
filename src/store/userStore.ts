@@ -63,14 +63,6 @@ export const useUserStore = create<UserState>()(
                 user: state.user,
                 accessToken: state.accessToken,
             }),
-
-            onRehydrateStorage: (state) => {
-                return () => {
-                    set({ isHydrated: true });
-                };
-            }
-
-
         }
     )
 );

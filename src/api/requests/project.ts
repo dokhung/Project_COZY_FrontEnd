@@ -29,15 +29,33 @@ export const createProjectSaveRequest = async (projectName: string, interest: st
     return response.data;
 };
 
-// TODO : 로그인을 하고 나서 가지고 있는 프로젝트 정보 가져옴
+// 로그인을 하고 나서 가지고 있는 프로젝트 정보 가져옴
 export const getMyProjectInfoRequest = async () => {
     const token = localStorage.getItem('accessToken');
-    if (!token) alert("로그인이 되어 있지 않다.")
-    const response = await apiClient.get('/api/project/my-projectInfo', {
-        headers: { Authorization: `Bearer ${token}` },
-    });
-    return response.data;
+    if (!token) {
+        if (confirm('로그인이 필요합니다. 로그인 페이지로 이동하시겠습니까?')) {
+            window.location.href = '/login';
+        }
+        return;
+    }
+
+    try {
+        const response = await apiClient.get('/api/project/my-projectInfo', {
+            headers: { Authorization: `Bearer ${token}` },
+        });
+        return response.data;
+    } catch (error: any) {
+        if (error.response && error.response.status === 401) {
+            if (confirm('로그인이 만료되었습니다. 로그인 페이지로 이동하시겠습니까?')) {
+                window.location.href = '/login';
+            }
+        } else {
+            console.error('프로젝트 정보 조회 실패:', error);
+            throw error; // 다른 에러는 그대로 throw
+        }
+    }
 };
+
 
 // TODO : 프로젝트 이름으로 조회
 export const getProjectByNameRequest = async (projectName: string) => {
