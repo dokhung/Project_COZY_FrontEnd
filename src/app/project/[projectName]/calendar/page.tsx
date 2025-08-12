@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { getPostListRequest } from '@/api/requests/post';
+import { getPostListRequest } from '@/api/requests/plan';
 
 const weekDays = ['월', '화', '수', '목', '금'];
 

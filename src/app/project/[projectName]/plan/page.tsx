@@ -1,25 +1,25 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import BoardCreateDialog from "@/components/community/BoardCreateDialog";
-import { getPostListRequest } from "@/api/requests/post";
-import PostDetailDialog from "@/components/ProjectPlan/PostDetaiDialog";
+import { getPlanListRequest } from "@/api/requests/plan";
+import PlanDetailDialog from "@/components/plan/PlanDetilDialog";
+import PlanCreateDialog from "@/components/plan/PlanCreateDialog";
 
 export default function PlanPage() {
-    const [posts, setPosts] = useState([]);
+    const [plans, setPlans] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
     const [isOpen, setIsOpen] = useState(false);
     const [selectedCheckbox, setSelectedCheckbox] = useState<number[]>([]);
     const [selectAll, setSelectAll] = useState<boolean>(false);
-    const [selectedPostId, setSelectedPostId] = useState<number | null>(null);
+    const [selectedPlanId, setSelectedPlanId] = useState<number | null>(null);
     const [search, setSearch] = useState('');
 
-    // 게시글 목록 조회
+    // 계획 목록 조회
     useEffect(() => {
-        const fetchPosts = async () => {
+        const fetchPlans = async () => {
             try {
-                const data = await getPostListRequest();
-                setPosts(data);
+                const data = await getPlanListRequest();
+                setPlans(data);
             } catch (error) {
                 console.log(error);
             } finally {
@@ -27,7 +27,7 @@ export default function PlanPage() {
             }
         };
 
-        fetchPosts();
+        fetchPlans();
     }, []);
 
     // 개별 체크박스 토글
@@ -44,15 +44,15 @@ export default function PlanPage() {
         if (selectAll) {
             setSelectedCheckbox([]);
         } else {
-            const allIds = posts.map((post: any) => post.id);
+            const allIds = plans.map((plan: any) => plan.id);
             setSelectedCheckbox(allIds);
         }
         setSelectAll(!selectAll);
     };
 
     // 검색 필터링
-    const filteredPosts = posts.filter((post: any) =>
-        post.title.includes(search) || post.nickname.includes(search)
+    const filteredPlans = plans.filter((plan: any) =>
+        plan.title.includes(search) || plan.nickname.includes(search)
     );
 
     return (
@@ -96,56 +96,63 @@ export default function PlanPage() {
                             로딩 중...
                         </td>
                     </tr>
-                ) : filteredPosts.length === 0 ? (
+                ) : plans.length === 0 ? (
                     <tr>
                         <td colSpan={5} className="text-center py-6 text-base">
-                            게시글이 없습니다.
+                            현재 등록된 계획이 없습니다.
+                        </td>
+                    </tr>
+                ) : filteredPlans.length === 0 ? (
+                    <tr>
+                        <td colSpan={5} className="text-center py-6 text-base">
+                            검색 결과가 없습니다.
                         </td>
                     </tr>
                 ) : (
-                    filteredPosts.map((post: any) => (
+                    filteredPlans.map((plan: any) => (
                         <tr
-                            key={post.id}
+                            key={plan.id}
                             className="text-center border-b hover:bg-gray-100 cursor-pointer"
-                            onClick={() => setSelectedPostId(post.id)}
+                            onClick={() => setSelectedPlanId(plan.id)}
                         >
                             <td className="p-4" onClick={(e) => e.stopPropagation()}>
                                 <input
                                     type="checkbox"
-                                    checked={selectedCheckbox.includes(post.id)}
-                                    onChange={() => handleCheckboxChange(post.id)}
+                                    checked={selectedCheckbox.includes(plan.id)}
+                                    onChange={() => handleCheckboxChange(plan.id)}
                                 />
                             </td>
                             <td className="p-4">
-                                <span
-                                    className={`inline-block px-5 py-2 rounded-full text-xs font-semibold
-                                        ${
-                                        post.status === "시작 전"
-                                            ? "bg-gray-200 text-gray-700"
-                                            : post.status === "진행 중"
-                                                ? "bg-blue-200 text-blue-800"
-                                                : post.status === "검토 중"
-                                                    ? "bg-purple-200 text-purple-800"
-                                                    : post.status === "승인 중"
-                                                        ? "bg-yellow-200 text-yellow-800"
-                                                        : post.status === "머지 신청"
-                                                            ? "bg-pink-200 text-pink-800"
-                                                            : post.status === "머지 완료"
-                                                                ? "bg-green-200 text-green-800"
-                                                                : "bg-gray-200 text-gray-700"
-                                    }
-                                    `}
-                                >
-                                    {post.status}
-                                </span>
+                    <span
+                        className={`inline-block px-5 py-2 rounded-full text-xs font-semibold
+                            ${
+                            plan.status === "시작 전"
+                                ? "bg-gray-200 text-gray-700"
+                                : plan.status === "진행 중"
+                                    ? "bg-blue-200 text-blue-800"
+                                    : plan.status === "검토 중"
+                                        ? "bg-purple-200 text-purple-800"
+                                        : plan.status === "승인 중"
+                                            ? "bg-yellow-200 text-yellow-800"
+                                            : plan.status === "머지 신청"
+                                                ? "bg-pink-200 text-pink-800"
+                                                : plan.status === "머지 완료"
+                                                    ? "bg-green-200 text-green-800"
+                                                    : "bg-gray-200 text-gray-700"
+                        }
+                        `}
+                    >
+                        {plan.status}
+                    </span>
                             </td>
-                            <td className="p-4">{post.title}</td>
-                            <td className="p-4">{post.nickname}</td>
-                            <td className="p-4">{new Date(post.createdAt).toLocaleDateString()}</td>
+                            <td className="p-4">{plan.title}</td>
+                            <td className="p-4">{plan.nickname}</td>
+                            <td className="p-4">{new Date(plan.createdAt).toLocaleDateString()}</td>
                         </tr>
                     ))
                 )}
                 </tbody>
+
             </table>
 
             <div className="mt-6 flex justify-center gap-2">
@@ -158,32 +165,33 @@ export default function PlanPage() {
             </div>
 
             {isOpen && (
-                <BoardCreateDialog
+                <PlanCreateDialog
+                    projectId={projectId}
                     onClose={() => setIsOpen(false)}
                     onSuccess={async () => {
                         setIsLoading(true);
-                        const data = await getPostListRequest();
-                        setPosts(data);
+                        const data = await getPlanListRequest();
+                        setPlans(data);
                         setIsLoading(false);
                     }}
                 />
             )}
 
-            {selectedPostId && (
-                <PostDetailDialog
-                    postId={selectedPostId}
-                    onClose={() => setSelectedPostId(null)}
+            {selectedPlanId && (
+                <PlanDetailDialog
+                    planId={selectedPlanId}
+                    onClose={() => setSelectedPlanId(null)}
                     onDeleted={async () => {
                         setIsLoading(true);
-                        const data = await getPostListRequest();
-                        setPosts(data);
+                        const data = await getPlanListRequest();
+                        setPlans(data);
                         setIsLoading(false);
-                        setSelectedPostId(null);
+                        setSelectedPlanId(null);
                     }}
                     onUpdated={async () => {
                         setIsLoading(true);
-                        const data = await getPostListRequest();
-                        setPosts(data);
+                        const data = await getPlanListRequest();
+                        setPlans(data);
                         setIsLoading(false);
                     }}
                 />
