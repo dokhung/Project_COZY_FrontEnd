@@ -33,9 +33,7 @@ export const createProjectSaveRequest = async (projectName: string, interest: st
 export const getMyProjectInfoRequest = async () => {
     const token = localStorage.getItem('accessToken');
     if (!token) {
-        if (confirm('로그인이 필요합니다. 로그인 페이지로 이동하시겠습니까?')) {
-            window.location.href = '/login';
-        }
+        window.location.href = '/login';
         return;
     }
 
@@ -46,12 +44,10 @@ export const getMyProjectInfoRequest = async () => {
         return response.data;
     } catch (error: any) {
         if (error.response && error.response.status === 401) {
-            if (confirm('로그인이 만료되었습니다. 로그인 페이지로 이동하시겠습니까?')) {
-                window.location.href = '/login';
-            }
+            window.location.href = '/login';
         } else {
             console.error('프로젝트 정보 조회 실패:', error);
-            throw error; // 다른 에러는 그대로 throw
+            throw error;
         }
     }
 };

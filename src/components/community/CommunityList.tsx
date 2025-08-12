@@ -4,38 +4,48 @@ import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import BoardCreateDialog from '@/components/community/BoardCreateDialog';
-import {getPostListRequest} from "@/api/requests/post";
+import PlanCreateDialog from '@/components/plan/PlanCreateDialog';
+import { getPlanListRequest } from '@/api/requests/plan';
 
-interface Post {
+interface PlanItem {
     id: number;
     title: string;
     nickname: string;
     createdAt: string;
 }
 
-export default function BoardList() {
-    const [posts, setPosts] = useState<Post[]>([]);
+export default function PlanList() {
+    const [plans, setPlans] = useState<PlanItem[]>([]);
     const [search, setSearch] = useState('');
     const [showDialog, setShowDialog] = useState(false);
 
-    const getPostListData = async () => {
-        const data = await getPostListRequest();
-        if (data) setPosts(data);
+    const getPlanListData = async () => {
+        const data = await getPlanListRequest();
+        if (data) setPlans(data);
     };
 
     useEffect(() => {
-        getPostListData();
+        getPlanListData();
     }, []);
 
     const formatDate = (dateString: string) => {
-        return dateString.split('T')[0];
+        return dateString?.split('T')[0] ?? '';
     };
+    const projectId = 0;
+
+    // 검색 필터 (간단히 제목/작성자 포함)
+    const filtered = plans.filter(
+        (p) =>
+            p.title.toLowerCase().includes(search.toLowerCase()) ||
+            p.nickname.toLowerCase().includes(search.toLowerCase())
+    );
 
     return (
         <div className="max-w-5xl mx-auto mt-10 px-4 relative">
             <div className="flex justify-between items-center mb-4">
-                <div className="font-semibold">공고&nbsp;&nbsp;{posts.length}</div>
+                <div className="font-semibold">
+                    계획&nbsp;&nbsp;{plans.length}
+                </div>
                 <div className="flex items-center gap-2">
                     <Input
                         placeholder="검색"
@@ -48,7 +58,7 @@ export default function BoardList() {
                         className="h-10 w-24 bg-blue-600 text-white"
                         onClick={() => setShowDialog(true)}
                     >
-                        글쓰기
+                        계획 작성
                     </Button>
                 </div>
             </div>
@@ -64,27 +74,31 @@ export default function BoardList() {
                 </tr>
                 </thead>
                 <tbody>
-                {posts.map((post, index) => (
-                    <tr key={post.id} className="hover:bg-gray-50 border-b">
+                {filtered.map((plan, index) => (
+                    <tr key={plan.id} className="hover:bg-gray-50 border-b">
                         <td className="py-2">{index + 1}</td>
                         <td className="py-2 text-left pl-6">
-                            <Link href={`/board/${post.id}`} className="hover:underline text-black">
-                                {post.title}
+                            <Link
+                                href={`/plan/${plan.id}`}
+                                className="hover:underline text-black"
+                            >
+                                {plan.title}
                             </Link>
                         </td>
-                        <td className="py-2">{post.nickname}</td>
-                        <td className="py-2">{formatDate(post.createdAt)}</td>
+                        <td className="py-2">{plan.nickname}</td>
+                        <td className="py-2">{formatDate(plan.createdAt)}</td>
                     </tr>
                 ))}
                 </tbody>
             </table>
 
             {showDialog && (
-                <BoardCreateDialog
+                <PlanCreateDialog
+                    projectId={projectId} // ← 여기에 실제 프로젝트 ID 넣어주세요.
                     onClose={() => setShowDialog(false)}
                     onSuccess={() => {
                         setShowDialog(false);
-                        getPostListData();
+                        getPlanListData();
                     }}
                 />
             )}

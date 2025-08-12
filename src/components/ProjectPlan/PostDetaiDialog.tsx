@@ -1,24 +1,20 @@
 'use client';
 
 import { useEffect, useState } from "react";
-import {
-    getPostDetailRequest,
-    deletedPostRequest,
-    updatePostRequest,
-} from "@/api/requests/post";
+import {deletedPlanRequest, getPlanDetailRequest, updatePlanRequest} from '@/api/requests/plan';
 
-export default function PostDetailDialog({
-                                             postId,
+export default function PlanDetailDialog({
+                                             planId,
                                              onClose,
                                              onDeleted,
                                              onUpdated,
                                          }: {
-    postId: number;
+    planId: number;
     onClose: () => void;
-    onDeleted?: () => void; // 삭제 후 콜백
-    onUpdated?: () => void; // 수정 후 콜백
+    onDeleted?: () => void;
+    onUpdated?: () => void;
 }) {
-    const [post, setPost] = useState<any>(null);
+    const [plan, setPlan] = useState<any>(null);
     const [isLoading, setIsLoading] = useState(true);
     const [isEditing, setIsEditing] = useState(false);
     const [editTitle, setEditTitle] = useState("");
@@ -26,18 +22,18 @@ export default function PostDetailDialog({
     const [editText, setEditText] = useState("");
 
     useEffect(() => {
-        const fetchPost = async () => {
+        const fetchPlan = async () => {
             try {
-                const data = await getPostDetailRequest(postId);
-                setPost(data);
+                const data = await getPlanDetailRequest(planId);
+                setPlan(data);
             } catch (error) {
                 console.error(error);
             } finally {
                 setIsLoading(false);
             }
         };
-        fetchPost();
-    }, [postId]);
+        fetchPlan();
+    }, [planId]);
 
     if (isLoading) {
         return (
@@ -47,7 +43,7 @@ export default function PostDetailDialog({
         );
     }
 
-    if (!post) return null;
+    if (!plan) return null;
 
     // 상태 색상 매핑
     const statusColors: Record<string, string> = {
@@ -63,7 +59,7 @@ export default function PostDetailDialog({
     const handleDelete = async () => {
         if (!confirm("정말 삭제하시겠습니까?")) return;
         try {
-            await deletedPostRequest(postId);
+            await deletedPlanRequest(planId);
             alert("삭제되었습니다.");
             onDeleted?.();
             onClose();
@@ -74,25 +70,24 @@ export default function PostDetailDialog({
     };
 
     const startEdit = () => {
-        setEditTitle(post.title);
-        setEditStatus(post.status);
-        setEditText(post.postText);
+        setEditTitle(plan.title);
+        setEditStatus(plan.status);
+        setEditText(plan.planText);
         setIsEditing(true);
     };
 
     const handleUpdate = async () => {
         try {
-            await updatePostRequest(postId, {
+            await updatePlanRequest(planId, {
                 title: editTitle,
                 status: editStatus,
-                postText: editText,
+                planText: editText,
             });
             alert("수정되었습니다.");
             onUpdated?.();
             setIsEditing(false);
-            // 다시 불러오기
-            const data = await getPostDetailRequest(postId);
-            setPost(data);
+            const data = await getPlanDetailRequest(planId);
+            setPlan(data);
         } catch (e) {
             console.error(e);
             alert("수정에 실패했습니다.");
@@ -158,18 +153,18 @@ export default function PostDetailDialog({
                     </>
                 ) : (
                     <>
-                        <h2 className="text-xl font-bold mb-2">{post.title}</h2>
-                        <p className="text-gray-500 mb-1">작성자: {post.nickname}</p>
+                        <h2 className="text-xl font-bold mb-2">{plan.title}</h2>
+                        <p className="text-gray-500 mb-1">작성자: {plan.nickname}</p>
                         <div
                             className={`inline-block px-3 py-1 rounded-full text-xs font-semibold mb-4 ${
-                                statusColors[post.status] || "bg-gray-200 text-gray-700"
+                                statusColors[plan.status] || "bg-gray-200 text-gray-700"
                             }`}
                         >
-                            {post.status}
+                            {plan.status}
                         </div>
-                        <div className="mb-4 whitespace-pre-wrap">{post.postText}</div>
+                        <div className="mb-4 whitespace-pre-wrap">{plan.planText}</div>
                         <div className="text-xs text-gray-400">
-                            {new Date(post.createdAt).toLocaleString()}
+                            {new Date(plan.createdAt).toLocaleString()}
                         </div>
                         <div className="flex justify-end gap-2 mt-4">
                             <button

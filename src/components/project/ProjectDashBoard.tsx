@@ -1,28 +1,28 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { getPostListRequest } from "@/api/requests/post";
-import PostDetailDialog from "@/components/ProjectPlan/PostDetaiDialog";
+import { getPlanListRequest } from "@/api/requests/plan";
+import PlanDetailDialog from "@/components/plan/PlanDetilDialog";
 
 const columns = ['시작 전', '진행 중', '검토 중', '승인 중', '머지 신청', '머지 완료'];
 
 export default function ProjectDashBoard() {
-    const [posts, setPosts] = useState<any[]>([]);
+    const [plans, setPlans] = useState<any[]>([]);
     const [isLoading, setIsLoading] = useState(true);
-    const [selectedPostId, setSelectedPostId] = useState<number | null>(null);
+    const [selectedPlanId, setSelectedPlanId] = useState<number | null>(null);
 
     useEffect(() => {
-        const fetchPosts = async () => {
+        const fetchPlans = async () => {
             try {
-                const data = await getPostListRequest();
-                setPosts(data);
+                const data = await getPlanListRequest();
+                setPlans(data);
             } catch (error) {
                 console.error(error);
             } finally {
                 setIsLoading(false);
             }
         };
-        fetchPosts();
+        fetchPlans();
     }, []);
 
     return (
@@ -31,7 +31,7 @@ export default function ProjectDashBoard() {
 
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                 {columns.map((status) => {
-                    const statusPosts = posts.filter((post) => post.status === status);
+                    const statusPlans = plans.filter((plan) => plan.status === status);
                     return (
                         <div
                             key={status}
@@ -43,18 +43,18 @@ export default function ProjectDashBoard() {
                             <div className="bg-white min-h-48 flex flex-col gap-2 p-3">
                                 {isLoading ? (
                                     <div className="text-center text-gray-500 text-sm">로딩 중...</div>
-                                ) : statusPosts.length === 0 ? (
-                                    <div className="text-center text-gray-400 text-sm">게시글 없음</div>
+                                ) : statusPlans.length === 0 ? (
+                                    <div className="text-center text-gray-400 text-sm">계획 없음</div>
                                 ) : (
-                                    statusPosts.map((post) => (
+                                    statusPlans.map((plan) => (
                                         <div
-                                            key={post.id}
-                                            className="border border-gray-200 rounded-lg p-3 shadow-sm bg-white"
+                                            key={plan.id}
+                                            className="border border-gray-200 rounded-lg p-3 shadow-sm bg-white cursor-pointer"
+                                            onClick={() => setSelectedPlanId(plan.id)}
                                         >
-                                            <div className="text-sm font-semibold text-gray-800 truncate">{post.title}</div>
-                                            <div className="text-xs text-gray-500">{post.nickname}</div>
+                                            <div className="text-sm font-semibold text-gray-800 truncate">{plan.title}</div>
+                                            <div className="text-xs text-gray-500">{plan.nickname}</div>
                                         </div>
-
                                     ))
                                 )}
                             </div>
@@ -63,21 +63,21 @@ export default function ProjectDashBoard() {
                 })}
             </div>
 
-            {selectedPostId && (
-                <PostDetailDialog
-                    postId={selectedPostId}
-                    onClose={() => setSelectedPostId(null)}
+            {selectedPlanId && (
+                <PlanDetailDialog
+                    planId={selectedPlanId}
+                    onClose={() => setSelectedPlanId(null)}
                     onDeleted={async () => {
                         setIsLoading(true);
-                        const data = await getPostListRequest();
-                        setPosts(data);
+                        const data = await getPlanListRequest();
+                        setPlans(data);
                         setIsLoading(false);
-                        setSelectedPostId(null);
+                        setSelectedPlanId(null);
                     }}
                     onUpdated={async () => {
                         setIsLoading(true);
-                        const data = await getPostListRequest();
-                        setPosts(data);
+                        const data = await getPlanListRequest();
+                        setPlans(data);
                         setIsLoading(false);
                     }}
                 />

@@ -1,19 +1,19 @@
 'use client';
 
 import { useState } from 'react';
-import { createPostRequest } from "@/api/requests/post";
 import { useUserStore } from "@/store/userStore";
+import {createCommunityRequest} from "@/api/requests/community";
 
 interface Props {
     onClose: () => void;
     onSuccess: () => void;
 }
 
-export default function BoardCreateDialog({ onClose, onSuccess }: Props) {
+export default function CommunityCreateDialog({ onClose, onSuccess }: Props) {
     const { user } = useUserStore();
     const [title, setTitle] = useState('');
     const [date] = useState(new Date().toISOString().split('T')[0]);
-    const [postText, setPostText] = useState('');
+    const [communityText, setCommunityText] = useState('');
     const [status, setStatus] = useState('계획');
     const [isClosing, setIsClosing] = useState(false);
 
@@ -26,12 +26,10 @@ export default function BoardCreateDialog({ onClose, onSuccess }: Props) {
 
     const handleSubmit = async () => {
         try {
-            await createPostRequest({
-                nickName: user?.nickname ?? '',
+            await createCommunityRequest({
                 title,
-                status,
-                createdAt: new Date().toISOString(),
-                postText,
+                nickName: user?.nickname ?? '',
+                communityText,
             });
             onSuccess();
             handleClose();
@@ -54,14 +52,12 @@ export default function BoardCreateDialog({ onClose, onSuccess }: Props) {
                 <h2 className="text-lg font-semibold mb-1">게시글 작성</h2>
                 <hr className="mb-6 border-t" />
                 <div className="space-y-5">
-                    {/* 이름 */}
                     <div className="flex items-center gap-4">
                         <label className="w-20 text-sm font-semibold">이름</label>
                         <div className="bg-gray-100 text-sm px-4 py-2 rounded w-80 border border-gray-300">
                             {user?.nickname ?? ''}
                         </div>
                     </div>
-                    {/* 제목 */}
                     <div className="flex items-center gap-4">
                         <label className="w-20 text-sm font-semibold">제목</label>
                         <input
@@ -78,30 +74,13 @@ export default function BoardCreateDialog({ onClose, onSuccess }: Props) {
                             {date}
                         </div>
                     </div>
-                    {/* 상태 */}
-                    <div className="flex items-center gap-4">
-                        <label className="w-20 text-sm font-semibold">상태</label>
-                        <select
-                            value={status}
-                            onChange={(e) => setStatus(e.target.value)}
-                            className="w-80 px-3 py-2 rounded text-sm border border-gray-300 bg-white focus:outline-none focus:ring-2 focus:ring-blue-400"
-                        >
-                            <option value="시작 전">시작 전</option>
-                            <option value="진행 중">진행 중</option>
-                            <option value="검토 중">검토 중</option>
-                            <option value="승인 중">승인 중</option>
-                            <option value="머지 신청">머지 신청</option>
-                            <option value="머지 완료">머지 완료</option>
-                        </select>
-
-                    </div>
                     {/* 내용 */}
                     <div>
                         <label className="block mb-1 text-sm font-semibold">내용</label>
                         <textarea
                             rows={10}
-                            value={postText}
-                            onChange={(e) => setPostText(e.target.value)}
+                            value={communityText}
+                            onChange={(e) => setCommunityText(e.target.value)}
                             className="w-full resize-none p-3 rounded text-sm border border-gray-300 bg-white focus:outline-none focus:ring-2 focus:ring-blue-400"
                         />
                     </div>
