@@ -9,7 +9,7 @@ export const getCurrentUserRequest = async (): Promise<any | undefined> => {
     }
 
     try {
-        const response = await apiClient.get('/api/auth/current-user', {
+        const response = await apiClient.get('/api/user/current-user', {
             headers: { Authorization: `Bearer ${token}` },
         });
         return response.data;
@@ -34,7 +34,7 @@ export const updateUserInfoRequest = async (
         formData.append("profileImage", profileImage);
     }
 
-    const response = await apiClient.post("/api/auth/update-info", formData, {
+    const response = await apiClient.post("/api/user/update-info", formData, {
         headers: {
             Authorization: `Bearer ${token}`,
         },
