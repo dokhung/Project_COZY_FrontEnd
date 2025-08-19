@@ -20,7 +20,7 @@ export default function VerifyPassword({ onVerify }: { onVerify: () => void }) {
 
     return (
         <div className="bg-white shadow-md rounded-lg p-6 w-96 text-center">
-            <h2 className="text-xl font-bold mb-4">🔐 보안 확인</h2>
+            <h2 className="text-xl font-bold mb-4">보안 확인</h2>
             <p className="text-gray-600 mb-4">내 정보를 확인하려면 비밀번호를 입력하세요.</p>
 
             <input

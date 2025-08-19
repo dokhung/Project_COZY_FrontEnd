@@ -7,7 +7,7 @@ import { motion } from 'framer-motion';
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
 import {getMyProjectInfoRequest} from "@/api/requests/project";
-const ProjectList = () => {
+export const ProjectList = () => {
     const { isLoggedIn } = useUserStore();
     const { projects, addProject } = useProjectStore();
 
@@ -58,7 +58,7 @@ const ProjectList = () => {
                                 <div className="text-left">
                                     <p className="text-md font-semibold text-black">{project.name}</p>
                                     <p className="text-sm text-gray-500">
-                                        {project.description || '설명이 없습니다.'}
+                                        {project.description || '소개글이 없습니다.'}
                                     </p>
                                 </div>
                                 <Button variant="default" size="sm" asChild>
@@ -73,4 +73,4 @@ const ProjectList = () => {
     );
 };
 
-export default ProjectList;
+// export default ProjectList;

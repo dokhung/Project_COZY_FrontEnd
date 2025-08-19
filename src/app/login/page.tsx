@@ -32,7 +32,7 @@ export default function Login() {
   const handleLogin = async () => {
     const tokens = await loginRequest(email, password);
     if (!tokens) {
-      setError("로그인에 실패했습니다.");
+      setError("아이디 혹은 비밀번호가 틀렸습니다.");
       return;
     }
 
@@ -81,7 +81,7 @@ export default function Login() {
                 />
               </div>
 
-              {/* TODO: 로그인 실패  */}
+              {/* 로그인 실패  */}
               {error && (
                   <Alert variant='destructive' className="border-red-500 bg-red-100 text-red-800 px-4 py-2 w-full whitespace-nowrap overflow-auto">
                     <AlertTitle className="font-bold">오류</AlertTitle>

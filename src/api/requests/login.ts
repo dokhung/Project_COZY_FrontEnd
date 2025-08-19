@@ -1,4 +1,4 @@
-// TODO : 로그인
+// 로그인
 import apiClient from "@/api/Axios";
 import {useUserStore} from "@/store/userStore";
 
@@ -13,7 +13,6 @@ export const loginRequest = async (
         localStorage.setItem('refreshToken', refreshToken);
         return { accessToken, refreshToken };
     } catch (error: any) {
-        alert("로그인 실패: " + (error?.response?.data?.error || "서버 오류"));
         return undefined;
     }
 };
