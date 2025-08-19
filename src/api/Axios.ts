@@ -1,13 +1,13 @@
-import axios from 'axios';
+import axios, {AxiosInstance} from 'axios';
 import { useUserStore } from '@/store/userStore';
 
-const apiClient = axios.create({
+const apiClient:AxiosInstance = axios.create({
     baseURL: 'http://localhost:8000',
     withCredentials: true,
 });
 
 apiClient.interceptors.request.use((config) => {
-    const token = typeof window !== 'undefined'
+    const token : string|null = typeof window !== 'undefined'
         ? localStorage.getItem('accessToken')
         : null;
 
@@ -18,7 +18,7 @@ apiClient.interceptors.request.use((config) => {
     return config;
 });
 
-// TODO : 로그아웃 판단
+// 로그아웃 판단
 apiClient.interceptors.response.use(
     (response) => response,
     (error) => {

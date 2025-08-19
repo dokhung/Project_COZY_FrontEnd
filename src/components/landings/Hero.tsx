@@ -4,8 +4,8 @@ import { easeInOut, motion } from 'motion/react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { useUserStore } from '@/store/userStore';
-import ProjectList from '@/components/landings/ProjectList';
 import Logo from '../../logo/LogiImg.svg';
+import {ProjectList} from "@/components/landings/ProjectList";
 
 const containerVariants = {
     initial: { opacity: 0 },

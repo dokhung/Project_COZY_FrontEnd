@@ -14,6 +14,7 @@ export default function ProfileView({ user, onEdit }: { user: any; onEdit: () =>
             <h2 className="text-xl font-bold mb-4">내 정보</h2>
 
             <div className="flex flex-col items-center mb-4">
+
                 {profileImageSrc ? (
                     <Image src={profileImageSrc} alt="프로필 이미지" width={100} height={100} className="rounded-full object-cover" />
                 ) : (
@@ -23,6 +24,7 @@ export default function ProfileView({ user, onEdit }: { user: any; onEdit: () =>
                         </span>
                     </div>
                 )}
+
             </div>
 
             <p className="text-gray-700 mb-2">닉네임: {user?.nickname}</p>
