@@ -1,7 +1,8 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { getPostListRequest } from '@/api/requests/plan';
+import {useProjectStore} from "@/store/projectStore";
+import {getTaskListRequest} from "@/api/requests/task";
 
 const weekDays = ['월', '화', '수', '목', '금'];
 
@@ -14,11 +15,16 @@ export default function CalendarPage() {
     const [posts, setPosts] = useState<any[]>([]);
     const [isLoading, setIsLoading] = useState(true);
 
+    const { currentProjectId } = useProjectStore();
+
     useEffect(() => {
-        const fetchPosts = async () => {
+        if (currentProjectId == null || Number.isNaN(currentProjectId) || currentProjectId <= 0) return;
+
+        const fetchTasks = async () => {
             try {
-                const data = await getPostListRequest();
-                console.log("받아온 posts:", data);
+                setIsLoading(true);
+                const data = await getTaskListRequest(currentProjectId);
+                console.log("받아온 tasks:", data);
                 setPosts(data);
             } catch (error) {
                 console.error(error);
@@ -26,8 +32,10 @@ export default function CalendarPage() {
                 setIsLoading(false);
             }
         };
-        fetchPosts();
-    }, []);
+
+        fetchTasks();
+    }, [currentProjectId]);
+
 
     const changeMonth = (offset: number) => {
         let newMonth = month + offset;

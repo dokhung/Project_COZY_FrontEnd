@@ -1,4 +1,3 @@
-// 로그인
 import apiClient from "@/api/Axios";
 import {useUserStore} from "@/store/userStore";
 
@@ -17,7 +16,7 @@ export const loginRequest = async (
     }
 };
 
-// TODO : 비밀번호 검증
+// 비밀번호 검증
 export const verifyPasswordRequest = async (password: string) => {
     const token = localStorage.getItem('accessToken');
     if (!token) throw new Error("인증 토큰이 없습니다.");
@@ -35,7 +34,7 @@ export const verifyPasswordRequest = async (password: string) => {
         );
         return response.data;
     } catch (error: any) {
-        console.error("❌ 비밀번호 검증 실패:", error.message);
+        console.error("비밀번호 검증 실패:", error.message);
         alert("비밀번호 검증 실패");
         return false;
     }
@@ -54,7 +53,7 @@ export const logoutRequest = async () => {
             headers: { Authorization: `Bearer ${token}` },
         });
     } catch (error: any) {
-        console.warn("❌ 만료된 토큰으로 로그아웃 시도 → 클라이언트에서만 로그아웃 처리");
+        console.error("문제발생")
     } finally {
         useUserStore.getState().logout();
     }

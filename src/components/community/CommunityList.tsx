@@ -4,8 +4,8 @@ import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import PlanCreateDialog from '@/components/plan/PlanCreateDialog';
-import { getPlanListRequest } from '@/api/requests/plan';
+import TaskCreateDialog from '@/components/task/TaskCreateDialog';
+import { getPlanListRequest } from '@/api/requests/task';
 
 interface PlanItem {
     id: number;
@@ -93,7 +93,7 @@ export default function PlanList() {
             </table>
 
             {showDialog && (
-                <PlanCreateDialog
+                <TaskCreateDialog
                     projectId={projectId} // ← 여기에 실제 프로젝트 ID 넣어주세요.
                     onClose={() => setShowDialog(false)}
                     onSuccess={() => {

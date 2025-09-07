@@ -1,42 +1,44 @@
+// src/components/task/TaskDetailDialog.tsx
 'use client';
 
 import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
-import {getPlanDetailRequest} from "@/api/requests/plan";
+import { getTaskDetailRequest } from "@/api/requests/task";
 
 interface Props {
-    planId: number;
+    taskId: number;      // ← 상세조회는 id 사용
     onClose: () => void;
     onDeleted?: () => void;
     onUpdated?: () => void;
 }
 
+type TaskDetail = {
+    id: number;
+    title: string;
+    nickName: string;    // ← 서버 키와 일치
+    createdAt: string;
+    planText: string;
+    status?: string;
+};
 
-export default function PlanDetailDialog({ planId, onClose }: Props) {
+export default function TaskDetailDialog({ taskId, onClose }: Props) {
     const [loading, setLoading] = useState(true);
-    const [plan, setPlan] = useState<{
-        id: number;
-        title: string;
-        nickname: string;
-        createdAt: string;
-        planText: string;
-    } | null>(null);
+    const [task, setTask] = useState<TaskDetail | null>(null);
 
     useEffect(() => {
-        const fetchPlan = async () => {
+        const fetchTask = async () => {
             try {
-                const data = await getPlanDetailRequest(planId);
-                setPlan(data);
-                console.log("res:", JSON.stringify(data, null, 2));
-                console.log("plan :: " + plan);
-            } catch (error) {
-                console.error(error);
+                const data = await getTaskDetailRequest(taskId);
+                setTask(data);
+                console.log("task detail:", JSON.stringify(data, null, 2));
+            } catch (e) {
+                console.error(e);
             } finally {
                 setLoading(false);
             }
         };
-        fetchPlan();
-    }, [planId]);
+        if (taskId) fetchTask();
+    }, [taskId]);
 
     if (loading) {
         return (
@@ -46,7 +48,7 @@ export default function PlanDetailDialog({ planId, onClose }: Props) {
         );
     }
 
-    if (!plan) {
+    if (!task) {
         return (
             <div className="fixed inset-0 bg-black/50 flex items-center justify-center">
                 <div className="bg-white p-6 rounded shadow">
@@ -60,13 +62,14 @@ export default function PlanDetailDialog({ planId, onClose }: Props) {
     return (
         <div className="fixed inset-0 bg-black/50 flex items-center justify-center">
             <div className="bg-white p-6 rounded shadow max-w-xl w-full">
-                <h2 className="text-2xl font-bold text-center mb-4">{plan.title}</h2>
+                <h2 className="text-2xl font-bold text-center mb-4">{task.title}</h2>
                 <div className="flex justify-between text-sm text-gray-500 mb-4">
-                    <div>작성자 : {plan.nickname}</div>
-                    <div>{plan.createdAt.split('T')[0]}</div>
+                    <div>작성자 : {task.nickName}</div>
+                    <div>{task.createdAt?.split('T')[0]}</div>
                 </div>
-                <div className="text-center whitespace-pre-wrap text-gray-800">{plan.planText}</div>
-
+                <div className="text-center whitespace-pre-wrap text-gray-800">
+                    {task.planText}
+                </div>
                 <div className="mt-6 text-right">
                     <Button onClick={onClose}>닫기</Button>
                 </div>

@@ -9,9 +9,9 @@ export default function TabsHeader({ projectName }: { projectName: string }) {
     const base = `/project/${projectName}`;
 
     const tabs = [
-        { label: '대쉬보드', path: 'dashboard' },
-        { label: '계획', path: 'plan' },
-        { label: '캘린더', path: 'calendar' },
+        { label: 'Dashboard', path: 'dashboard' },
+        { label: 'Task', path: 'task' },
+        { label: 'Calendar', path: 'calendar' },
     ];
 
     return (
