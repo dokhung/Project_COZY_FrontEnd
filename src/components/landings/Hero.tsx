@@ -5,7 +5,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { useUserStore } from '@/store/userStore';
 import Logo from '../../logo/LogiImg.svg';
-import {ProjectList} from "@/components/landings/ProjectList";
+import { ProjectList } from "@/components/landings/ProjectList";
 
 const containerVariants = {
     initial: { opacity: 0 },
@@ -38,7 +38,7 @@ export default function Hero() {
             >
                 <Image
                     src={Logo}
-                    alt="COZY 로고"
+                    alt="COZY Logo"
                     width={80}
                     height={80}
                     className="h-10 w-10"
@@ -50,9 +50,9 @@ export default function Hero() {
                 variants={childVariants}
                 className="mb-6 text-center text-4xl font-bold text-gray-600 md:text-5xl"
             >
-                목표 달성을 위한 모두의
+                A collaborative project management tool
                 <br />
-                프로젝트 관리 협업툴
+                for achieving your goals
             </motion.h1>
 
             {!isLoggedIn ? (
@@ -61,7 +61,7 @@ export default function Hero() {
                     variants={childVariants}
                     className="text-md md:text-2lg mx-auto flex h-10 w-60 items-center justify-center rounded-lg bg-blue-400 font-medium text-white shadow-lg hover:bg-blue-700 md:h-14 md:w-64"
                 >
-                    시작하기
+                    Get Started
                 </MotionLink>
             ) : (
                 <ProjectList />

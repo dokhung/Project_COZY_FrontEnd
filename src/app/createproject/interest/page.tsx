@@ -1,57 +1,57 @@
 'use client';
 
-import {useRouter, useSearchParams} from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { useState } from "react";
-import {createProjectSaveRequest} from "@/api/requests/project";
+import { createProjectSaveRequest } from "@/api/requests/project";
 
+//選択項目
 const interests: string[] = [
-    'Web Development',
-    'Game Development',
-    'Design',
-    'Marketing',
+    'Back-End',
+    'Front-End',
+    'AI',
+    'Game-Client',
+    'Full-Stack',
+    'Native-App'
 ];
 
 export default function InterestPage() {
     const searchParams = useSearchParams();
-    const projectName = searchParams.get('projectName'); // ✅ URL 파라미터에서 프로젝트 이름 추출
+    const projectName = searchParams.get('projectName'); // get parameter from URL
     const [selectedInterest, setSelectedInterest] = useState<string | null>(null);
     const router = useRouter();
+    const [errorMessage, setErrorMessage] = useState('');
 
+    // Select button
     const toggleInterest = (interest: string) => {
         if (selectedInterest === interest) {
-            setSelectedInterest(null); // 같은 걸 누르면 해제
+            setSelectedInterest(null);
         } else {
-            setSelectedInterest(interest); // 새로운 관심사 선택
+            setSelectedInterest(interest);
         }
+        setErrorMessage("");
     };
 
-    const handleCreateProject = async () => {
+    const handleNext = () => {
         if (!projectName || !selectedInterest) {
-            alert("❌ 프로젝트 이름 또는 관심사를 선택해주세요.");
+            setErrorMessage("Please select an interest before proceeding.");
             return;
         }
-
-        try {
-            const response = await createProjectSaveRequest(projectName, selectedInterest);
-            console.log("response"+response);
-            // TODO: 다음 단계로 이동 (예: 라우팅)
-            router.push(`/project/${projectName}`);
-        } catch (error) {
-            console.error("❌ 프로젝트 생성 실패:", error);
-        }
+        router.push(
+            `/createproject/description?projectName=${encodeURIComponent(projectName!)}&interest=${encodeURIComponent(selectedInterest)}`
+        );
     };
 
     return (
         <div className="p-8 max-w-3xl mx-auto">
             <div className="text-center mb-3">
                 <h2 className="text-xl font-bold text-purple-600">
-                    작성중인 프로젝트: {projectName}
+                    Current Project: {projectName}
                 </h2>
             </div>
 
-            <h1 className="text-3xl font-bold text-center mb-2">어떤 작업을 하시나요?</h1>
+            <h1 className="text-3xl font-bold text-center mb-2">What type of work are you doing?</h1>
             <p className="text-center mb-6 text-gray-600">
-                팀에 적합한 템플릿을 추천드리기 위해 작업 유형을 알려주세요!
+                Tell us your work type so we can recommend the best template for your team!
             </p>
 
             <div className="grid grid-cols-2 gap-4">
@@ -70,23 +70,26 @@ export default function InterestPage() {
                 ))}
             </div>
 
-            {/* 선택한 관심사 출력 */}
+            {/*選択したところ*/}
             {selectedInterest && (
                 <div className="mt-6 text-center">
                     <p className="text-gray-700 text-sm">
-                        선택한 관심사 :{" "}
+                        Selected interest:{" "}
                         <span className="font-medium text-purple-600">{selectedInterest}</span>
                     </p>
                 </div>
             )}
 
+            {errorMessage && (
+                <p className={"text-sm text-red-500 my-4 text-center"}>{errorMessage}</p>
+            )}
+
             <div className="mt-6 text-center">
                 <button
                     className="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-6 rounded-lg shadow"
-                    onClick={handleCreateProject}
-                    disabled={!selectedInterest}
+                    onClick={handleNext}
                 >
-                    프로젝트 생성
+                    Next
                 </button>
             </div>
         </div>

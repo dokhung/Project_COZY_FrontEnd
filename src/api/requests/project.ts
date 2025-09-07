@@ -1,6 +1,13 @@
 // TODO : 프로젝트 이름 중복 확인
 import apiClient from "@/api/Axios";
 
+export type CreateProjectDTO = {
+    projectName: string;
+    interest: string;
+    description: string;
+    leaderName: string;
+};
+
 export const checkProjectNameRequest = async (projectName: string): Promise<boolean> => {
     try {
         const response = await apiClient.get('/api/project/check-projectname', {
@@ -13,12 +20,14 @@ export const checkProjectNameRequest = async (projectName: string): Promise<bool
     }
 };
 
-// TODO : 프로젝트 저장
-export const createProjectSaveRequest = async (projectName: string, interest: string) => {
+// 프로젝트 저장
+export const createProjectSaveRequest = async (dto: CreateProjectDTO) => {
     const token = localStorage.getItem('accessToken');
+    // console.log("dto ::", dto);
+
     const response = await apiClient.post(
-        '/api/project/projectCreate',
-        { projectName, interest },
+        '/api/project/project-create',
+        dto,
         {
             headers: {
                 Authorization: `Bearer ${token}`,

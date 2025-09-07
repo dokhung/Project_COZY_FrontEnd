@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useState } from "react";
-import {deletedPlanRequest, getPlanDetailRequest, updatePlanRequest} from '@/api/requests/plan';
+import {deletedPlanRequest, getPlanDetailRequest, updatePlanRequest} from '@/api/requests/task';
 
 export default function PlanDetailDialog({
                                              planId,

@@ -1,22 +1,22 @@
-// components/plan/PlanCreateDialog.tsx
+// components/task/TaskCreateDialog.tsx
 'use client';
 
-import { useState } from 'react';
+import {useEffect, useState} from 'react';
 import { useUserStore } from "@/store/userStore";
 import LoginRequiredDialog from "@/components/public/LoginRequireDialog";
-import { createPlanRequest } from "@/api/requests/plan";
+import {createTaskRequest} from "@/api/requests/task";
 
 interface Props {
+    projectId: number;
     onClose: () => void;
     onSuccess: () => void;
-    projectId: number; // 반드시 전달받아야 함
 }
 
-export default function PlanCreateDialog({ onClose, onSuccess, projectId }: Props) {
+export default function TaskCreateDialog({ projectId, onClose, onSuccess }: Props) {
     const { user } = useUserStore();
     const [title, setTitle] = useState('');
     const [date] = useState(new Date().toISOString().split('T')[0]);
-    const [planText, setPlanText] = useState('');
+    const [taskText, setTaskText] = useState('');
     const [status, setStatus] = useState('Not Started');
     const [isClosing, setIsClosing] = useState(false);
     const [showLoginDialog, setShowLoginDialog] = useState(false);
@@ -28,10 +28,6 @@ export default function PlanCreateDialog({ onClose, onSuccess, projectId }: Prop
 
     const handleSubmit = async () => {
         try {
-            if (!Number.isFinite(projectId) || projectId <= 0) {
-                alert("유효하지 않은 projectId 입니다.");
-                return;
-            }
 
             const statusMap: Record<string, string> = {
                 "Not Started": "시작 전",
@@ -43,15 +39,15 @@ export default function PlanCreateDialog({ onClose, onSuccess, projectId }: Prop
             };
             const backendStatus = statusMap[status] ?? status;
 
-            const planDto = {
-                nickname: user?.nickname ?? "",
+            const createTaskDTO = {
+                projectId,
+                nickName: user?.nickname ?? "",
                 title,
                 status: backendStatus,
-                planText,
-                projectId: Number(projectId),
+                taskText,
             };
-
-            await createPlanRequest(planDto);
+            // console.log(createTaskDTO);
+            await createTaskRequest(createTaskDTO);
             onSuccess();
             handleClose();
         } catch (error: any) {
@@ -68,7 +64,7 @@ export default function PlanCreateDialog({ onClose, onSuccess, projectId }: Prop
         <>
             <div className={`fixed inset-0 z-50 flex items-center justify-center bg-black/40 transition-opacity duration-300 ${isClosing ? 'opacity-0' : 'opacity-100'}`}>
                 <div className={`bg-white w-[600px] px-8 py-6 shadow-xl rounded-md transform transition-all duration-300 ${isClosing ? 'opacity-0 scale-95' : 'opacity-100 scale-100'}`}>
-                    <h2 className="text-lg font-semibold mb-1">Create Plan</h2>
+                    <h2 className="text-lg font-semibold mb-1">Create Task</h2>
                     <hr className="mb-6 border-t" />
                     <div className="space-y-5">
                         <div className="flex items-center gap-4">
@@ -111,8 +107,8 @@ export default function PlanCreateDialog({ onClose, onSuccess, projectId }: Prop
                             <label className="block mb-1 text-sm font-semibold">Content</label>
                             <textarea
                                 rows={10}
-                                value={planText}
-                                onChange={(e) => setPlanText(e.target.value)}
+                                value={taskText}
+                                onChange={(e) => setTaskText(e.target.value)}
                                 className="w-full resize-none p-3 rounded text-sm border border-gray-300 bg-white focus:outline-none focus:ring-2 focus:ring-blue-400"
                             />
                         </div>

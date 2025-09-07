@@ -1,37 +1,46 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { getPlanListRequest } from "@/api/requests/plan";
-import PlanDetailDialog from "@/components/plan/PlanDetilDialog";
+import { getTaskListRequest } from "@/api/requests/task";
+import TaskDetailDialog from "@/components/task/TaskDetilDialog";
+import {useParams} from "next/navigation";
+import {useProjectStore} from "@/store/projectStore";
 
 const columns = ['시작 전', '진행 중', '검토 중', '승인 중', '머지 신청', '머지 완료'];
 
 export default function ProjectDashBoard() {
-    const [plans, setPlans] = useState<any[]>([]);
+    const [tasks, setTasks] = useState<any[]>([]);
     const [isLoading, setIsLoading] = useState(true);
-    const [selectedPlanId, setSelectedPlanId] = useState<number | null>(null);
+    const [selectedTaskId, setSelectedTaskId] = useState<number | null>(null);
+    const params = useParams();
+    const projectName = params.projectName;
+    const { currentProjectId } = useProjectStore();
 
     useEffect(() => {
-        const fetchPlans = async () => {
+        console.log("currentProjectId :: ", currentProjectId);
+        const fetchTasks = async () => {
             try {
-                const data = await getPlanListRequest();
-                setPlans(data);
+                const data = await getTaskListRequest(currentProjectId);
+                setTasks(data);
             } catch (error) {
                 console.error(error);
             } finally {
                 setIsLoading(false);
             }
         };
-        fetchPlans();
+        fetchTasks();
     }, []);
 
     return (
         <div className="min-h-screen bg-gray-50 p-10">
-            <h1 className="mb-8 text-3xl font-extrabold text-blue-900">프로젝트 대시보드</h1>
+            <h1 className="mb-8 text-3xl font-extrabold text-blue-900">
+                {projectName}
+            </h1>
 
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                 {columns.map((status) => {
-                    const statusPlans = plans.filter((plan) => plan.status === status);
+                    const list = Array.isArray(tasks) ? tasks : [];
+                    const statusTasks = list.filter((task) => task.status === status);
                     return (
                         <div
                             key={status}
@@ -43,17 +52,17 @@ export default function ProjectDashBoard() {
                             <div className="bg-white min-h-48 flex flex-col gap-2 p-3">
                                 {isLoading ? (
                                     <div className="text-center text-gray-500 text-sm">로딩 중...</div>
-                                ) : statusPlans.length === 0 ? (
-                                    <div className="text-center text-gray-400 text-sm">계획 없음</div>
+                                ) : statusTasks.length === 0 ? (
+                                    <div className="text-center text-gray-400 text-sm">작업 없음</div>
                                 ) : (
-                                    statusPlans.map((plan) => (
+                                    statusTasks.map((task) => (
                                         <div
-                                            key={plan.id}
+                                            key={task.id}
                                             className="border border-gray-200 rounded-lg p-3 shadow-sm bg-white cursor-pointer"
-                                            onClick={() => setSelectedPlanId(plan.id)}
+                                            onClick={() => setSelectedTaskId(task.id)}
                                         >
-                                            <div className="text-sm font-semibold text-gray-800 truncate">{plan.title}</div>
-                                            <div className="text-xs text-gray-500">{plan.nickname}</div>
+                                            <div className="text-sm font-semibold text-gray-800 truncate">{task.title}</div>
+                                            <div className="text-xs text-gray-500">{task.nickName}</div>
                                         </div>
                                     ))
                                 )}
@@ -63,21 +72,21 @@ export default function ProjectDashBoard() {
                 })}
             </div>
 
-            {selectedPlanId && (
-                <PlanDetailDialog
-                    planId={selectedPlanId}
-                    onClose={() => setSelectedPlanId(null)}
+            {selectedTaskId && (
+                <TaskDetailDialog
+                    taskId={selectedTaskId}
+                    onClose={() => setSelectedTaskId(null)}
                     onDeleted={async () => {
                         setIsLoading(true);
-                        const data = await getPlanListRequest();
-                        setPlans(data);
+                        const data = await getTaskListRequest(currentProjectId);
+                        setTasks(data);
                         setIsLoading(false);
-                        setSelectedPlanId(null);
+                        setSelectedTaskId(null);
                     }}
                     onUpdated={async () => {
                         setIsLoading(true);
-                        const data = await getPlanListRequest();
-                        setPlans(data);
+                        const data = await getTaskListRequest(currentProjectId);
+                        setTasks(data);
                         setIsLoading(false);
                     }}
                 />
