@@ -19,10 +19,9 @@ export default function Header() {
                         <span className='font-bold text-blue-500'>COZY</span>
                     </Link>
                     <nav className='hidden md:flex md:items-center md:gap-1'>
-                        <Link href='/feature' className='rounded-lg px-3 py-1 text-sm font-semibold hover:bg-gray-200'>기능</Link>
-                        {/*<Link href='/solution' className='rounded-lg px-3 py-1 text-sm font-semibold hover:bg-gray-200'>솔루션</Link>*/}
-                        <Link href='/community' className='rounded-lg px-3 py-1 text-sm font-semibold hover:bg-gray-200'>커뮤니티</Link>
-                        <Link href='/inquiry' className='rounded-lg px-3 py-1 text-sm font-semibold hover:bg-gray-200'>문의</Link>
+                        <Link href='/feature' className='rounded-lg px-3 py-1 text-sm font-semibold hover:bg-gray-200'>feature</Link>
+                        <Link href='/recruit' className='rounded-lg px-3 py-1 text-sm font-semibold hover:bg-gray-200'>recruit</Link>
+                        <Link href='/inquiry' className='rounded-lg px-3 py-1 text-sm font-semibold hover:bg-gray-200'>inquiry</Link>
                     </nav>
                 </div>
 
