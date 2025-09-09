@@ -1,33 +1,35 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { createInquiryRequest, getInquiriesRequest } from "@/api/requests/inquiry";
+import {
+    createInquiryRequest,
+    deleteInquiryRequest,
+    getInquiriesRequest,
+    updateInquiryRequest,
+} from "@/api/requests/inquiry";
 import { useUserStore } from "@/store/userStore";
+import InquiryCreateDialog from "@/components/Inquiry/InquiryCreateDialog";
+import InquiryDetailDialog from "@/components/Inquiry/InquiryDetailDialog";
+
+type Inquiry = {
+    id: number;
+    type: "사용문의" | "1:1 문의" | string;
+    status: string;
+    title: string;
+    content: string;
+    createdAt: string;
+};
 
 export default function InquiryPage() {
     const user = useUserStore((s) => s.user);
     const username = user?.nickname || "";
 
-    const [data, setData] = useState<any[]>([]);
+    const [data, setData] = useState<Inquiry[]>([]);
     const [loading, setLoading] = useState(true);
 
     const [viewType, setViewType] = useState<"전체" | "사용문의" | "1:1 문의">("전체");
     const [openType, setOpenType] = useState<"사용문의" | "1:1 문의" | null>(null);
-    const [title, setTitle] = useState("");
-    const [content, setContent] = useState("");
-
-    const [selectedInquiry, setSelectedInquiry] = useState<any | null>(null);
-
-    // 날짜 포맷 함수
-    function formatDateTime(dateString: string) {
-        const date = new Date(dateString);
-        const year = date.getFullYear();
-        const month = String(date.getMonth() + 1).padStart(2, "0");
-        const day = String(date.getDate()).padStart(2, "0");
-        const hours = String(date.getHours()).padStart(2, "0");
-        const minutes = String(date.getMinutes()).padStart(2, "0");
-        return `${year}-${month}-${day} ${hours}:${minutes}`;
-    }
+    const [selectedInquiry, setSelectedInquiry] = useState<Inquiry | null>(null);
 
     const fetchData = async () => {
         try {
@@ -45,26 +47,30 @@ export default function InquiryPage() {
         fetchData();
     }, []);
 
-    const handleSubmit = async () => {
-        try {
-            await createInquiryRequest(openType!, title, content);
-            fetchData();
-            setOpenType(null);
-            setTitle("");
-            setContent("");
-        } catch (e) {
-            console.error(e);
-            alert("문의 등록에 실패했습니다.");
-        }
+    const handleCreate = async (title: string, content: string) => {
+        if (!openType) return;
+        await createInquiryRequest(openType, title, content);
+        await fetchData();
+        setOpenType(null);
+    };
+
+    const handleSave = async (id: number, title: string, content: string) => {
+        await updateInquiryRequest(id, { title, content });
+        await fetchData();
+    };
+
+    const handleDelete = async (id: number) => {
+        await deleteInquiryRequest(id);
+        await fetchData();
+        setSelectedInquiry(null);
     };
 
     const filteredData =
-        viewType === "전체"
-            ? data
-            : data.filter((inquiry) => inquiry.type === viewType);
+        viewType === "전체" ? data : data.filter((inquiry) => inquiry.type === viewType);
 
     return (
         <div className="p-8">
+            {/* 탭 */}
             <div className="flex justify-between mb-6">
                 <div className="flex gap-2">
                     {["전체", "사용문의", "1:1 문의"].map((type) => (
@@ -81,6 +87,7 @@ export default function InquiryPage() {
                 </div>
             </div>
 
+            {/* 작성 버튼 */}
             <div className="flex gap-2 mb-4">
                 <button
                     className="border px-4 py-2 rounded"
@@ -96,61 +103,24 @@ export default function InquiryPage() {
                 </button>
             </div>
 
-            {openType && (
-                <div className="fixed inset-0 bg-black/30 flex items-center justify-center z-50">
-                    <div className="bg-white p-6 rounded shadow w-full max-w-md">
-                        <h2 className="text-xl font-bold mb-4">{openType} 작성</h2>
-                        <p className="text-sm mb-2 text-gray-500">작성자: {username}</p>
-                        <input
-                            value={title}
-                            onChange={(e) => setTitle(e.target.value)}
-                            placeholder="제목"
-                            className="w-full border mb-2 p-2"
-                        />
-                        <textarea
-                            value={content}
-                            onChange={(e) => setContent(e.target.value)}
-                            placeholder="내용"
-                            className="w-full border mb-2 p-2"
-                        />
-                        <div className="flex justify-end gap-2">
-                            <button
-                                onClick={() => setOpenType(null)}
-                                className="border px-4 py-2 rounded"
-                            >
-                                취소
-                            </button>
-                            <button
-                                onClick={handleSubmit}
-                                className="bg-blue-500 text-white px-4 py-2 rounded"
-                            >
-                                등록
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            )}
+            {/* 작성 모달 */}
+            <InquiryCreateDialog
+                openType={openType}
+                username={username}
+                onSubmit={handleCreate}
+                onClose={() => setOpenType(null)}
+            />
 
-            {selectedInquiry && (
-                <div className="fixed inset-0 bg-black/30 flex items-center justify-center z-50">
-                    <div className="bg-white p-6 rounded shadow w-full max-w-md">
-                        <h2 className="text-xl font-bold mb-4">{selectedInquiry.title}</h2>
-                        <p className="text-sm text-gray-600 mb-2">작성자: {username}</p>
-                        <div className="text-gray-800 whitespace-pre-wrap mb-4">
-                            {selectedInquiry.content}
-                        </div>
-                        <div className="flex justify-end">
-                            <button
-                                onClick={() => setSelectedInquiry(null)}
-                                className="border px-4 py-2 rounded"
-                            >
-                                닫기
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            )}
+            {/* 상세 모달 */}
+            <InquiryDetailDialog
+                inquiry={selectedInquiry}
+                username={username}
+                onClose={() => setSelectedInquiry(null)}
+                onSave={handleSave}
+                onDelete={handleDelete}
+            />
 
+            {/* 목록 */}
             {loading ? (
                 <div>로딩 중...</div>
             ) : (
@@ -176,7 +146,9 @@ export default function InquiryPage() {
                                 {inquiry.title}
                             </td>
                             <td className="text-center p-2">{username}</td>
-                            <td className="text-center p-2">{formatDateTime(inquiry.createdAt)}</td>
+                            <td className="text-center p-2">
+                                {new Date(inquiry.createdAt).toLocaleString()}
+                            </td>
                         </tr>
                     ))}
                     </tbody>

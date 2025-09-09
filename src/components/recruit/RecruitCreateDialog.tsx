@@ -2,19 +2,17 @@
 
 import { useState } from 'react';
 import { useUserStore } from "@/store/userStore";
-import {createCommunityRequest} from "@/api/requests/community";
+import {createRecruitRequest} from "@/api/requests/recruit";
 
 interface Props {
     onClose: () => void;
     onSuccess: () => void;
 }
 
-export default function CommunityCreateDialog({ onClose, onSuccess }: Props) {
+export default function RecruitCreateDialog({ onClose, onSuccess }: Props) {
     const { user } = useUserStore();
     const [title, setTitle] = useState('');
-    const [date] = useState(new Date().toISOString().split('T')[0]);
-    const [communityText, setCommunityText] = useState('');
-    const [status, setStatus] = useState('계획');
+    const [recruitText, setRecruitText] = useState('');
     const [isClosing, setIsClosing] = useState(false);
 
     const handleClose = () => {
@@ -26,10 +24,10 @@ export default function CommunityCreateDialog({ onClose, onSuccess }: Props) {
 
     const handleSubmit = async () => {
         try {
-            await createCommunityRequest({
+            await createRecruitRequest({
                 title,
                 nickName: user?.nickname ?? '',
-                communityText,
+                recruitText,
             });
             onSuccess();
             handleClose();
@@ -49,17 +47,17 @@ export default function CommunityCreateDialog({ onClose, onSuccess }: Props) {
                     isClosing ? 'opacity-0 scale-95' : 'opacity-100 scale-100'
                 }`}
             >
-                <h2 className="text-lg font-semibold mb-1">게시글 작성</h2>
+                <h2 className="text-lg font-semibold mb-1">Create Recruit</h2>
                 <hr className="mb-6 border-t" />
                 <div className="space-y-5">
                     <div className="flex items-center gap-4">
-                        <label className="w-20 text-sm font-semibold">이름</label>
+                        <label className="w-20 text-sm font-semibold">Name</label>
                         <div className="bg-gray-100 text-sm px-4 py-2 rounded w-80 border border-gray-300">
-                            {user?.nickname ?? ''}
+                            {user?.nickname}
                         </div>
                     </div>
                     <div className="flex items-center gap-4">
-                        <label className="w-20 text-sm font-semibold">제목</label>
+                        <label className="w-20 text-sm font-semibold">Title</label>
                         <input
                             type="text"
                             value={title}
@@ -67,20 +65,13 @@ export default function CommunityCreateDialog({ onClose, onSuccess }: Props) {
                             className="w-80 px-3 py-2 rounded text-sm border border-gray-300 bg-white focus:outline-none focus:ring-2 focus:ring-blue-400"
                         />
                     </div>
-                    {/* 날짜 */}
-                    <div className="flex items-center gap-4">
-                        <label className="w-20 text-sm font-semibold">날짜</label>
-                        <div className="bg-gray-100 text-sm px-4 py-2 rounded w-80 border border-gray-300">
-                            {date}
-                        </div>
-                    </div>
                     {/* 내용 */}
                     <div>
                         <label className="block mb-1 text-sm font-semibold">내용</label>
                         <textarea
                             rows={10}
-                            value={communityText}
-                            onChange={(e) => setCommunityText(e.target.value)}
+                            value={recruitText}
+                            onChange={(e) => setRecruitText(e.target.value)}
                             className="w-full resize-none p-3 rounded text-sm border border-gray-300 bg-white focus:outline-none focus:ring-2 focus:ring-blue-400"
                         />
                     </div>
