@@ -43,7 +43,7 @@ export default function AvatarMenu() {
                             </Avatar>
                         </Button>
                         <span className="text-gray-800 font-medium text-sm md:text-base">
-                            {user?.nickname} 님 로그인 중
+                            welcome {user?.nickname}
                         </span>
                     </div>
                 ) : (

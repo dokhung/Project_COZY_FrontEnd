@@ -53,8 +53,9 @@ export const logoutRequest = async () => {
             headers: { Authorization: `Bearer ${token}` },
         });
     } catch (error: any) {
-        console.error("문제발생")
+        console.log("로그아웃 문제있다.")
     } finally {
         useUserStore.getState().logout();
+        alert("logout success");
     }
 };

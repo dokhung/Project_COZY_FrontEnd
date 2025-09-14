@@ -1,104 +1,83 @@
-"use client";
-import {useRouter, useSearchParams} from "next/navigation";
-import {useEffect, useState} from "react";
-import {createProjectSaveRequest} from "@/api/requests/project";
-import {useUserStore} from "@/store/userStore";
-import ConfirmProjectDialog from "@/components/CreateProject/ConfirmProjectDialog";
+'use client';
 
-export default function DescriptionPage(){
-    const searchParams = useSearchParams();
+import {useRouter, useSearchParams} from 'next/navigation';
+import {useEffect, useState} from 'react';
+import {useUserStore} from '@/store/userStore';
+
+export default function DescriptionPage() {
     const router = useRouter();
-
-    const projectName = searchParams.get("projectName");
-    const interest = searchParams.get("interest");
+    const searchParams = useSearchParams();
+    const projectName = searchParams.get('projectName');
+    const devInterest = searchParams.get('devInterest');
     const { user } = useUserStore();
 
-    const [description, setDescription] = useState("");
-    const [error, setError] = useState("");
-    const [openConfirm, setOpenConfirm] = useState(false);
-    const [submitting, setSubmitting] = useState(false);
+    const [description, setDescription] = useState('');
+    const [error, setError] = useState('');
 
-    // 필수 파라미터 없으면 이전 단계로
-    useEffect((): void => {
-        if (!projectName || !interest) {
-            router.replace("/createproject");
-        }
-    }, [projectName, interest, router]);
+    useEffect(() => {
+        if (!projectName || !devInterest) router.replace('/createproject');
+    }, [projectName, devInterest, router]);
 
-    // “Create Project” 클릭 → 다이얼로그 오픈
-    const handleOpenConfirm = () => {
+    const handleNext = () => {
         if (!description.trim()) {
-            setError("Please enter a description");
+            setError('프로젝트 설명을 입력해 주세요.');
             return;
         }
         if (!user?.nickname) {
-            setError("로그인이 필요합니다.");
+            setError('로그인이 필요합니다.');
             return;
         }
-        setOpenConfirm(true);
+        router.push(
+            `/createproject/github?projectName=${encodeURIComponent(projectName!)}&devInterest=${encodeURIComponent(devInterest!)}&description=${encodeURIComponent(description)}`
+        );
     };
 
-    // 다이얼로그에서 최종 전송
-    const handleConfirmCreate = async () => {
-        try {
-            setSubmitting(true);
-            await createProjectSaveRequest({
-                projectName: projectName!,
-                interest: interest!,
-                description,
-                leaderName: user!.nickname,
-            });
-            setOpenConfirm(false);
-            router.push(`/project/${projectName}`);
-        } catch (e) {
-            console.error(e);
-            setError("CreateProjectSaveRequest Error");
-            alert("CreateProjectSaveRequest Error");
-        } finally {
-            setSubmitting(false);
-        }
-    };
-
-    return(
-        <div className="flex min-h-screen flex-col items-center justify-center p-8">
-            <div className="w-full max-w-2xl">
-                <h1 className="mb-2 text-3xl font-bold">Please write down the description of the project.</h1>
-                <p className="mx-auto mb-6 max-w-xl text-center text-sm text-gray-600">
-                    Introduce your service briefly.
-                </p>
-
-                {/* text input */}
-                <textarea
-                    className="h-80 w-full rounded-xl border-2 p-4 outline-none focus:border-blue-600"
-                    placeholder="Describe your project..."
-                    value={description}
-                    onChange={(e)=> {setDescription(e.target.value); setError("");}}
-                />
-                {error && <p className="mt-3 text-center text-red-500">{error}</p>}
-
-                <div className="mt-3 flex justify-end">
-                    <button
-                        className="rounded-lg bg-blue-600 px-6 py-2 font-semibold text-white shadow hover:bg-blue-700"
-                        onClick={handleOpenConfirm}
-                    >
-                        Create Project
-                    </button>
+    return (
+        <div className="min-h-screen bg-gray-50">
+            <div className="mx-auto w-full max-w-3xl px-6 py-10">
+                <div className="mb-6 flex items-center gap-3">
+                    <span className="inline-flex h-7 w-7 items-center justify-center rounded-full bg-blue-600 text-sm font-bold text-white">3</span>
+                    <h1 className="text-2xl font-bold tracking-tight">프로젝트 설명</h1>
                 </div>
+                <div className="mb-4 flex flex-wrap items-center gap-2 text-sm">
+          <span className="rounded-full bg-white px-3 py-1 ring-1 ring-gray-200">
+            <span className="text-gray-500">Project:</span> <span className="font-medium text-gray-900">{projectName}</span>
+          </span>
+                    <span className="rounded-full bg-white px-3 py-1 ring-1 ring-gray-200">
+            <span className="text-gray-500">Interest:</span> <span className="font-medium text-gray-900">{devInterest}</span>
+          </span>
+                    <span className="rounded-full bg-blue-50 px-3 py-1 text-blue-700 ring-1 ring-blue-200">Step 3 of 4</span>
+                </div>
+                <div className="rounded-2xl bg-white p-6 shadow-sm ring-1 ring-gray-200">
+                    <label className="mb-2 block text-sm font-medium text-gray-700">
+                        프로젝트 설명 <span className="text-red-500">*</span>
+                    </label>
+                    <textarea
+                        className="h-72 w-full resize-none rounded-xl border border-gray-300 bg-white p-4 text-sm outline-none transition focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
+                        placeholder="팀과 이해관계자가 빠르게 이해할 수 있도록, 프로젝트 목표/핵심 기능/대상 사용자 등을 간단히 적어주세요."
+                        value={description}
+                        onChange={(e) => { setDescription(e.target.value); setError(''); }}
+                    />
+                    {error && <p className="mt-2 text-sm text-red-600">{error}</p>}
+                    <div className="mt-6 flex items-center justify-between">
+                        <button
+                            onClick={() => router.push(`/createproject/interest?projectName=${encodeURIComponent(projectName || '')}`)}
+                            className="rounded-lg px-4 py-2 text-sm font-semibold text-gray-700 ring-1 ring-gray-300 hover:bg-gray-50"
+                        >
+                            이전
+                        </button>
+                        <button
+                            onClick={handleNext}
+                            className="rounded-lg bg-blue-600 px-5 py-2.5 text-sm font-semibold text-white shadow hover:bg-blue-700 active:scale-[0.99]"
+                        >
+                            다음
+                        </button>
+                    </div>
+                </div>
+                <p className="mt-4 text-xs text-gray-500">
+                    Tip: 한 문단으로 요약 → 핵심 기능 2~3줄 → 기대 효과 1줄 순으로 작성하면 읽기 좋아요.
+                </p>
             </div>
-
-            {/* 확인 다이얼로그 */}
-            <ConfirmProjectDialog
-                open={openConfirm}
-                onClose={() => setOpenConfirm(false)}
-                onConfirm={handleConfirmCreate}
-                loading={submitting}
-                data={{
-                    projectName: projectName || "",
-                    interest: interest || "",
-                    description,
-                    leaderName: user?.nickname || "",
-                }}
-            />
         </div>
     );
 }
