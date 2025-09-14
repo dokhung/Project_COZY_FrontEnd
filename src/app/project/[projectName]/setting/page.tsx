@@ -1,5 +1,9 @@
+import ProjectSettings from "@/components/setting/ProjectSettings";
+
 export default function SettingPage(){
     return(
-        <div>SettingPage</div>
+        <div>
+            <ProjectSettings/>
+        </div>
     )
 }

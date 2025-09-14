@@ -12,6 +12,7 @@ export default function TabsHeader({ projectName }: { projectName: string }) {
         { label: 'Dashboard', path: 'dashboard' },
         { label: 'Task', path: 'task' },
         { label: 'Calendar', path: 'calendar' },
+        { label: 'Setting', path: 'setting' },
     ];
 
     return (

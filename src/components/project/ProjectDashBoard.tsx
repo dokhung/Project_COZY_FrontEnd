@@ -1,96 +1,174 @@
 'use client';
 
-import { useEffect, useState } from 'react';
-import { getTaskListRequest } from "@/api/requests/task";
-import TaskDetailDialog from "@/components/task/TaskDetilDialog";
-import {useParams} from "next/navigation";
-import {useProjectStore} from "@/store/projectStore";
+import { useEffect, useMemo, useState } from 'react';
+import { useParams } from 'next/navigation';
+import { getTaskListRequest } from '@/api/requests/task';
+import { useProjectStore } from '@/store/projectStore';
 
-const columns = ['시작 전', '진행 중', '검토 중', '승인 중', '머지 신청', '머지 완료'];
+type Task = {
+    id: number | string;
+    title: string;
+    nickName?: string;
+    status: string; // '시작 전' | '진행 중' | '검토 중' | '승인 중' | '머지 신청' | '머지 완료'
+};
+
+const COLUMNS = ['시작 전', '진행 중', '검토 중', '승인 중', '머지 신청', '머지 완료'] as const;
+
+const STATUS_THEME: Record<string, { ring: string; pill: string; header: string; dot: string }> = {
+    '시작 전':   { ring: 'ring-stone-300',   pill: 'bg-stone-100 text-stone-700',    header: 'bg-white',      dot: 'bg-stone-400' },
+    '진행 중':   { ring: 'ring-blue-200',    pill: 'bg-blue-100 text-blue-800',      header: 'bg-blue-50',    dot: 'bg-blue-500' },
+    '검토 중':   { ring: 'ring-amber-200',   pill: 'bg-amber-100 text-amber-900',    header: 'bg-amber-50',   dot: 'bg-amber-500' },
+    '승인 중':   { ring: 'ring-emerald-200', pill: 'bg-emerald-100 text-emerald-800',header: 'bg-emerald-50', dot: 'bg-emerald-500' },
+    '머지 신청': { ring: 'ring-violet-200',  pill: 'bg-violet-100 text-violet-800',  header: 'bg-violet-50',  dot: 'bg-violet-500' },
+    '머지 완료': { ring: 'ring-gray-300',    pill: 'bg-gray-100 text-gray-700',      header: 'bg-gray-50',    dot: 'bg-gray-500'  },
+};
 
 export default function ProjectDashBoard() {
-    const [tasks, setTasks] = useState<any[]>([]);
-    const [isLoading, setIsLoading] = useState(true);
-    const [selectedTaskId, setSelectedTaskId] = useState<number | null>(null);
     const params = useParams();
-    const projectName = params.projectName;
+    const projectName = (params?.projectName as string) ?? '';
     const { currentProjectId } = useProjectStore();
 
+    const [tasks, setTasks] = useState<Task[]>([]);
+    const [isLoading, setIsLoading] = useState(true);
+    const [search, setSearch] = useState('');
+
     useEffect(() => {
-        console.log("currentProjectId :: ", currentProjectId);
         const fetchTasks = async () => {
+            if (!currentProjectId) return;
             try {
+                setIsLoading(true);
                 const data = await getTaskListRequest(currentProjectId);
-                setTasks(data);
-            } catch (error) {
-                console.error(error);
+                setTasks(Array.isArray(data) ? data : []);
+            } catch (e) {
+                console.error(e);
             } finally {
                 setIsLoading(false);
             }
         };
         fetchTasks();
-    }, []);
+    }, [currentProjectId]);
+
+    const filteredTasks = useMemo(() => {
+        const q = search.trim().toLowerCase();
+        if (!q) return tasks;
+        return tasks.filter(
+            (t) =>
+                (t.title ?? '').toLowerCase().includes(q) ||
+                (t.nickName ?? '').toLowerCase().includes(q)
+        );
+    }, [tasks, search]);
+
+    const byStatus = useMemo(() => {
+        const map = new Map<string, Task[]>();
+        for (const s of COLUMNS) map.set(s, []);
+        for (const t of filteredTasks) {
+            if (!map.has(t.status)) map.set(t.status, []);
+            map.get(t.status)!.push(t);
+        }
+        return map;
+    }, [filteredTasks]);
+
+    const Skeleton = () => (
+        <div className="rounded-xl border border-gray-200 bg-white p-3">
+            <div className="h-3 w-2/3 animate-pulse rounded bg-gray-200" />
+            <div className="mt-2 h-3 w-1/3 animate-pulse rounded bg-gray-200" />
+        </div>
+    );
 
     return (
-        <div className="min-h-screen bg-gray-50 p-10">
-            <h1 className="mb-8 text-3xl font-extrabold text-blue-900">
-                {projectName}
-            </h1>
+        <div className="min-h-screen bg-gradient-to-b from-stone-100 to-stone-200">
+            <div className="mx-auto max-w-7xl px-6 pt-10">
+                {/* 헤더 */}
+                <div className="flex flex-col items-start justify-between gap-4 md:flex-row md:items-center">
+                    <h1 className="text-2xl md:text-3xl font-extrabold text-stone-900 tracking-tight">
+                        {projectName}
+                    </h1>
+                    <div className="flex w-full max-w-md items-center gap-2 md:w-80">
+                        <input
+                            value={search}
+                            onChange={(e) => setSearch(e.target.value)}
+                            placeholder="작업/담당자 검색"
+                            className="w-full rounded-xl border border-stone-300 bg-white px-3 py-2 text-sm outline-none focus:border-stone-500 focus:ring-2 focus:ring-stone-300"
+                        />
+                        {search && (
+                            <button
+                                onClick={() => setSearch('')}
+                                className="rounded-xl border border-stone-300 bg-white px-3 py-2 text-sm hover:bg-stone-50"
+                            >
+                                초기화
+                            </button>
+                        )}
+                    </div>
+                </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                {columns.map((status) => {
-                    const list = Array.isArray(tasks) ? tasks : [];
-                    const statusTasks = list.filter((task) => task.status === status);
-                    return (
-                        <div
-                            key={status}
-                            className="flex flex-col gap-2 rounded-xl bg-gray-50 border border-gray-200 shadow-sm"
-                        >
-                            <div className="bg-white border-b border-gray-300 py-2 text-center font-bold text-gray-700">
-                                {status}
-                            </div>
-                            <div className="bg-white min-h-48 flex flex-col gap-2 p-3">
-                                {isLoading ? (
-                                    <div className="text-center text-gray-500 text-sm">로딩 중...</div>
-                                ) : statusTasks.length === 0 ? (
-                                    <div className="text-center text-gray-400 text-sm">작업 없음</div>
-                                ) : (
-                                    statusTasks.map((task) => (
-                                        <div
-                                            key={task.id}
-                                            className="border border-gray-200 rounded-lg p-3 shadow-sm bg-white cursor-pointer"
-                                            onClick={() => setSelectedTaskId(task.id)}
-                                        >
-                                            <div className="text-sm font-semibold text-gray-800 truncate">{task.title}</div>
-                                            <div className="text-xs text-gray-500">{task.nickName}</div>
+                {/* 읽기 전용 칸반 */}
+                <div className="mt-6 grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6">
+                    {COLUMNS.map((status) => {
+                        const items = byStatus.get(status) ?? [];
+                        const theme = STATUS_THEME[status] ?? STATUS_THEME['시작 전'];
+
+                        return (
+                            <section
+                                key={status}
+                                className={`flex min-h-[420px] flex-col rounded-2xl border border-stone-300 bg-white/70 shadow-sm backdrop-blur-sm ring-1 ${theme.ring}`}
+                            >
+                                {/* 컬럼 헤더 (sticky) */}
+                                <header
+                                    className={`sticky top-0 z-10 flex items-center justify-between rounded-t-2xl border-b border-stone-200 px-4 py-3 ${theme.header}`}
+                                >
+                                    <div className="flex items-center gap-2">
+                                        <span className={`inline-block h-2.5 w-2.5 rounded-full ${theme.dot}`} />
+                                        <h2 className="text-sm font-bold text-stone-800">{status}</h2>
+                                    </div>
+                                    <span className="rounded-full bg-stone-100 px-2 py-0.5 text-xs font-semibold text-stone-700">
+                    {isLoading ? '-' : items.length}
+                  </span>
+                                </header>
+
+                                {/* 카드 리스트 */}
+                                <div className="flex flex-1 flex-col gap-2 overflow-y-auto p-3">
+                                    {isLoading ? (
+                                        <>
+                                            <Skeleton />
+                                            <Skeleton />
+                                            <Skeleton />
+                                        </>
+                                    ) : items.length === 0 ? (
+                                        <div className="mt-6 select-none rounded-xl border border-dashed border-stone-300 bg-white p-6 text-center text-xs text-stone-400">
+                                            작업 없음
                                         </div>
-                                    ))
-                                )}
-                            </div>
-                        </div>
-                    );
-                })}
-            </div>
+                                    ) : (
+                                        items.map((task) => (
+                                            <article
+                                                key={task.id}
+                                                className="rounded-xl border border-stone-200 bg-white p-3 shadow-sm transition hover:shadow-md"
+                                            >
+                                                <div className="flex items-start justify-between gap-3">
+                                                    <h3 className="line-clamp-2 text-sm font-semibold text-stone-900">
+                                                        {task.title}
+                                                    </h3>
+                                                    <span className={`shrink-0 rounded-full px-2 py-0.5 text-[10px] font-bold ${theme.pill}`}>
+                                                        {status}
+                                                      </span>
+                                                </div>
 
-            {selectedTaskId && (
-                <TaskDetailDialog
-                    taskId={selectedTaskId}
-                    onClose={() => setSelectedTaskId(null)}
-                    onDeleted={async () => {
-                        setIsLoading(true);
-                        const data = await getTaskListRequest(currentProjectId);
-                        setTasks(data);
-                        setIsLoading(false);
-                        setSelectedTaskId(null);
-                    }}
-                    onUpdated={async () => {
-                        setIsLoading(true);
-                        const data = await getTaskListRequest(currentProjectId);
-                        setTasks(data);
-                        setIsLoading(false);
-                    }}
-                />
-            )}
+                                                <div className="mt-2 flex items-center justify-between">
+                                                    <div className="flex items-center gap-2 text-xs text-stone-600">
+                                                        <div className="flex h-6 w-6 items-center justify-center rounded-full bg-stone-200 text-[10px] font-bold text-stone-700">
+                                                            {task.nickName?.slice(0, 2) ?? '익명'}
+                                                        </div>
+                                                        <span className="truncate">{task.nickName ?? '—'}</span>
+                                                    </div>
+                                                </div>
+                                            </article>
+                                        ))
+                                    )}
+                                </div>
+                            </section>
+                        );
+                    })}
+                </div>
+            </div>
         </div>
     );
 }
