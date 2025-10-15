@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import React, { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -24,29 +24,24 @@ export default function Signup() {
     }
   };
 
-  const handleSignup = async () => {
-    if (password !== confirmPassword) {
-      setError('비밀번호가 일치하지 않습니다.');
-      return;
-    }
+    const handleSignup = async () => {
+        if (password !== confirmPassword) {
+            setError("비밀번호가 일치하지 않습니다.");
+            return;
+        }
 
-    try {
-      const formData = new FormData();
-      formData.append('signUpDTO', JSON.stringify({ email, password, confirmPassword, nickname }));
-      if (profileImage) {
-        formData.append('profileImage', profileImage);
-      }
+        try {
+            const payload = { email, password, confirmPassword, nickname };
+            await registerRequest(payload);
+            alert("회원가입 성공!");
+            router.push("/login");
+        } catch (e: any) {
+            setError("회원가입 실패: " + e.message);
+        }
+    };
 
-      await registerRequest(formData);
 
-      alert('회원가입 성공! 로그인 페이지로 이동합니다.');
-      router.push('/login');
-    } catch (error : any) {
-      setError('회원가입에 실패했습니다. 다시 시도해주세요.');
-    }
-  };
-
-  return (
+    return (
       <div className='flex min-h-screen items-center justify-center bg-gray-200'>
         <Card className='w-full max-w-md p-6'>
           <CardHeader>
@@ -75,14 +70,21 @@ export default function Signup() {
                 <Input id='profileImage' type='file' onChange={handleFileChange} />
               </div>
 
-              {error && (
-                  <Alert variant='destructive' className="border-red-500 bg-red-100 text-red-800 px-4 py-2 w-full">
-                    <AlertTitle className="font-bold">오류</AlertTitle>
-                    <p className="text-sm">{error}</p>
-                  </Alert>
-              )}
+                {error && (
+                    <Alert
+                        variant="destructive"
+                        className="w-full border-red-500 bg-red-100 text-red-800 px-4 py-2"
+                    >
+                        <AlertTitle className="font-bold">오류</AlertTitle>
+                        <div className="text-sm whitespace-pre">
+                            {error}
+                        </div>
+                    </Alert>
+                )}
 
-              <Button className='w-full' onClick={handleSignup}>회원가입</Button>
+
+
+                <Button className='w-full' onClick={handleSignup}>회원가입</Button>
             </div>
 
             <div className='mt-4 text-center'>
