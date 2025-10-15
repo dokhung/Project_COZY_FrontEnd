@@ -1,20 +1,16 @@
 import apiClient from "@/api/Axios";
 
 export type CreateTeamDTO = {
-    teamName: string;
+    teamName: string | undefined;
     description: string;
 }
 
 export const createTeamRequest = async (dto : CreateTeamDTO) => {
-    const token = localStorage.getItem("accessToken");
+
     const res = await apiClient.post(
-        '/api/team/create',dto,{
-            headers: {
-                Authorization: `Bearer ${token}`,
-                'Content-Type': 'application/json',
-            }
-        }
+        '/api/team/create',dto,
     );
+    alert("성공");
     return res.data;
 }
 
