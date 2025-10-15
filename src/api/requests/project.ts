@@ -50,7 +50,7 @@ export const getProjectDetailRequest = async (projectName: string): Promise<Proj
 
 export const checkProjectNameRequest = async (projectName: string): Promise<boolean> => {
     try {
-        const response = await apiClient.get('/api/project/check-projectname', {
+        const response = await apiClient.get('/api/project/check-project-name', {
             params: { projectName },
         });
         return response.data.available;

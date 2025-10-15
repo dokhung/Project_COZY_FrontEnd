@@ -14,7 +14,7 @@ export const getCurrentUserRequest = async (): Promise<any | undefined> => {
         });
         return response.data;
     } catch (error: any) {
-        console.error("❌ 유저 정보 조회 실패:", error.message);
+        console.error("유저 정보 조회 실패:", error.message);
         return undefined;
     }
 };
@@ -25,7 +25,7 @@ export const updateUserInfoRequest = async (
     profileImage?: File
 ) => {
     const token = localStorage.getItem("accessToken");
-    if (!token) throw new Error("❌ 토큰이 없습니다.");
+    if (!token) throw new Error("토큰이 없습니다.");
 
     const formData = new FormData();
     formData.append("nickname", nickname);
