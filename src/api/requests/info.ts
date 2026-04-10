@@ -6,6 +6,7 @@ export type CurrentUserInfo = {
     nickname: string;
     profileImageUrl: string | null;
     statusMessage: string | null;
+    role: string;
     themeMode: string | null;
     notificationsEmail: boolean;
     notificationsPush: boolean;

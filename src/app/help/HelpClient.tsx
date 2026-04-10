@@ -37,7 +37,7 @@ export default function HelpClient() {
     const user = useUserStore((s) => s.user);
     const username = user?.nickname || "";
     const isLoggedIn = !!user;
-    const isAdmin = user?.email === ADMIN_EMAIL;
+    const isAdmin = user?.role === "OPERATOR" || user?.email === ADMIN_EMAIL;
     const [data, setData] = useState<Help[]>([]);
     const [loading, setLoading] = useState(true);
 
@@ -47,9 +47,12 @@ export default function HelpClient() {
     const [selectedHelp, setSelectedHelp] = useState<Help | null>(null);
 
     const helpListRequest = async () => {
+        setLoading(true);
         try {
             const res = await getHelpRequest();
-            setData(res);
+            setData(Array.isArray(res) ? res : []);
+        } catch (error) {
+            setData([]);
         } finally {
             setLoading(false);
         }

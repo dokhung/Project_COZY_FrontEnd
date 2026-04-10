@@ -4,7 +4,8 @@
     "settings": "설정",
     "logout": "로그아웃",
     "language": "언어",
-    "participation": "나의 참여"
+    "participation": "나의 참여",
+    "admin": "관리자"
   },
   "locale": {
     "korean": "한국어",
@@ -14,7 +15,59 @@
   "nav": {
     "feature": "기능",
     "recruit": "모집",
-    "help": "문의"
+    "help": "문의",
+    "admin": "관리자"
+  },
+  "admin": {
+    "badge": "운영자 전용",
+    "title": "관리자 페이지",
+    "subtitle": "문의 대응과 운영 업무를 빠르게 처리하세요.",
+    "queueTitle": "문의 대기열",
+    "queueSubtitle": "대기 중인 문의를 빠르게 확인하고 처리하세요.",
+    "refresh": "새로고침",
+    "bulkComplete": "선택 완료 처리",
+    "bulkCompleteAll": "대기 전체 완료",
+    "bulkSelected": "선택됨: {{count}}개",
+    "bulkConfirm": "선택한 문의를 완료 처리할까요?",
+    "bulkConfirmAll": "대기 중인 문의를 모두 완료 처리할까요?",
+    "bulkEmpty": "선택된 문의가 없습니다.",
+    "bulkNothing": "완료 처리할 대기 문의가 없습니다.",
+    "bulkAnswerPlaceholder": "일괄 완료 처리 시 등록할 답변 내용을 입력하세요. (선택)",
+    "bulkAnswerClear": "답변 비우기",
+    "bulkTemplateSelect": "답변 템플릿 선택",
+    "templateChecked": "안녕하세요, {operator}입니다. 문의를 확인했습니다.",
+    "templateInProgress": "안녕하세요, {operator}입니다. 확인 중이며 곧 답변드리겠습니다.",
+    "templateResolved": "안녕하세요, {operator}입니다. 요청하신 내용을 처리했습니다. 확인 부탁드립니다.",
+    "loginRequiredTitle": "로그인이 필요합니다",
+    "loginRequiredBody": "관리자 페이지는 로그인 후 이용할 수 있습니다.",
+    "loginCta": "로그인",
+    "noAccessTitle": "접근 권한이 없습니다",
+    "noAccessBody": "이 페이지는 운영자 계정만 사용할 수 있습니다.",
+    "backHome": "홈으로",
+    "helpTitle": "문의 관리",
+    "helpBody": "문의 답변 및 처리 상태를 관리합니다.",
+    "helpCta": "문의 보러가기",
+    "guideTitle": "운영 가이드",
+    "guideBody": "서비스 기능과 운영 흐름을 빠르게 확인하세요.",
+    "guideCta": "기능 페이지로",
+    "userTitle": "유저 관리",
+    "userSubtitle": "계정 차단 및 상태를 관리합니다.",
+    "userLoading": "유저 정보를 불러오는 중...",
+    "userEmpty": "표시할 유저가 없습니다.",
+    "userName": "닉네임",
+    "userEmail": "이메일",
+    "userRole": "권한",
+    "userStatus": "상태",
+    "userLastLogin": "마지막 로그인",
+    "userAction": "작업",
+    "userBlocked": "차단됨",
+    "userActive": "정상",
+    "userBlock": "차단",
+    "userUnblock": "차단 해제",
+    "userBlockConfirm": "해당 유저를 차단할까요?",
+    "userUnblockConfirm": "해당 유저의 차단을 해제할까요?",
+    "guardTitle": "관리자 권한 확인 중",
+    "guardBody": "운영자 계정만 접근할 수 있습니다. 로그인 상태를 확인하고 있습니다."
   },
   "help": {
     "all": "전체",
@@ -39,6 +92,7 @@
     "replyTitle": "처리 내용",
     "replyPlaceholder": "처리 내용을 입력하세요",
     "replyPending": "아직 처리 답변이 등록되지 않았습니다.",
+    "noContent": "내용이 없습니다.",
     "replyRequired": "처리 내용을 입력하세요.",
     "replySubmit": "처리 완료",
     "replyEdit": "처리 내용 수정",
@@ -111,20 +165,10 @@
     "logout": "로그아웃"
   },
   "footer": {
-    "tagline": "팀과 프로젝트를 위한 협업 공간",
-    "companyInfo": "회사 정보",
-    "companyName": "회사명",
-    "teamName": "팀명",
-    "makers": "제작자",
-    "makersValue": "오도경 · 전진석",
-    "contact": "문의",
-    "legal": "법적 고지",
-    "terms": "이용약관",
+    "madeBy": "만든 사람",
     "privacy": "개인정보 처리방침",
-    "rights": "All rights reserved.",
-    "madeBy": "COZY Team이 정성스럽게 만들었습니다",
-    "termsBody": "COZY 서비스는 사용자에게 협업 기능을 제공하며, 불법적이거나 유해한 콘텐츠 업로드를 금지합니다. 서비스 운영을 위해 필요한 경우 일부 기능이 변경될 수 있습니다.",
-    "privacyBody": "COZY는 서비스 제공을 위해 최소한의 개인정보를 수집하며, 수집된 정보는 보안 기준에 따라 보호됩니다. 사용자는 언제든지 개인정보 열람, 수정, 삭제를 요청할 수 있습니다."
+    "faq": "FAQ",
+    "social": "소셜 정보"
   },
   "helpBot": {
     "title": "COZY 도움말 봇",
@@ -329,12 +373,6 @@
     "welcome": "welcome {{name}}",
     "statusPlaceholder": "상태 메시지를 입력하세요",
     "nicknameSuffix": "{{name}}님"
-  },
-  "footer": {
-    "madeBy": "만든 사람",
-    "privacy": "개인정보 처리방침",
-    "faq": "FAQ",
-    "social": "소셜 정보"
   },
   "solution": {
     "inProgress": "Solution 페이지 입니다. 아직 개발중 입니다."

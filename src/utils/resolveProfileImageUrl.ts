@@ -1,5 +1,9 @@
 const API_BASE =
-    (process.env.NEXT_PUBLIC_API_BASE || "http://localhost:18000").replace(/\/+$/, "");
+    (
+        process.env.NEXT_PUBLIC_API_BASE ||
+        process.env.NEXT_PUBLIC_API_BASE_LOCAL ||
+        "http://13.114.84.210:18000"
+    ).replace(/\/+$/, "");
 
 export const resolveProfileImageUrl = (image?: string | null) => {
     if (!image) return null;

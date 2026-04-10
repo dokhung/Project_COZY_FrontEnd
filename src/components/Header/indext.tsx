@@ -7,11 +7,14 @@ import Image from 'next/image';
 import {useTranslation} from "react-i18next";
 import { useEffect, useState } from "react";
 import { useThemeStore } from "@/store/themeStore";
+import { useUserStore } from "@/store/userStore";
 
 export default function Header() {
     const { t } = useTranslation();
     const { initTheme } = useThemeStore();
+    const user = useUserStore((s) => s.user);
     const [open, setOpen] = useState(false);
+    const isOperator = user?.role === "OPERATOR";
 
     useEffect(() => {
         initTheme();
@@ -70,6 +73,19 @@ export default function Header() {
                         >
                             {t("nav.help")}
                         </Link>
+                        {isOperator && (
+                            <Link
+                                href="/admin"
+                                className="
+                                    px-3 py-1 rounded-lg text-sm
+                                    font-semibold text-white/90
+                                    hover:bg-white/10
+                                    drop-shadow
+                        "
+                            >
+                                {t("nav.admin")}
+                            </Link>
+                        )}
                     </nav>
                 </div>
 
@@ -108,6 +124,15 @@ export default function Header() {
                         >
                             {t("nav.help")}
                         </Link>
+                        {isOperator && (
+                            <Link
+                                href="/admin"
+                                className="rounded-lg px-3 py-2 text-sm font-semibold text-white/90 hover:bg-white/10"
+                                onClick={() => setOpen(false)}
+                            >
+                                {t("nav.admin")}
+                            </Link>
+                        )}
                     </nav>
                 </div>
             )}

@@ -8,6 +8,7 @@ type Help = {
     title: string;
     content: string;
     createdAt: string;
+    writer?: string;
 };
 
 interface Props {
@@ -15,6 +16,11 @@ interface Props {
     loading: boolean;
     username: string;
     onSelect: (help: Help) => void;
+    selectable?: boolean;
+    selectedIds?: number[];
+    onToggleSelect?: (id: number) => void;
+    onToggleAll?: (checked: boolean) => void;
+    preferWriter?: boolean;
 }
 
 export default function HelpTable({
@@ -22,6 +28,11 @@ export default function HelpTable({
                                       loading,
                                       username,
                                       onSelect,
+                                      selectable = false,
+                                      selectedIds = [],
+                                      onToggleSelect,
+                                      onToggleAll,
+                                      preferWriter = false,
                                   }: Props) {
     const { t } = useTranslation();
     const isWaitStatus = (status: string) =>
@@ -43,12 +54,26 @@ export default function HelpTable({
         );
     }
 
+    const allSelected =
+        selectable && data.length > 0 && data.every((item) => selectedIds.includes(item.id));
+
     return (
         <div className="theme-card overflow-hidden rounded-3xl">
             <div className="overflow-x-auto">
                 <table className="min-w-[640px] w-full text-sm text-white/80">
                 <thead className="border-b border-white/20 bg-white/10 text-white/70">
             <tr>
+                {selectable && (
+                    <th className="p-3 text-center">
+                        <input
+                            type="checkbox"
+                            aria-label="select all"
+                            checked={allSelected}
+                            onChange={(e) => onToggleAll?.(e.target.checked)}
+                            className="h-4 w-4 accent-white"
+                        />
+                    </th>
+                )}
                 <th className="p-3 text-center">{t("help.type")}</th>
                 <th className="p-3 text-center">{t("help.status")}</th>
                 <th className="p-3 text-center">{t("help.title")}</th>
@@ -59,6 +84,17 @@ export default function HelpTable({
             <tbody>
             {data.map((help) => (
                 <tr key={help.id} className="border-b border-white/10 transition hover:bg-white/10">
+                    {selectable && (
+                        <td className="p-3 text-center">
+                            <input
+                                type="checkbox"
+                                aria-label={`select ${help.id}`}
+                                checked={selectedIds.includes(help.id)}
+                                onChange={() => onToggleSelect?.(help.id)}
+                                className="h-4 w-4 accent-white"
+                            />
+                        </td>
+                    )}
                     <td className="p-3 text-center">
                         {t(`help.${help.type}`)}
                     </td>
@@ -81,7 +117,9 @@ export default function HelpTable({
                     >
                         {help.title}
                     </td>
-                    <td className="p-3 text-center">{username}</td>
+                    <td className="p-3 text-center">
+                        {preferWriter ? help.writer ?? username : username}
+                    </td>
                     <td className="p-3 text-center">
                         {new Date(help.createdAt).toISOString().slice(0, 10)}
                     </td>

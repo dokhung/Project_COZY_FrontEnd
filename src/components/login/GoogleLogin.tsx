@@ -1,5 +1,5 @@
 'use client';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { GoogleOAuthProvider, useGoogleLogin } from '@react-oauth/google';
 import { Button } from '../ui/button';
 import GoogleIcon from '@/assets/icons/google-icon-logo.svg';
@@ -27,6 +27,13 @@ type Props = {
 const GoogleLoginComponent: React.FC<Props> = ({ enabled = false }) => {
   const { t } = useTranslation();
   const [open, setOpen] = useState(false);
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  const tr = (key: string) => (mounted ? t(key) : "");
 
   const login = useGoogleLogin({
     onSuccess: (response) => console.log('로그인 성공', response),
@@ -39,20 +46,20 @@ const GoogleLoginComponent: React.FC<Props> = ({ enabled = false }) => {
         <>
           <Button onClick={() => setOpen(true)} className="w-full" variant="outline">
             <Image src={GoogleIcon} alt="구글 아이콘" width={24} height={24} />
-            {t('auth.googleLoginDisabled')}
+            {tr('auth.googleLoginDisabled')}
           </Button>
 
           <AlertDialog open={open} onOpenChange={setOpen}>
             <AlertDialogContent>
               <AlertDialogHeader>
-                <AlertDialogTitle>{t('auth.googleLoginComingTitle')}</AlertDialogTitle>
+                <AlertDialogTitle>{tr('auth.googleLoginComingTitle')}</AlertDialogTitle>
                 <AlertDialogDescription>
-                  {t('auth.googleLoginComingDesc')}
+                  {tr('auth.googleLoginComingDesc')}
                 </AlertDialogDescription>
               </AlertDialogHeader>
               <AlertDialogFooter>
-                <AlertDialogCancel>{t('common.close')}</AlertDialogCancel>
-                <AlertDialogAction onClick={() => setOpen(false)}>{t('common.ok')}</AlertDialogAction>
+                <AlertDialogCancel>{tr('common.close')}</AlertDialogCancel>
+                <AlertDialogAction onClick={() => setOpen(false)}>{tr('common.ok')}</AlertDialogAction>
               </AlertDialogFooter>
             </AlertDialogContent>
           </AlertDialog>
@@ -65,7 +72,7 @@ const GoogleLoginComponent: React.FC<Props> = ({ enabled = false }) => {
       <GoogleOAuthProvider clientId={clientId}>
         <Button onClick={() => login()} className="w-full" variant="outline">
           <Image src={GoogleIcon} alt="구글 아이콘" width={24} height={24} />
-          {t('auth.googleLogin')}
+          {tr('auth.googleLogin')}
         </Button>
       </GoogleOAuthProvider>
   );

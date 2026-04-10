@@ -6,7 +6,12 @@ import axios, {
 } from "axios";
 import { useUserStore } from "@/store/userStore";
 
-const API_BASE = "http://localhost:18000";
+const API_BASE =
+    (
+        process.env.NEXT_PUBLIC_API_BASE ||
+        process.env.NEXT_PUBLIC_API_BASE_LOCAL ||
+        "http://13.114.84.210:18000"
+    ).replace(/\/+$/, "");
 
 const apiClient: AxiosInstance = axios.create({
     baseURL: API_BASE,
@@ -107,22 +112,7 @@ apiClient.interceptors.response.use(
         if (!original) return Promise.reject(error);
 
         if (status === 401 && !original?._retry) {
-            if (isRefreshing) {
-                return new Promise((resolve, reject) => {
-                    pendingQueue.push({
-                        resolve: (newToken) => {
-                            const headers = (original.headers ?? new AxiosHeaders()) as AxiosHeaders;
-                            headers.set("Authorization", `Bearer ${newToken}`);
-                            original.headers = headers;
-                            resolve(apiClient(original));
-                        },
-                        reject,
-                    });
-                });
-            }
-
             original._retry = true;
-            isRefreshing = true;
 
             try {
                 const newAccess = await refreshAccessToken();
@@ -133,8 +123,6 @@ apiClient.interceptors.response.use(
             } catch (err) {
                 notifyTokenExpired();
                 return Promise.reject(err);
-            } finally {
-                isRefreshing = false;
             }
         }
 

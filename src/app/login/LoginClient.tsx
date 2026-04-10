@@ -9,8 +9,6 @@ import { Input } from '@/components/ui/input';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Label } from '@/components/ui/label';
 import { Alert, AlertTitle } from '@/components/ui/alert';
-import { GoogleOAuthProvider } from '@react-oauth/google';
-import GoogleLoginComponent, { clientId } from '@/components/login/GoogleLogin';
 import { useUserStore } from '@/store/userStore';
 import { loginRequest } from '@/api/requests/login';
 import { getCurrentUserRequest } from '@/api/requests/info';
@@ -23,9 +21,14 @@ export default function LoginClient() {
     const [password, setPassword] = useState('');
     const [error, setError] = useState('');
     const [loading, setLoading] = useState(false);
+    const [mounted, setMounted] = useState(false);
     const router = useRouter();
     const { login, isLoggedIn, setAccessToken } = useUserStore();
     const { t } = useTranslation();
+
+    useEffect(() => {
+        setMounted(true);
+    }, []);
 
     useEffect(() => {
         if (isLoggedIn) {
@@ -47,7 +50,7 @@ export default function LoginClient() {
         } catch (e: unknown) {
             console.error(e);
 
-            if (axios.isAxiosError(e) && e.response?.status === 401) {
+            if (axios.isAxiosError(e) && [400, 401, 403].includes(e.response?.status ?? 0)) {
                 setError(t('auth.errorInvalidCredentials'));
             } else {
                 setError(t('auth.errorLoginFailed'));
@@ -58,6 +61,8 @@ export default function LoginClient() {
     };
 
 
+    const tr = (key: string) => (mounted ? t(key) : "");
+
     return (
         <div className="theme-page relative flex min-h-screen items-center justify-center overflow-hidden px-4 py-10 md:px-10">
             <div className="theme-glow-1 pointer-events-none absolute -top-24 left-1/2 h-64 w-[520px] -translate-x-1/2 rounded-full blur-3xl" />
@@ -66,12 +71,12 @@ export default function LoginClient() {
             <div className="relative z-10 flex w-full max-w-6xl flex-col items-center gap-8 md:flex-row md:items-center md:justify-between">
                 <div className="flex flex-col justify-center md:pr-10">
                 <h1 className="text-3xl font-extrabold text-white leading-snug md:text-5xl max-w-xl">
-                    {t('auth.marketingHeadline')}
-                    <span className="text-white/80"> {t('auth.marketingBrand')}</span>
+                    {tr('auth.marketingHeadline')}
+                    <span className="text-white/80"> {tr('auth.marketingBrand')}</span>
                 </h1>
 
                 <p className="mt-4 text-base text-white/70 md:mt-6 md:text-xl max-w-lg">
-                    {t('auth.marketingSubhead')}
+                    {tr('auth.marketingSubhead')}
                 </p>
                 </div>
 
@@ -85,7 +90,7 @@ export default function LoginClient() {
             >
                 <CardHeader className="pb-4">
                     <CardTitle className="text-center text-2xl font-semibold tracking-wide">
-                        {t('auth.loginTitle')}
+                        {tr('auth.loginTitle')}
                     </CardTitle>
                 </CardHeader>
 
@@ -93,12 +98,12 @@ export default function LoginClient() {
                     {/* 이메일 */}
                     <div className="space-y-2">
                         <Label htmlFor="email" className="text-sm text-white/80">
-                            {t('auth.emailLabel')}
+                            {tr('auth.emailLabel')}
                         </Label>
                         <Input
                             id="email"
                             type="email"
-                            placeholder={t('auth.emailPlaceholder')}
+                            placeholder={tr('auth.emailPlaceholder')}
                             value={email}
                             onChange={(e) => setEmail(e.target.value)}
                             className="
@@ -116,12 +121,12 @@ export default function LoginClient() {
                     {/* 비밀번호 */}
                     <div className="space-y-2">
                         <Label htmlFor="password" className="text-sm text-white/80">
-                            {t('auth.passwordLabel')}
+                            {tr('auth.passwordLabel')}
                         </Label>
                         <Input
                             id="password"
                             type="password"
-                            placeholder={t('auth.passwordPlaceholder')}
+                            placeholder={tr('auth.passwordPlaceholder')}
                             value={password}
                             onChange={(e) => setPassword(e.target.value)}
                             className="
@@ -153,29 +158,14 @@ export default function LoginClient() {
                         onClick={handleLogin}
                         disabled={loading}
                     >
-                        {loading ? t('auth.loginLoading') : t('auth.loginButton')}
+                        {loading ? tr('auth.loginLoading') : tr('auth.loginButton')}
                     </Button>
-
-                    {/* 구글 로그인 */}
-                    <div
-                        className="mt-3"
-                        style={{
-                            color: "black",
-                            fontWeight: "600",
-                        }}
-                    >
-                        <GoogleOAuthProvider clientId={clientId}>
-                            <div className="google-login-wrapper">
-                                <GoogleLoginComponent />
-                            </div>
-                        </GoogleOAuthProvider>
-                    </div>
 
                     {/* 회원가입 링크 */}
                     <div className="mt-4 text-center text-sm text-white/80">
-                        {t('auth.noAccount')}{' '}
+                        {tr('auth.noAccount')}{' '}
                         <a href="/signup" className="underline text-white">
-                            {t('auth.signupLink')}
+                            {tr('auth.signupLink')}
                         </a>
                     </div>
                 </CardContent>
