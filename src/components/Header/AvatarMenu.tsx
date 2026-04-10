@@ -16,6 +16,7 @@ import { resolveProfileImageUrl } from "@/utils/resolveProfileImageUrl";
 export default function AvatarMenu() {
     const router = useRouter();
     const { isLoggedIn, user, logout } = useUserStore();
+    const isOperator = user?.role === "OPERATOR";
     const [isOpen, setIsOpen] = useState(false);
     const { locale, setLocale } = useLocaleStore();
     const {t} = useTranslation();
@@ -100,6 +101,16 @@ export default function AvatarMenu() {
                     <div className="my-3 border-t border-white/20"/>
 
                     <div className="grid grid-cols-2 gap-3">
+                        {isOperator && (
+                            <DropdownMenuItem asChild>
+                                <Link
+                                    href='/admin'
+                                    className="theme-btn-primary flex items-center justify-center rounded-lg p-3 font-semibold transition hover:brightness-110"
+                                >
+                                    {t("menu.admin")}
+                                </Link>
+                            </DropdownMenuItem>
+                        )}
                         <DropdownMenuItem asChild>
                             <Link href='/myinfo'
                                   className="theme-btn-secondary flex items-center justify-center rounded-lg p-3 font-semibold transition hover:brightness-110">

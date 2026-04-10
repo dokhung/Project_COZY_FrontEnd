@@ -1,7 +1,5 @@
-export const dynamic = "force-dynamic";
-
-import HelpClient from "./HelpClient";
+import HelpPageClient from "./HelpPageClient";
 
 export default function HelpPage() {
-    return <HelpClient />;
+    return <HelpPageClient />;
 }

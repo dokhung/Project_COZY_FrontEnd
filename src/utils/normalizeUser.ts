@@ -8,6 +8,7 @@ type RawUser = {
     profileImage?: string;
     profileImageUrl?: string;
     statusMessage?: string;
+    role?: string;
 };
 
 export const normalizeUser = (raw: RawUser | null | undefined): User => {
@@ -17,6 +18,7 @@ export const normalizeUser = (raw: RawUser | null | undefined): User => {
         nickname: "",
         profileImage: undefined,
         statusMessage: undefined,
+        role: undefined,
     };
 
     if (!raw) return fallback;
@@ -27,5 +29,6 @@ export const normalizeUser = (raw: RawUser | null | undefined): User => {
         nickname: String(raw.nickname ?? ""),
         profileImage: raw.profileImage ?? raw.profileImageUrl ?? undefined,
         statusMessage: raw.statusMessage ?? undefined,
+        role: raw.role ?? undefined,
     };
 };

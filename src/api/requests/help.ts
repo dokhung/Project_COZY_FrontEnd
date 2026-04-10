@@ -1,7 +1,7 @@
 import apiClient from "@/api/Axios";
 
 export async function getHelpRequest() {
-    const res = await apiClient.get("/api/help/list");
+    const res = await apiClient.get("/api/help/list", { timeout: 5000 });
     return res.data;
 }
 

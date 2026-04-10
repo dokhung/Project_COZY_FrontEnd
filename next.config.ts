@@ -1,6 +1,9 @@
 import type { NextConfig } from "next";
 
-const apiBase = process.env.NEXT_PUBLIC_API_BASE ?? "http://localhost:18000";
+const apiBase =
+    process.env.NEXT_PUBLIC_API_BASE ??
+    process.env.NEXT_PUBLIC_API_BASE_LOCAL ??
+    "http://13.114.84.210:18000";
 
 let remotePatterns: NextConfig["images"] extends { remotePatterns: infer R }
     ? R

@@ -9,6 +9,7 @@ export type User = {
     nickname: string;
     profileImage?: string;
     statusMessage?: string;
+    role?: "USER" | "OPERATOR" | string;
 };
 
 type UserState = {

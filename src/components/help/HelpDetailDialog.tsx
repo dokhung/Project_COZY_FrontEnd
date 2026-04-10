@@ -10,6 +10,7 @@ type Help = {
     title: string;
     content: string;
     createdAt: string;
+    writer?: string;
     answer?: string | null;
     answeredAt?: string | null;
 };
@@ -22,6 +23,7 @@ interface Props {
     onSave: (id: number, title: string, content: string) => Promise<void>;
     onAnswer: (id: number, answer: string) => Promise<void>;
     onDelete: (id: number) => Promise<void>;
+    preferWriter?: boolean;
 }
 
 export default function HelpDetailDialog({
@@ -29,9 +31,10 @@ export default function HelpDetailDialog({
                                              username,
                                              isAdmin,
                                              onClose,
-                                             onSave,
-                                             onAnswer,
-                                             onDelete,
+                                         onSave,
+                                         onAnswer,
+                                         onDelete,
+                                         preferWriter = false,
                                          }: Props) {
     const [isEditing, setIsEditing] = useState(false);
     const [editTitle, setEditTitle] = useState("");
@@ -50,6 +53,9 @@ export default function HelpDetailDialog({
     }, [help]);
 
     if (!help) return null;
+
+    const contentText = help.content?.trim();
+    const displayContent = contentText ? help.content : t("help.noContent");
 
     const handleSave = async () => {
         setSaving(true);
@@ -99,7 +105,7 @@ export default function HelpDetailDialog({
                 )}
 
                 <p className="text-sm text-white/70 font-semibold mb-2">
-                    {t("help.author")}: {username}
+                    {t("help.author")}: {preferWriter ? help.writer ?? username : username}
                 </p>
 
                 <hr className="border-t border-white/20 my-4" />
@@ -117,7 +123,7 @@ export default function HelpDetailDialog({
 
                 ) : (
                     <div className="text-white/90 whitespace-pre-wrap mb-4 h-64 overflow-y-auto sm:h-[400px]">
-                        {help.content}
+                        {displayContent}
                     </div>
                 )}
 
