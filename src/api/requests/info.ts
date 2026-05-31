@@ -22,7 +22,7 @@ export const getCurrentUserRequest = async (): Promise<CurrentUserInfo | undefin
     } catch (error: unknown) {
         const message = error instanceof Error ? error.message : String(error);
         console.error("유저 정보 조회 실패:", message);
-        return undefined;
+        throw error;
     }
 };
 

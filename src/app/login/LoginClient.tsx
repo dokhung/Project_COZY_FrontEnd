@@ -50,7 +50,7 @@ export default function LoginClient() {
         } catch (e: unknown) {
             console.error(e);
 
-            if (axios.isAxiosError(e) && [400, 401, 403].includes(e.response?.status ?? 0)) {
+            if (axios.isAxiosError(e) && [400, 401, 403, 404, 422].includes(e.response?.status ?? 0)) {
                 setError(t('auth.errorInvalidCredentials'));
             } else {
                 setError(t('auth.errorLoginFailed'));

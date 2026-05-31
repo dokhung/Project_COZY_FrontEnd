@@ -2,7 +2,6 @@
 
 import Link from 'next/link';
 import AvatarMenu from './AvatarMenu';
-import Logo from '../../logo/LogiImg.svg';
 import Image from 'next/image';
 import {useTranslation} from "react-i18next";
 import { useEffect, useState } from "react";
@@ -33,7 +32,7 @@ export default function Header() {
 
                 <div className="flex items-center space-x-4">
                     <Link href="/" className="flex items-center space-x-2">
-                        <Image src={Logo} width={40} height={40} alt="logo" />
+                        <Image src="/logo/LogiImg.svg" width={40} height={40} alt="logo" />
                         <span className="font-bold text-white drop-shadow-md">COZY</span>
                     </Link>
 

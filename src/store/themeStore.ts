@@ -10,7 +10,7 @@ interface ThemeState {
     setTheme: (theme: ThemeMode) => void;
 }
 
-const DEFAULT_THEME: ThemeMode = "lavender";
+const DEFAULT_THEME: ThemeMode = "ocean";
 const THEME_KEY = "cozy-theme";
 const SETTINGS_KEY = "cozy-settings";
 
@@ -40,14 +40,13 @@ export const useThemeStore = create<ThemeState>((set) => ({
     theme: DEFAULT_THEME,
     initTheme: () => {
         if (typeof window === "undefined") return;
-        const stored = localStorage.getItem(THEME_KEY) as ThemeMode | null;
-        const initial = stored ?? DEFAULT_THEME;
-        applyTheme(initial);
-        set({ theme: initial });
+        applyTheme(DEFAULT_THEME);
+        persistTheme(DEFAULT_THEME);
+        set({ theme: DEFAULT_THEME });
     },
-    setTheme: (theme: ThemeMode) => {
-        applyTheme(theme);
-        persistTheme(theme);
-        set({ theme });
+    setTheme: () => {
+        applyTheme(DEFAULT_THEME);
+        persistTheme(DEFAULT_THEME);
+        set({ theme: DEFAULT_THEME });
     },
 }));
