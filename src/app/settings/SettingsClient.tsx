@@ -5,12 +5,10 @@ import { useTranslation } from "react-i18next";
 import { useRouter } from "next/navigation";
 import { useUserStore } from "@/store/userStore";
 import { useLocaleStore } from "@/store/useLocalStore";
-import { useThemeStore } from "@/store/themeStore";
 import { Locale, LOCALE } from "@/enum/locale";
 import { getUserSettingsRequest, updateUserSettingsRequest } from "@/api/requests/settings";
 
 type AppSettings = {
-    theme: "lavender" | "cosmic" | "sky" | "ocean" | "retro";
     notificationsEmail: boolean;
     notificationsPush: boolean;
     digestWeekly: boolean;
@@ -18,7 +16,6 @@ type AppSettings = {
 };
 
 const DEFAULT_SETTINGS: AppSettings = {
-    theme: "lavender",
     notificationsEmail: true,
     notificationsPush: false,
     digestWeekly: true,
@@ -32,18 +29,11 @@ export default function SettingsClient() {
     const router = useRouter();
     const { user, logout } = useUserStore();
     const { locale, setLocale } = useLocaleStore();
-    const { theme, initTheme, setTheme } = useThemeStore();
 
     const [settings, setSettings] = useState<AppSettings>(DEFAULT_SETTINGS);
     const [loaded, setLoaded] = useState(false);
-    const [hasMounted, setHasMounted] = useState(false);
 
     useEffect(() => {
-        setHasMounted(true);
-    }, []);
-
-    useEffect(() => {
-        initTheme();
         const raw = localStorage.getItem(SETTINGS_KEY);
         if (raw) {
             try {
@@ -54,11 +44,6 @@ export default function SettingsClient() {
             }
         }
 
-        const theme =
-            (localStorage.getItem("cozy-theme") as AppSettings["theme"] | null) ??
-            DEFAULT_SETTINGS.theme;
-        setSettings((prev) => ({ ...prev, theme }));
-
         (async () => {
             try {
                 const remote = await getUserSettingsRequest();
@@ -66,7 +51,6 @@ export default function SettingsClient() {
                         setSettings((prev) => {
                             const merged = {
                                 ...prev,
-                                theme: (remote.themeMode as AppSettings["theme"]) ?? prev.theme,
                                 notificationsEmail: remote.notificationsEmail ?? prev.notificationsEmail,
                                 notificationsPush: remote.notificationsPush ?? prev.notificationsPush,
                                 digestWeekly: remote.digestWeekly ?? prev.digestWeekly,
@@ -85,40 +69,18 @@ export default function SettingsClient() {
                 setLoaded(true);
             }
         })();
-    }, [initTheme, setLocale, setTheme]);
-
-    useEffect(() => {
-        setSettings((prev) => (prev.theme === theme ? prev : { ...prev, theme }));
-    }, [theme]);
-
-    useEffect(() => {
-        if (!hasMounted) return;
-        if (settings.theme !== theme) {
-            setTheme(settings.theme);
-        }
-    }, [hasMounted, settings.theme, theme, setTheme]);
+    }, [setLocale]);
 
     const saveSettings = (next: AppSettings) => {
         setSettings(next);
         localStorage.setItem(SETTINGS_KEY, JSON.stringify(next));
-        if (next.theme !== theme) {
-            setTheme(next.theme);
-        }
         updateUserSettingsRequest({
-            themeMode: next.theme,
             notificationsEmail: next.notificationsEmail,
             notificationsPush: next.notificationsPush,
             digestWeekly: next.digestWeekly,
             profileVisible: next.profileVisible,
             locale,
         }).catch(() => {});
-    };
-
-    const themeOrder: AppSettings["theme"][] = ["lavender", "cosmic", "sky", "ocean", "retro"];
-    const toggleTheme = () => {
-        const idx = themeOrder.indexOf(theme);
-        const next = themeOrder[(idx + 1) % themeOrder.length];
-        saveSettings({ ...settings, theme: next });
     };
 
     const languageLabel = useMemo(() => {
@@ -135,7 +97,6 @@ export default function SettingsClient() {
         const next = order[(currentIndex + 1) % order.length];
         setLocale(next);
         updateUserSettingsRequest({
-            themeMode: theme,
             notificationsEmail: settings.notificationsEmail,
             notificationsPush: settings.notificationsPush,
             digestWeekly: settings.digestWeekly,
@@ -179,52 +140,6 @@ export default function SettingsClient() {
                         <p className="mt-1 text-sm text-white/60">{t("settings.appearanceDesc")}</p>
 
                         <div className="mt-4 space-y-3">
-                            <div className="flex items-center justify-between rounded-xl border border-white/15 bg-white/10 px-4 py-3">
-                                <div>
-                                    <div className="text-sm font-semibold text-white">{t("settings.themeMode")}</div>
-                                    <div className="text-xs text-white/60">
-                                        {settings.theme === "lavender"
-                                            ? t("common.themeLavender")
-                                            : settings.theme === "cosmic"
-                                                ? t("common.themeCosmic")
-                                                : settings.theme === "sky"
-                                                    ? t("common.themeSky")
-                                                    : settings.theme === "ocean"
-                                                        ? t("common.themeOcean")
-                                                        : t("common.themeRetro")}
-                                    </div>
-                                </div>
-                                <div className="flex flex-wrap items-center gap-2">
-                                    {themeOrder.map((item) => (
-                                        <button
-                                            key={item}
-                                            onClick={() => saveSettings({ ...settings, theme: item })}
-                                            className={`rounded-lg px-3 py-2 text-xs font-semibold transition ${
-                                                theme === item
-                                                    ? "theme-btn-primary"
-                                                    : "theme-btn-secondary"
-                                            }`}
-                                        >
-                                            {item === "lavender"
-                                                ? t("common.themeLavender")
-                                                : item === "cosmic"
-                                                    ? t("common.themeCosmic")
-                                                    : item === "sky"
-                                                        ? t("common.themeSky")
-                                                        : item === "ocean"
-                                                            ? t("common.themeOcean")
-                                                            : t("common.themeRetro")}
-                                        </button>
-                                    ))}
-                                    <button
-                                        onClick={toggleTheme}
-                                        className="theme-btn-secondary rounded-lg px-3 py-2 text-xs font-semibold transition hover:brightness-110"
-                                    >
-                                        {t("settings.change")}
-                                    </button>
-                                </div>
-                            </div>
-
                             <div className="flex items-center justify-between rounded-xl border border-white/15 bg-white/10 px-4 py-3">
                                 <div>
                                     <div className="text-sm font-semibold text-white">{t("settings.language")}</div>

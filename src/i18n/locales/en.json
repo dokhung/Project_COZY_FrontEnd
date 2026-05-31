@@ -135,20 +135,14 @@
     "deleteFailed": "Failed to delete.",
     "updateSuccess": "Updated successfully.",
     "updateFailed": "Failed to update.",
-    "errorOccurred": "An error occurred.",
-    "themeLavender": "Lavender",
-    "themeCosmic": "Cosmic",
-    "themeSky": "Sky",
-    "themeOcean": "Ocean",
-    "themeRetro": "Retro"
+    "errorOccurred": "An error occurred."
   },
   "settings": {
     "title": "Settings",
     "subtitle": "Manage your account and preferences in one place.",
     "signedInAs": "signed in",
-    "appearanceTitle": "Appearance & Language",
-    "appearanceDesc": "Switch theme and language quickly.",
-    "themeMode": "Theme mode",
+    "appearanceTitle": "Language",
+    "appearanceDesc": "Switch your language quickly.",
     "language": "Language",
     "change": "Change",
     "notificationsTitle": "Notifications",
@@ -317,7 +311,7 @@
     "companyName": "Company",
     "teamName": "Team",
     "makers": "Creators",
-    "makersValue": "Oh Do-kyung · Jeon Jin-seok",
+    "makersValue": "Oh Do-kyung",
     "contact": "Contact",
     "legal": "Legal",
     "terms": "Terms of Service",
@@ -726,60 +720,6 @@
     "nextMonth": "Next month",
     "monthLabel": "{{year}}-{{month}}",
     "noSchedule": "No schedule"
-  },
-  "helpBot": {
-    "title": "COZY Help Bot",
-    "subtitle": "Quick Q&A",
-    "hint": "Select a question to see an instant answer.",
-    "typing": "Typing",
-    "search": "Search questions...",
-    "noResults": "No results found.",
-    "questions": {
-      "create-team": {
-        "q": "How do I create a team?",
-        "a": "Use the Create Team button in the top menu or on the home page to enter a name and description."
-      },
-      "invite-member": {
-        "q": "How can I invite teammates?",
-        "a": "Share an invite link from Team Settings or approve applicants in the team requests list."
-      },
-      "create-project": {
-        "q": "Where do I create a project?",
-        "a": "Go to the team project list and click New Project, then follow the steps."
-      },
-      "task-management": {
-        "q": "How do I manage tasks?",
-        "a": "Add tasks in the project task tab and manage them by status."
-      },
-      "roles": {
-        "q": "What’s the difference between leader and member roles?",
-        "a": "Leaders can manage team settings and projects; members focus on participation and tasks."
-      },
-      "project-settings": {
-        "q": "Where can I edit project settings?",
-        "a": "Use the Settings menu inside the project detail page to update project info."
-      },
-      "project-board": {
-        "q": "How do I use the project board?",
-        "a": "Move tasks across stages to track progress at a glance."
-      },
-      "recruit": {
-        "q": "What is the recruitment board?",
-        "a": "It’s a space for teams to recruit members and for users to apply."
-      },
-      "help": {
-        "q": "Where do I ask for help?",
-        "a": "Post your question on the Help board and check for responses."
-      },
-      "profile": {
-        "q": "Where can I edit my profile?",
-        "a": "Update nickname, status message, and profile image in My Page."
-      },
-      "notifications": {
-        "q": "How do I change notification settings?",
-        "a": "Go to Settings to adjust email/push notifications and visibility."
-      }
-    }
   },
   "errors": {
     "joinAlreadyRequested": "You have already requested to join this team.",

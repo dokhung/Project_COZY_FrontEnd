@@ -1,7 +1,6 @@
 import apiClient from "@/api/Axios";
 
 export type UserSettingsPayload = {
-    themeMode?: "lavender" | "cosmic" | "sky" | "ocean" | "retro";
     notificationsEmail?: boolean;
     notificationsPush?: boolean;
     digestWeekly?: boolean;
