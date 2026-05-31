@@ -1,13 +1,5 @@
 import apiClient from "@/api/Axios";
-
-export type AdminUser = {
-    userId: string;
-    email: string;
-    nickname: string;
-    role: "USER" | "OPERATOR" | string;
-    blocked: boolean;
-    lastLoginAt: string | null;
-};
+import type { AdminUser } from "@/types/api/admin";
 
 export const getAdminUsersRequest = async (): Promise<AdminUser[]> => {
     const res = await apiClient.get<AdminUser[]>("/api/admin/users");

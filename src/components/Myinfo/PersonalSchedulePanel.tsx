@@ -3,12 +3,12 @@
 import { useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import {
-    PersonalSchedule,
     createPersonalSchedule,
     deletePersonalSchedule,
     getPersonalSchedules,
     updatePersonalSchedule,
 } from "@/api/requests/personal";
+import type { PersonalSchedule } from "@/types/api/personal";
 
 type EditState = {
     scheduleId: string;

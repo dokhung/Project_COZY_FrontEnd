@@ -6,15 +6,13 @@ import PostForm from "@/components/team/team-board/PostForm";
 import PostDetail from "@/components/team/team-board/PostDetail";
 import { useTeamStore } from "@/store/teamStore";
 import {
-    CommentItem,
-    PostDetail as PostDetailType,
-    PostListItem,
     createPost,
     deletePost,
     getPostDetail,
     getTeamPosts,
     updatePost,
 } from "@/api/requests/board";
+import type { CommentItem, PostDetail as PostDetailType, PostListItem } from "@/types/api/board";
 
 type ViewMode = "list" | "detail" | "create" | "edit";
 

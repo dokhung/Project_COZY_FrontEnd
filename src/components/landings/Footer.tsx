@@ -25,8 +25,8 @@ export default function Footer() {
     }, []);
 
     return (
-        <footer className="relative z-10 mt-16 select-none border-t border-white/10 bg-white/5">
-            <div className="mx-auto w-full max-w-6xl px-4 py-10 md:px-6">
+        <footer className="relative z-10 mt-0 select-none border-t border-white/10 bg-white/5">
+            <div className="mx-auto w-full max-w-6xl px-4 pb-12 pt-8 md:px-6 md:pb-10">
                 <div className="grid grid-cols-1 gap-6 text-white/80 md:grid-cols-3">
                     <div>
                         <h3 className="text-base font-semibold text-white">COZY</h3>

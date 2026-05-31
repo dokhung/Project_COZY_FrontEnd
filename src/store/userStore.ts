@@ -21,6 +21,7 @@ type UserState = {
     login: (user: User, token: string) => void;
     setUser: (user: User | null) => void;
     setAccessToken: (token: string) => void;
+    setHydrated: (hydrated: boolean) => void;
     logout: () => Promise<void>;
 };
 
@@ -55,6 +56,10 @@ export const useUserStore = create<UserState>()(
                 });
             },
 
+            setHydrated: (hydrated) => {
+                set({ isHydrated: hydrated });
+            },
+
             logout: async () => {
                 try {
                     await authClient.post("/api/auth/logout");
@@ -79,7 +84,7 @@ export const useUserStore = create<UserState>()(
                 accessToken: state.accessToken,
             }),
             onRehydrateStorage: () => (state) => {
-                if (state) state.isHydrated = true;
+                state?.setHydrated(true);
             },
         }
     )

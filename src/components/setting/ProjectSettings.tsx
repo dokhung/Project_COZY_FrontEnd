@@ -9,9 +9,8 @@ import {
     getProjectDetailRequest,
     updateProjectRequest,
     deleteProjectRequest,
-    type ProjectDetail,
-    type UpdateProjectDTO,
 } from '@/api/requests/project';
+import type { ProjectDetail, UpdateProjectDTO } from "@/types/api/project";
 
 import ViewMode from '@/components/setting/ViewMode';
 import EditMode from '@/components/setting/EditMode';

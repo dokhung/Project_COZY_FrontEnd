@@ -9,7 +9,7 @@ export default function Hero() {
     const { isLoggedIn } = useUserStore();
 
     return (
-        <section className="relative isolate flex min-h-[70vh] items-center justify-center overflow-hidden py-20 md:py-40">
+        <section className="relative isolate flex flex-1 items-center justify-center overflow-hidden px-4 py-12 md:min-h-[calc(100dvh-20rem)] md:py-16">
             <div className={"relative z-10 w-full max-w-3xl px-4 md:px-6"}>
                 <div className={"mb-8 flex items-center justify-center gap-2"}>
                     <Image src="/logo/LogiImg.svg" alt={"COZY Logo"} width={80} height={80} className={"h-10 w-10 drop-shadow-[0_8px_20px_rgba(8,47,73,0.28)]"}/>

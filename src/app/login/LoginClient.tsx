@@ -10,16 +10,23 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Label } from '@/components/ui/label';
 import { Alert, AlertTitle } from '@/components/ui/alert';
 import { useUserStore } from '@/store/userStore';
-import { loginRequest } from '@/api/requests/login';
+import { findEmailRequest, loginRequest, resetPasswordRequest } from '@/api/requests/login';
 import { getCurrentUserRequest } from '@/api/requests/info';
 import { normalizeUser } from "@/utils/normalizeUser";
 import axios from "axios";
 import { useTranslation } from "react-i18next";
 
+type RecoveryMode = 'login' | 'findEmail' | 'resetPassword';
+
 export default function LoginClient() {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const [nickname, setNickname] = useState('');
+    const [newPassword, setNewPassword] = useState('');
+    const [confirmPassword, setConfirmPassword] = useState('');
+    const [recoveryMode, setRecoveryMode] = useState<RecoveryMode>('login');
     const [error, setError] = useState('');
+    const [message, setMessage] = useState('');
     const [loading, setLoading] = useState(false);
     const [mounted, setMounted] = useState(false);
     const router = useRouter();
@@ -38,6 +45,7 @@ export default function LoginClient() {
 
     const handleLogin = async () => {
         setError('');
+        setMessage('');
         setLoading(true);
 
         try {
@@ -60,6 +68,79 @@ export default function LoginClient() {
         }
     };
 
+    const handleFindEmail = async () => {
+        setError('');
+        setMessage('');
+        setLoading(true);
+
+        try {
+            const { email: foundEmail } = await findEmailRequest(nickname);
+            setMessage(t('auth.findEmailSuccess', { email: foundEmail }));
+        } catch (e: unknown) {
+            console.error(e);
+            setError(t('auth.findEmailFailed'));
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    const handleResetPassword = async () => {
+        setError('');
+        setMessage('');
+        setLoading(true);
+
+        try {
+            await resetPasswordRequest(email, nickname, newPassword, confirmPassword);
+            setMessage(t('auth.resetPasswordSuccess'));
+            setPassword('');
+            setNewPassword('');
+            setConfirmPassword('');
+            setRecoveryMode('login');
+        } catch (e: unknown) {
+            console.error(e);
+
+            if (axios.isAxiosError(e) && e.response?.status === 422) {
+                setError(t('auth.resetPasswordInvalid'));
+            } else {
+                setError(t('auth.resetPasswordFailed'));
+            }
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    const switchMode = (mode: RecoveryMode) => {
+        setRecoveryMode(mode);
+        setError('');
+        setMessage('');
+        setLoading(false);
+    };
+
+    const handleSubmit = () => {
+        if (recoveryMode === 'findEmail') {
+            void handleFindEmail();
+            return;
+        }
+
+        if (recoveryMode === 'resetPassword') {
+            void handleResetPassword();
+            return;
+        }
+
+        void handleLogin();
+    };
+
+    const titleKey = recoveryMode === 'findEmail'
+        ? 'auth.findEmailTitle'
+        : recoveryMode === 'resetPassword'
+            ? 'auth.resetPasswordTitle'
+            : 'auth.loginTitle';
+
+    const buttonKey = recoveryMode === 'findEmail'
+        ? 'auth.findEmailButton'
+        : recoveryMode === 'resetPassword'
+            ? 'auth.resetPasswordButton'
+            : 'auth.loginButton';
 
     const tr = (key: string) => (mounted ? t(key) : "");
 
@@ -90,56 +171,71 @@ export default function LoginClient() {
             >
                 <CardHeader className="pb-4">
                     <CardTitle className="text-center text-2xl font-semibold tracking-wide">
-                        {tr('auth.loginTitle')}
+                        {tr(titleKey)}
                     </CardTitle>
                 </CardHeader>
 
                 <CardContent className="space-y-5">
-                    {/* 이메일 */}
-                    <div className="space-y-2">
-                        <Label htmlFor="email" className="text-sm text-white/80">
-                            {tr('auth.emailLabel')}
-                        </Label>
-                        <Input
+                    {recoveryMode !== 'findEmail' && (
+                        <Field
                             id="email"
                             type="email"
+                            label={tr('auth.emailLabel')}
                             placeholder={tr('auth.emailPlaceholder')}
                             value={email}
-                            onChange={(e) => setEmail(e.target.value)}
-                            className="
-                                border border-white/30
-                                bg-white/10
-                                text-white
-                                placeholder:text-white/60
-                                focus-visible:ring-white
-                                focus-visible:ring-1
-                                focus-visible:border-white
-                            "
+                            onChange={setEmail}
                         />
-                    </div>
+                    )}
 
-                    {/* 비밀번호 */}
-                    <div className="space-y-2">
-                        <Label htmlFor="password" className="text-sm text-white/80">
-                            {tr('auth.passwordLabel')}
-                        </Label>
-                        <Input
+                    {recoveryMode === 'login' && (
+                        <Field
                             id="password"
                             type="password"
+                            label={tr('auth.passwordLabel')}
                             placeholder={tr('auth.passwordPlaceholder')}
                             value={password}
-                            onChange={(e) => setPassword(e.target.value)}
-                            className="
-                                border border-white/30
-                                bg-white/10
-                                text-white
-                                placeholder:text-white/60
-                                focus-visible:ring-white
-                                focus-visible:ring-1
-                                focus-visible:border-white
-                            "
+                            onChange={setPassword}
                         />
-                    </div>
+                    )}
+
+                    {recoveryMode !== 'login' && (
+                        <Field
+                            id="nickname"
+                            type="text"
+                            label={tr('auth.nicknameLabel')}
+                            placeholder={tr('auth.nicknamePlaceholder')}
+                            value={nickname}
+                            onChange={setNickname}
+                        />
+                    )}
+
+                    {recoveryMode === 'resetPassword' && (
+                        <>
+                            <Field
+                                id="newPassword"
+                                type="password"
+                                label={tr('auth.newPasswordLabel')}
+                                placeholder={tr('auth.newPasswordPlaceholder')}
+                                value={newPassword}
+                                onChange={setNewPassword}
+                            />
+                            <Field
+                                id="confirmPassword"
+                                type="password"
+                                label={tr('auth.confirmPasswordLabel')}
+                                placeholder={tr('auth.confirmPasswordPlaceholder')}
+                                value={confirmPassword}
+                                onChange={setConfirmPassword}
+                            />
+                        </>
+                    )}
+
+                    {message && (
+                        <Alert className="w-full border-cyan-200 bg-cyan-500/20 px-4 py-2 text-cyan-50">
+                            <AlertTitle className="font-bold">{tr('auth.noticeTitle')}</AlertTitle>
+                            <p className="text-sm">{message}</p>
+                        </Alert>
+                    )}
 
                     {/* 에러 메시지 */}
                     {error && (
@@ -155,22 +251,91 @@ export default function LoginClient() {
                     {/* 로그인 버튼 */}
                     <Button
                         className="theme-btn-primary mt-2 w-full rounded-xl font-semibold transition hover:brightness-110"
-                        onClick={handleLogin}
+                        onClick={handleSubmit}
                         disabled={loading}
                     >
-                        {loading ? tr('auth.loginLoading') : tr('auth.loginButton')}
+                        {loading ? tr('auth.loginLoading') : tr(buttonKey)}
                     </Button>
+
+                    <div className="flex items-center justify-center gap-4 text-sm text-white/80">
+                        <button
+                            type="button"
+                            className="underline underline-offset-4 transition hover:text-white"
+                            onClick={() => switchMode('findEmail')}
+                        >
+                            {tr('auth.findEmailLink')}
+                        </button>
+                        <button
+                            type="button"
+                            className="underline underline-offset-4 transition hover:text-white"
+                            onClick={() => switchMode('resetPassword')}
+                        >
+                            {tr('auth.resetPasswordLink')}
+                        </button>
+                    </div>
 
                     {/* 회원가입 링크 */}
                     <div className="mt-4 text-center text-sm text-white/80">
-                        {tr('auth.noAccount')}{' '}
-                        <a href="/signup" className="underline text-white">
-                            {tr('auth.signupLink')}
-                        </a>
+                        {recoveryMode === 'login' ? (
+                            <>
+                                {tr('auth.noAccount')}{' '}
+                                <a href="/signup" className="underline text-white">
+                                    {tr('auth.signupLink')}
+                                </a>
+                            </>
+                        ) : (
+                            <button
+                                type="button"
+                                className="underline text-white"
+                                onClick={() => switchMode('login')}
+                            >
+                                {tr('auth.backToLogin')}
+                            </button>
+                        )}
                     </div>
                 </CardContent>
             </Card>
             </div>
+        </div>
+    );
+}
+
+function Field({
+    id,
+    type,
+    label,
+    placeholder,
+    value,
+    onChange,
+}: {
+    id: string;
+    type: string;
+    label: string;
+    placeholder: string;
+    value: string;
+    onChange: (value: string) => void;
+}) {
+    return (
+        <div className="space-y-2">
+            <Label htmlFor={id} className="text-sm text-white/80">
+                {label}
+            </Label>
+            <Input
+                id={id}
+                type={type}
+                placeholder={placeholder}
+                value={value}
+                onChange={(e) => onChange(e.target.value)}
+                className="
+                    border border-white/30
+                    bg-white/10
+                    text-white
+                    placeholder:text-white/60
+                    focus-visible:ring-white
+                    focus-visible:ring-1
+                    focus-visible:border-white
+                "
+            />
         </div>
     );
 }

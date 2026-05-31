@@ -1,8 +1,5 @@
 import apiClient from "@/api/Axios";
-
-export type LoginResponse = {
-    accessToken: string;
-};
+import type { FindEmailResponse, LoginResponse, ResetPasswordResponse } from "@/types/api/auth";
 
 export const loginRequest = async (
     email: string,
@@ -11,6 +8,28 @@ export const loginRequest = async (
     const res = await apiClient.post<LoginResponse>("/api/auth/login", {
         email,
         password,
+    });
+    return res.data;
+};
+
+export const findEmailRequest = async (nickname: string) => {
+    const res = await apiClient.post<FindEmailResponse>("/api/user/find-email", {
+        nickname,
+    });
+    return res.data;
+};
+
+export const resetPasswordRequest = async (
+    email: string,
+    nickname: string,
+    newPassword: string,
+    confirmPassword: string
+) => {
+    const res = await apiClient.post<ResetPasswordResponse>("/api/user/reset-password", {
+        email,
+        nickname,
+        newPassword,
+        confirmPassword,
     });
     return res.data;
 };

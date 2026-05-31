@@ -3,12 +3,12 @@
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import {
-    PersonalPost,
     createPersonalPost,
     deletePersonalPost,
     getPersonalPosts,
     updatePersonalPost,
 } from "@/api/requests/personal";
+import type { PersonalPost } from "@/types/api/personal";
 
 type EditState = {
     postId: string;

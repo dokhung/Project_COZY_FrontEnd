@@ -34,5 +34,3 @@ export const rejectJoinRequest = async (requestId: string, reason: string) => {
 export const cancelJoinRequest = async (requestId: string) => {
     return await apiClient.delete(`/api/join-request/${requestId}`);
 };
-
-// feat/UIMake error handling for join request operations

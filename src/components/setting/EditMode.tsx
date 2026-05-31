@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState } from "react";
-import type { UpdateProjectDTO } from "@/api/requests/project";
+import type { UpdateProjectDTO } from "@/types/api/project";
 import { useTranslation } from "react-i18next";
 
 type EditProps = {
