@@ -175,6 +175,34 @@
   background-attachment: scroll;
 }
 
+html,
+body {
+  min-height: 100%;
+  background: #011622;
+  overscroll-behavior: none;
+}
+
+body {
+  min-height: 100dvh;
+  overflow-x: hidden;
+}
+
+::selection {
+  background: rgba(125,211,252,0.32);
+  color: #f0f9ff;
+}
+
+img,
+svg,
+a {
+  -webkit-user-drag: none;
+}
+
+.theme-page {
+  min-height: 100dvh;
+  overscroll-behavior: none;
+}
+
 @media (max-width: 640px) {
   :root[data-theme='ocean'] {
     --ocean-bg-position: center top;

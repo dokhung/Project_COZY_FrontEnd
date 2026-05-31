@@ -1,4 +1,5 @@
 import apiClient from "@/api/Axios";
+import type { CreateRecruitDto, UpdateRecruitPayload } from "@/types/api/recruit";
 
 export const getRecruitListRequest = async () => {
     const res = await apiClient.get("/api/recruit/list");
@@ -10,13 +11,6 @@ export const getRecruitDetailRequest = async (id: number) => {
     return res.data;
 }
 
-export type CreateRecruitDto = {
-    teamId: string;
-    title: string;
-    nickName: string;
-    recruitText: string;
-};
-
 export const createRecruitRequest = async (
     recruitDto: CreateRecruitDto
 ) => {
@@ -25,7 +19,7 @@ export const createRecruitRequest = async (
 
 export const updateRecruitRequest = async (
     id: number,
-    recruitDto: { title: string; recruitText: string }
+    recruitDto: UpdateRecruitPayload
 ) => {
     const res = await apiClient.put(`/api/recruit/${id}`, recruitDto);
     return res.data;

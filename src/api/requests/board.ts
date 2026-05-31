@@ -1,32 +1,13 @@
 import apiClient from "@/api/Axios";
-
-export type PostType = "BOARD" | "NOTICE";
-
-export type PostListItem = {
-    postId: string;
-    title: string;
-    authorName: string;
-    likeCount: number;
-    createdAt: string;
-};
-
-export type PostDetail = {
-    postId: string;
-    title: string;
-    content: string;
-    authorName: string;
-    likeCount: number;
-    commentCount: number;
-    liked: boolean;
-    createdAt: string;
-};
-
-export type CommentItem = {
-    commentId: string;
-    authorName: string;
-    content: string;
-    createdAt: string;
-};
+import type {
+    CommentItem,
+    CreatePostPayload,
+    PostDetail,
+    PostListItem,
+    PostType,
+    TogglePostLikeResponse,
+    UpdatePostPayload,
+} from "@/types/api/board";
 
 export const getTeamPosts = async (teamId: string, type: PostType) => {
     const res = await apiClient.get<PostListItem[]>("/api/team/post/list", {
@@ -40,17 +21,12 @@ export const getPostDetail = async (postId: string) => {
     return res.data;
 };
 
-export const createPost = async (payload: {
-    teamId: string;
-    type: PostType;
-    title: string;
-    content: string;
-}) => {
+export const createPost = async (payload: CreatePostPayload) => {
     const res = await apiClient.post<PostDetail>("/api/team/post", payload);
     return res.data;
 };
 
-export const updatePost = async (postId: string, payload: { title: string; content: string }) => {
+export const updatePost = async (postId: string, payload: UpdatePostPayload) => {
     const res = await apiClient.patch<PostDetail>(`/api/team/post/${postId}`, payload);
     return res.data;
 };
@@ -60,7 +36,7 @@ export const deletePost = async (postId: string) => {
 };
 
 export const togglePostLike = async (postId: string) => {
-    const res = await apiClient.post<{ likeCount: number; liked: boolean }>(
+    const res = await apiClient.post<TogglePostLikeResponse>(
         `/api/team/post/${postId}/like`
     );
     return res.data;

@@ -1,34 +1,11 @@
 ﻿import apiClient from "@/api/Axios";
 import i18n from "@/i18n";
-
-export type ProjectDetail = {
-    projectId: string;
-    projectName: string;
-    devInterest: string;
-    description: string;
-    leaderName: string;
-    gitHubUrl: string | null;
-    teamId: string;
-    teamName?: string;
-    leaderId: string;
-    subLeaderId: string | null;
-};
-
-
-export type CreateProjectDTO = {
-    projectName: string;
-    devInterest: string;
-    description: string;
-    githubUrl?: string;
-    teamId: string;
-};
-
-export type UpdateProjectDTO = {
-    projectName: string;
-    devInterest: string;
-    description: string;
-    gitHubUrl: string | null;
-};
+import type {
+    CreateProjectDTO,
+    DeleteProjectRequest,
+    ProjectDetail,
+    UpdateProjectDTO,
+} from "@/types/api/project";
 
 export const getProjectDetailRequest = async (
     projectId: string
@@ -98,11 +75,6 @@ export const getMyTeamProjectDetailInfoRequest = async (projectId : string) => {
     }
 
 }
-
-export type DeleteProjectRequest = {
-    teamName: string;
-    password: string;
-};
 
 export const deleteProjectRequest = async (projectId: string, payload: DeleteProjectRequest) => {
     await apiClient.delete(`/api/project/${projectId}`, { data: payload });

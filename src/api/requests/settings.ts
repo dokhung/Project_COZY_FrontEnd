@@ -1,12 +1,5 @@
 import apiClient from "@/api/Axios";
-
-export type UserSettingsPayload = {
-    notificationsEmail?: boolean;
-    notificationsPush?: boolean;
-    digestWeekly?: boolean;
-    profileVisible?: boolean;
-    locale?: string;
-};
+import type { UserSettingsPayload } from "@/types/api/settings";
 
 export const getUserSettingsRequest = async () => {
     const res = await apiClient.get("/api/user/settings");

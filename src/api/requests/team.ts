@@ -1,52 +1,14 @@
 import apiClient from "@/api/Axios";
 import {Team} from "@/store/teamStore";
-
-export interface CreateTeamDTO {
-    teamName?: string;
-    description: string;
-}
-
-// 2. 서버 응답 타입 정의
-export interface TeamResponseItem {
-    teamId?: string | number;
-    id?: string | number;
-    teamName?: string;
-    name?: string;
-    description?: string;
-    memberCount?: number;
-    projectCount?: number;
-}
-
-export interface MyTeamResponse {
-    data?: {
-        teamList?: TeamResponseItem[];
-    };
-    teamList?: TeamResponseItem[];
-}
-
-/** 역할 타입 */
-export type TeamRole = "MASTER" | "SUB_MASTER" | "USER";
-
-/** 팀 멤버 */
-export interface TeamMember {
-    memberId: string;
-    nickname: string;
-    role: TeamRole;
-}
-
-export type MemberRole = "MASTER" | "SUB_MASTER" | "USER";
-
-export interface TeamMember {
-    memberId: string;
-    nickname: string;
-    role: MemberRole;
-}
-
-export interface MemberListResponse {
-    teamId: string;
-    teamName: string;
-    members: TeamMember[];
-}
+import type {
+    CheckTeamNameResponse,
+    CreateTeamDTO,
+    DeleteTeamRequest,
+    MemberListResponse,
+    MyTeamResponse,
+    TeamStats,
+    UpdateTeamRequest,
+} from "@/types/api/team";
 
 // 3. 팀 생성 요청
 export const createTeamRequest = async (dto: CreateTeamDTO) => {
@@ -73,11 +35,6 @@ export const getMyTeamInfoRequest = async (): Promise<Team[]> => {
     }));
     return teams;
 };
-
-// 5. 팀 이름 중복 체크
-export interface CheckTeamNameResponse {
-    available: boolean;
-}
 
 export const checkTeamNameRequest = async (teamName: string): Promise<boolean> => {
     try {
@@ -115,21 +72,11 @@ export const getTeamDetailInfoRequest = async (teamId: string) => {
     return res.data;
 };
 
-export type UpdateTeamRequest = {
-    teamId: string;
-    description: string;
-};
-
 export const updateTeamRequest = async (payload: UpdateTeamRequest) => {
     const res = await apiClient.patch("/api/team", payload);
     return res.data; // TeamDetailDTO
 };
 
-
-export type DeleteTeamRequest = {
-    teamName: string;
-    password: string;
-};
 
 export const deleteTeamRequest = async (teamId: string, payload: DeleteTeamRequest) => {
     await apiClient.delete("/api/team", {
@@ -138,22 +85,6 @@ export const deleteTeamRequest = async (teamId: string, payload: DeleteTeamReque
         },
         data: payload,
     });
-};
-
-// ===== Team Requests / Stats =====
-export type TeamStats = {
-    teamId: string;
-    projectCount: number;
-    noticeCount: number;
-    joinRequestCount: number;
-    upgradeRequestCount: number;
-    leaveRequestCount: number;
-    inactiveMemberCount: number;
-    inactiveMembers?: Array<{
-        userId: string;
-        nickname: string;
-        lastLoginAt?: string | null;
-    }>;
 };
 
 export const getTeamStatsRequest = async (teamId: string): Promise<TeamStats> => {

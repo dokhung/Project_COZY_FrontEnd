@@ -1,37 +1,15 @@
 import apiClient from "@/api/Axios";
-
-export type PersonalMemo = {
-    memoId: string;
-    title: string;
-    content: string;
-    tags: string[];
-    createdAt: string;
-    updatedAt: string;
-};
-
-export type PersonalSchedule = {
-    scheduleId: string;
-    title: string;
-    description?: string | null;
-    location?: string | null;
-    startAt: string;
-    endAt: string;
-    allDay: boolean;
-    recurrenceType?: "NONE" | "DAILY" | "WEEKLY" | "MONTHLY";
-    recurrenceInterval?: number;
-    recurrenceUntil?: string | null;
-    recurrenceCount?: number | null;
-    createdAt: string;
-    updatedAt: string;
-};
-
-export type PersonalPost = {
-    postId: string;
-    title: string;
-    content: string;
-    createdAt: string;
-    updatedAt: string;
-};
+import type {
+    CreatePersonalMemoPayload,
+    CreatePersonalPostPayload,
+    CreatePersonalSchedulePayload,
+    PersonalMemo,
+    PersonalPost,
+    PersonalSchedule,
+    UpdatePersonalMemoPayload,
+    UpdatePersonalPostPayload,
+    UpdatePersonalSchedulePayload,
+} from "@/types/api/personal";
 
 // ===== Memo =====
 export const getPersonalMemos = async (): Promise<PersonalMemo[]> => {
@@ -39,18 +17,14 @@ export const getPersonalMemos = async (): Promise<PersonalMemo[]> => {
     return res.data ?? [];
 };
 
-export const createPersonalMemo = async (payload: {
-    title: string;
-    content: string;
-    tags?: string[];
-}): Promise<PersonalMemo> => {
+export const createPersonalMemo = async (payload: CreatePersonalMemoPayload): Promise<PersonalMemo> => {
     const res = await apiClient.post<PersonalMemo>("/api/personal/memos", payload);
     return res.data;
 };
 
 export const updatePersonalMemo = async (
     memoId: string,
-    payload: { title?: string; content?: string; tags?: string[] }
+    payload: UpdatePersonalMemoPayload
 ): Promise<PersonalMemo> => {
     const res = await apiClient.patch<PersonalMemo>(
         `/api/personal/memos/${memoId}`,
@@ -69,18 +43,7 @@ export const getPersonalSchedules = async (): Promise<PersonalSchedule[]> => {
     return res.data ?? [];
 };
 
-export const createPersonalSchedule = async (payload: {
-    title: string;
-    description?: string;
-    location?: string;
-    startAt: string;
-    endAt: string;
-    allDay?: boolean;
-    recurrenceType?: "NONE" | "DAILY" | "WEEKLY" | "MONTHLY";
-    recurrenceInterval?: number;
-    recurrenceUntil?: string | null;
-    recurrenceCount?: number | null;
-}): Promise<PersonalSchedule> => {
+export const createPersonalSchedule = async (payload: CreatePersonalSchedulePayload): Promise<PersonalSchedule> => {
     const res = await apiClient.post<PersonalSchedule>(
         "/api/personal/schedules",
         payload
@@ -90,18 +53,7 @@ export const createPersonalSchedule = async (payload: {
 
 export const updatePersonalSchedule = async (
     scheduleId: string,
-    payload: {
-        title?: string;
-        description?: string;
-        location?: string;
-        startAt?: string;
-        endAt?: string;
-        allDay?: boolean;
-        recurrenceType?: "NONE" | "DAILY" | "WEEKLY" | "MONTHLY";
-        recurrenceInterval?: number;
-        recurrenceUntil?: string | null;
-        recurrenceCount?: number | null;
-    }
+    payload: UpdatePersonalSchedulePayload
 ): Promise<PersonalSchedule> => {
     const res = await apiClient.patch<PersonalSchedule>(
         `/api/personal/schedules/${scheduleId}`,
@@ -120,17 +72,14 @@ export const getPersonalPosts = async (): Promise<PersonalPost[]> => {
     return res.data ?? [];
 };
 
-export const createPersonalPost = async (payload: {
-    title: string;
-    content: string;
-}): Promise<PersonalPost> => {
+export const createPersonalPost = async (payload: CreatePersonalPostPayload): Promise<PersonalPost> => {
     const res = await apiClient.post<PersonalPost>("/api/personal/posts", payload);
     return res.data;
 };
 
 export const updatePersonalPost = async (
     postId: string,
-    payload: { title?: string; content?: string }
+    payload: UpdatePersonalPostPayload
 ): Promise<PersonalPost> => {
     const res = await apiClient.patch<PersonalPost>(
         `/api/personal/posts/${postId}`,

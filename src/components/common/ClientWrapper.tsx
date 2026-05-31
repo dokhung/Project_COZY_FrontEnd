@@ -1,13 +1,9 @@
 'use client';
 import React from "react";
-import dynamic from "next/dynamic";
 import LocaleSync from "@/components/common/LocaleSync";
 import I18nProvider from "@/components/common/I18nProvider";
 import AuthRefreshBridge from "@/components/common/AuthRefreshBridge";
-
-const Header = dynamic(() => import("@/components/Header/indext"), {
-    ssr: false,
-});
+import Header from "@/components/Header/indext";
 
 export default function ClientWrapper({ children }: { children: React.ReactNode }) {
     return (
@@ -15,9 +11,9 @@ export default function ClientWrapper({ children }: { children: React.ReactNode 
             <LocaleSync />
             <AuthRefreshBridge />
             <Header />
-            <main className="pt-[64px]">
+            <div className="min-h-dvh pt-[64px]">
                 {children}
-            </main>
+            </div>
         </I18nProvider>
     );
 }

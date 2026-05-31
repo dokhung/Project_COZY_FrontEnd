@@ -11,7 +11,8 @@ import ViewPanel from "@/components/team/team-setting/ViewPanel";
 import EditPanel from "@/components/team/team-setting/EditPanel";
 import { useTranslation } from "react-i18next";
 import axios from "axios";
-import { getCurrentUserRequest, type CurrentUserInfo } from "@/api/requests/info";
+import { getCurrentUserRequest } from "@/api/requests/info";
+import type { CurrentUserInfo } from "@/types/api/user";
 
 export type TeamForm = {
     description: string;

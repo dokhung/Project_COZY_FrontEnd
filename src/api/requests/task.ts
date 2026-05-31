@@ -1,12 +1,5 @@
 import apiClient from '@/api/Axios';
-
-export type CreateTaskDTO = {
-    projectId: string;
-    nickName: string;
-    title: string;
-    status: string;
-    taskText: string;
-};
+import type { CreateTaskDTO, UpdateTaskPayload } from "@/types/api/task";
 
 export const getTaskListRequest = async (projectId: string) => {
     const res = await apiClient.get('/api/task/list', {
@@ -36,7 +29,7 @@ export const deleteTaskRequest = async (id: number) => {
 
 export const updateTaskRequest = async (
     id: number,
-    payload: { title: string; status: string; taskText: string }
+    payload: UpdateTaskPayload
 ) => {
     const res = await apiClient.put(`/api/task/${id}`, payload);
     return res.data;

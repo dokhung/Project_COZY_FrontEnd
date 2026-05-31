@@ -3,12 +3,12 @@
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import {
-    PersonalMemo,
     createPersonalMemo,
     deletePersonalMemo,
     getPersonalMemos,
     updatePersonalMemo,
 } from "@/api/requests/personal";
+import type { PersonalMemo } from "@/types/api/personal";
 
 type EditState = {
     memoId: string;
