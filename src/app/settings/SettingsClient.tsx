@@ -2,11 +2,12 @@
 
 import { useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useUserStore } from "@/store/userStore";
 import { useLocaleStore } from "@/store/useLocalStore";
 import { Locale, LOCALE } from "@/enum/locale";
 import { getUserSettingsRequest, updateUserSettingsRequest } from "@/api/requests/settings";
+import { changeLanguage } from "@/lib/changeLanguage";
 
 type AppSettings = {
     notificationsEmail: boolean;
@@ -27,8 +28,10 @@ const SETTINGS_KEY = "cozy-settings";
 export default function SettingsClient() {
     const { t } = useTranslation();
     const router = useRouter();
+    const pathname = usePathname();
+    const searchParams = useSearchParams();
     const { user, logout } = useUserStore();
-    const { locale, setLocale } = useLocaleStore();
+    const locale = useLocaleStore((state) => state.locale);
 
     const [settings, setSettings] = useState<AppSettings>(DEFAULT_SETTINGS);
     const [loaded, setLoaded] = useState(false);
@@ -59,9 +62,6 @@ export default function SettingsClient() {
                             localStorage.setItem(SETTINGS_KEY, JSON.stringify(merged));
                             return merged;
                         });
-                    if (remote.locale) {
-                        setLocale(remote.locale as Locale);
-                    }
                 }
             } catch {
                 // keep local settings
@@ -69,7 +69,7 @@ export default function SettingsClient() {
                 setLoaded(true);
             }
         })();
-    }, [setLocale]);
+    }, []);
 
     const saveSettings = (next: AppSettings) => {
         setSettings(next);
@@ -95,7 +95,8 @@ export default function SettingsClient() {
         const order: Locale[] = [LOCALE.EN, LOCALE.KO, LOCALE.JA];
         const currentIndex = order.indexOf(locale);
         const next = order[(currentIndex + 1) % order.length];
-        setLocale(next);
+        const query = searchParams.toString();
+        changeLanguage(next, pathname, query ? `?${query}` : "");
         updateUserSettingsRequest({
             notificationsEmail: settings.notificationsEmail,
             notificationsPush: settings.notificationsPush,

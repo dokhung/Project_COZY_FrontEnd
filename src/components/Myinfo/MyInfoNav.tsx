@@ -3,6 +3,8 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useTranslation } from "react-i18next";
+import { localizePath, stripUrlLocale } from "@/lib/locale-routing";
+import { useLocaleStore } from "@/store/useLocalStore";
 
 type NavItem = {
     href: string;
@@ -11,6 +13,8 @@ type NavItem = {
 
 export default function MyInfoNav() {
     const pathname = usePathname();
+    const routePathname = stripUrlLocale(pathname);
+    const locale = useLocaleStore((state) => state.locale);
     const { t } = useTranslation();
 
     const items: NavItem[] = [
@@ -26,12 +30,12 @@ export default function MyInfoNav() {
             {items.map((item) => {
                 const active =
                     item.href === "/myinfo"
-                        ? pathname === "/myinfo"
-                        : pathname.startsWith(item.href);
+                        ? routePathname === "/myinfo"
+                        : routePathname.startsWith(item.href);
                 return (
                     <Link
                         key={item.href}
-                        href={item.href}
+                        href={localizePath(item.href, locale)}
                         className={[
                             "rounded-xl px-3 py-2 transition",
                             active

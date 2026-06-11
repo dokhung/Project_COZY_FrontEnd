@@ -5,21 +5,24 @@ import { DropdownMenu, DropdownMenuTrigger, DropdownMenuContent, DropdownMenuIte
 import { Button } from '@/components/ui/button';
 import { Avatar, AvatarFallback } from '@/components/ui/avatar';
 import Link from 'next/link';
-import { useRouter } from 'next/navigation';
+import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { useUserStore } from '@/store/userStore';
 import Image from 'next/image';
-import {useLocaleStore} from "@/store/useLocalStore";
 import {Locale, LOCALE} from "@/enum/locale";
 import {useTranslation} from "react-i18next";
 import { resolveProfileImageUrl } from "@/utils/resolveProfileImageUrl";
+import { localizePath, normalizeLocale } from "@/lib/locale-routing";
+import { changeLanguage } from "@/lib/changeLanguage";
 
 export default function AvatarMenu() {
     const router = useRouter();
+    const pathname = usePathname();
+    const searchParams = useSearchParams();
     const { isLoggedIn, user, logout } = useUserStore();
     const isOperator = user?.role === "OPERATOR";
     const [isOpen, setIsOpen] = useState(false);
-    const { locale, setLocale } = useLocaleStore();
-    const {t} = useTranslation();
+    const {t, i18n} = useTranslation();
+    const locale = normalizeLocale(i18n.resolvedLanguage ?? i18n.language);
 
     const cycleLanguage = () => {
         const order: Locale[] = [LOCALE.EN, LOCALE.KO, LOCALE.JA];
@@ -27,7 +30,8 @@ export default function AvatarMenu() {
         const nextIndex = (currentIndex + 1) % order.length;
         const nextLocale = order[nextIndex];
 
-        setLocale(nextLocale);
+        const query = searchParams.toString();
+        changeLanguage(nextLocale, pathname, query ? `?${query}` : "");
     };
 
     const languageLabel =
@@ -40,7 +44,7 @@ export default function AvatarMenu() {
     const handleLogout = async () => {
         await logout();
         setIsOpen(false);
-        router.push('/login');
+        router.push(localizePath('/login', locale));
     };
 
     const profileImageSrc = resolveProfileImageUrl(user?.profileImage);
@@ -69,7 +73,7 @@ export default function AvatarMenu() {
                     <Button
                         variant="outline"
                         className="px-4 py-2 rounded-full border border-white/70 bg-white/10 text-white font-semibold hover:bg-white/20 transition"
-                        onClick={() => router.push('/login')}
+                        onClick={() => router.push(localizePath('/login', locale))}
                     >
                         {t('auth.loginButton')}
                     </Button>
@@ -104,7 +108,7 @@ export default function AvatarMenu() {
                         {isOperator && (
                             <DropdownMenuItem asChild>
                                 <Link
-                                    href='/admin'
+                                    href={localizePath('/admin', locale)}
                                     className="theme-btn-primary flex items-center justify-center rounded-lg p-3 font-semibold transition hover:brightness-110"
                                 >
                                     {t("menu.admin")}
@@ -112,13 +116,13 @@ export default function AvatarMenu() {
                             </DropdownMenuItem>
                         )}
                         <DropdownMenuItem asChild>
-                            <Link href='/myinfo'
+                            <Link href={localizePath('/myinfo', locale)}
                                   className="theme-btn-secondary flex items-center justify-center rounded-lg p-3 font-semibold transition hover:brightness-110">
                                 {t("menu.myinfo")}
                             </Link>
                         </DropdownMenuItem>
                         <DropdownMenuItem asChild>
-                            <Link href='/settings'
+                            <Link href={localizePath('/settings', locale)}
                                   className="theme-btn-secondary flex items-center justify-center rounded-lg p-3 font-semibold text-white transition hover:brightness-110">
                                 {t("menu.settings")}
                             </Link>

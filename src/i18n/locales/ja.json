@@ -607,7 +607,43 @@
     "noGitUrl": "Git URLなし",
     "noDescription": "説明なし"
   },
+  "chat": {
+    "sidebar": "チャット",
+    "teamRoom": "チームチャット",
+    "projectRoom": "プロジェクトチャット",
+    "loading": "メッセージを読み込んでいます...",
+    "emptyTitle": "まだメッセージはありません",
+    "emptyDescription": "チームメンバーとの会話を始めましょう。",
+    "placeholder": "メッセージを入力",
+    "send": "メッセージを送信",
+    "loadFailed": "メッセージを読み込めませんでした。",
+    "sendFailed": "メッセージを送信できませんでした。"
+    ,"me": "自分"
+    ,"currentSchedule": "現在の予定: {{title}}"
+    ,"noCurrentSchedule": "現在の予定なし"
+    ,"rooms": "チャットルーム"
+    ,"createRoom": "チャットルームを作成"
+    ,"noRooms": "参加中のチャットルームはありません。"
+    ,"noMessages": "まだメッセージはありません。"
+    ,"memberCount": "{{count}}人参加"
+    ,"leave": "チャットルームを退出"
+    ,"leaveConfirm": "このチャットルームから退出しますか？"
+    ,"selectRoom": "チャットルームを選択するか、新しく作成してください。"
+    ,"groupRoom": "グループチャット"
+    ,"directRoom": "1対1チャット"
+    ,"roomName": "チャットルーム名"
+    ,"selectOneMember": "会話するユーザーを1人選択してください。"
+    ,"selectMembers": "招待するユーザーを選択してください。"
+    ,"create": "作成"
+    ,"roomLoadFailed": "チャットルームを読み込めませんでした。"
+    ,"candidateLoadFailed": "ユーザー一覧を読み込めませんでした。"
+    ,"createFailed": "チャットルームを作成できませんでした。"
+    ,"leaveFailed": "チャットルームから退出できませんでした。"
+  },
   "projectList": {
+    "pageEyebrow": "チームプロジェクト",
+    "pageTitle": "チームプロジェクト一覧",
+    "pageDescription": "進行中または完了したプロジェクトを一覧で確認できます。",
     "notFound": "プロジェクトが見つかりません。",
     "emptyTitle": "まだプロジェクトに参加していません",
     "emptyDesc": "プロジェクトを作成し、チームメイトを招待しましょう。",

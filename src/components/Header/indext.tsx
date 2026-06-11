@@ -7,11 +7,13 @@ import {useTranslation} from "react-i18next";
 import { useEffect, useState } from "react";
 import { useThemeStore } from "@/store/themeStore";
 import { useUserStore } from "@/store/userStore";
+import { localizePath, normalizeLocale } from "@/lib/locale-routing";
 
 export default function Header() {
-    const { t } = useTranslation();
+    const { t, i18n } = useTranslation();
     const { initTheme } = useThemeStore();
     const user = useUserStore((s) => s.user);
+    const locale = normalizeLocale(i18n.resolvedLanguage ?? i18n.language);
     const [open, setOpen] = useState(false);
     const isOperator = user?.role === "OPERATOR";
 
@@ -31,14 +33,14 @@ export default function Header() {
             <div className="h-16 flex items-center justify-between px-4 md:px-6">
 
                 <div className="flex items-center space-x-4">
-                    <Link href="/" className="flex items-center space-x-2">
+                    <Link href={localizePath("/", locale)} className="flex items-center space-x-2">
                         <Image src="/logo/LogiImg.svg" width={40} height={40} alt="logo" />
                         <span className="font-bold text-white drop-shadow-md">COZY</span>
                     </Link>
 
                     <nav className="hidden md:flex gap-1">
                         <Link
-                            href="/feature"
+                            href={localizePath("/feature", locale)}
                             className="
                                 px-3 py-1 rounded-lg text-sm
                                 font-semibold text-white/90
@@ -50,7 +52,7 @@ export default function Header() {
                         </Link>
 
                         <Link
-                            href="/recruit"
+                            href={localizePath("/recruit", locale)}
                             className="
                                 px-3 py-1 rounded-lg text-sm
                                 font-semibold text-white/90
@@ -62,7 +64,7 @@ export default function Header() {
                         </Link>
 
                         <Link
-                            href="/help"
+                            href={localizePath("/help", locale)}
                             className="
                                 px-3 py-1 rounded-lg text-sm
                                 font-semibold text-white/90
@@ -74,7 +76,7 @@ export default function Header() {
                         </Link>
                         {isOperator && (
                             <Link
-                                href="/admin"
+                                href={localizePath("/admin", locale)}
                                 className="
                                     px-3 py-1 rounded-lg text-sm
                                     font-semibold text-white/90
@@ -103,21 +105,21 @@ export default function Header() {
                 <div className="md:hidden border-t border-white/10 px-4 pb-4 pt-2">
                     <nav className="flex flex-col gap-2">
                         <Link
-                            href="/feature"
+                            href={localizePath("/feature", locale)}
                             className="rounded-lg px-3 py-2 text-sm font-semibold text-white/90 hover:bg-white/10"
                             onClick={() => setOpen(false)}
                         >
                             {t("nav.feature")}
                         </Link>
                         <Link
-                            href="/recruit"
+                            href={localizePath("/recruit", locale)}
                             className="rounded-lg px-3 py-2 text-sm font-semibold text-white/90 hover:bg-white/10"
                             onClick={() => setOpen(false)}
                         >
                             {t("nav.recruit")}
                         </Link>
                         <Link
-                            href="/help"
+                            href={localizePath("/help", locale)}
                             className="rounded-lg px-3 py-2 text-sm font-semibold text-white/90 hover:bg-white/10"
                             onClick={() => setOpen(false)}
                         >
@@ -125,7 +127,7 @@ export default function Header() {
                         </Link>
                         {isOperator && (
                             <Link
-                                href="/admin"
+                                href={localizePath("/admin", locale)}
                                 className="rounded-lg px-3 py-2 text-sm font-semibold text-white/90 hover:bg-white/10"
                                 onClick={() => setOpen(false)}
                             >

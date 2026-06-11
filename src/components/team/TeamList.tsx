@@ -154,19 +154,7 @@ export function TeamList() {
                         {t('team.emptyDesc')}
                     </motion.p>
                     <div className="h-4" />
-                    <motion.div
-                        variants={itemVariants}
-                        animate={{
-                            scale: [1, 1.08, 1],
-                            boxShadow: [
-                                "0 0 0 rgba(0,0,0,0)",
-                                "0 20px 60px var(--theme-shadow-strong)",
-                                "0 0 0 rgba(0,0,0,0)",
-                            ],
-                            filter: ["saturate(1)", "saturate(1.2)", "saturate(1)"],
-                        }}
-                        transition={{ duration: 1.35, repeat: Infinity, ease: "easeInOut" }}
-                    >
+                    <motion.div variants={itemVariants}>
                         <Link
                             href="/createteam"
                             className="theme-btn-primary text-md md:text-lg mx-auto flex h-10 w-full max-w-xs items-center justify-center rounded-lg font-medium text-white shadow-lg hover:brightness-110 md:h-14 md:w-64"

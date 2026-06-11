@@ -600,7 +600,43 @@
     "noGitUrl": "Git URL 없음",
     "noDescription": "설명 없음"
   },
+  "chat": {
+    "sidebar": "채팅",
+    "teamRoom": "팀 채팅",
+    "projectRoom": "프로젝트 채팅",
+    "loading": "메시지를 불러오는 중...",
+    "emptyTitle": "아직 메시지가 없습니다",
+    "emptyDescription": "팀원들과 첫 대화를 시작해 보세요.",
+    "placeholder": "메시지를 입력하세요",
+    "send": "메시지 보내기",
+    "loadFailed": "메시지를 불러오지 못했습니다.",
+    "sendFailed": "메시지를 보내지 못했습니다."
+    ,"me": "나"
+    ,"currentSchedule": "현재 일정: {{title}}"
+    ,"noCurrentSchedule": "현재 일정 없음"
+    ,"rooms": "채팅방"
+    ,"createRoom": "채팅방 만들기"
+    ,"noRooms": "참여 중인 채팅방이 없습니다."
+    ,"noMessages": "아직 메시지가 없습니다."
+    ,"memberCount": "{{count}}명 참여"
+    ,"leave": "채팅방 나가기"
+    ,"leaveConfirm": "이 채팅방에서 나가시겠습니까?"
+    ,"selectRoom": "채팅방을 선택하거나 새로 만들어 주세요."
+    ,"groupRoom": "그룹 채팅"
+    ,"directRoom": "1:1 채팅"
+    ,"roomName": "채팅방 이름"
+    ,"selectOneMember": "대화할 사용자 한 명을 선택하세요."
+    ,"selectMembers": "초대할 사용자를 선택하세요."
+    ,"create": "만들기"
+    ,"roomLoadFailed": "채팅방 목록을 불러오지 못했습니다."
+    ,"candidateLoadFailed": "사용자 목록을 불러오지 못했습니다."
+    ,"createFailed": "채팅방을 만들지 못했습니다."
+    ,"leaveFailed": "채팅방에서 나가지 못했습니다."
+  },
   "projectList": {
+    "pageEyebrow": "팀 프로젝트",
+    "pageTitle": "팀 프로젝트 리스트",
+    "pageDescription": "진행 중이거나 완료된 프로젝트를 한눈에 확인하세요.",
     "notFound": "프로젝트를 찾을 수 없습니다.",
     "emptyTitle": "아직 참여 중인 프로젝트가 없습니다",
     "emptyDesc": "프로젝트를 만들고 팀원을 초대하세요.",
