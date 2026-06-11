@@ -7,10 +7,14 @@ import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useTeamStore } from "@/store/teamStore";
 import { getTeamJoinRequests } from "@/api/requests/joinRequest";
+import { localizePath, stripUrlLocale } from "@/lib/locale-routing";
+import { useLocaleStore } from "@/store/useLocalStore";
 
 export default function TeamLayoutSideBar({ teamName }: { teamName: string }) {
     const { t } = useTranslation();
     const pathname = usePathname();
+    const routePathname = stripUrlLocale(pathname);
+    const locale = useLocaleStore((state) => state.locale);
     const [mounted, setMounted] = useState(false);
     const currentTeamId = useTeamStore((s) => s.currentTeamId);
     const [requestCount, setRequestCount] = useState(0);
@@ -48,6 +52,7 @@ export default function TeamLayoutSideBar({ teamName }: { teamName: string }) {
         { labelKey: 'team.sidebarDashboard', path: 'dashboard' },
         { labelKey: 'team.sidebarNotice', path: 'notice' },
         { labelKey: 'team.sidebarBoard', path: 'board' },
+        { labelKey: 'chat.sidebar', path: 'chat' },
         { labelKey: 'team.sidebarMembers', path: 'team-userlist' },
         { labelKey: 'team.sidebarProjects', path: 'project-list' },
         { labelKey: 'team.sidebarSettings', path: 'team-setting' },
@@ -65,12 +70,12 @@ export default function TeamLayoutSideBar({ teamName }: { teamName: string }) {
 
                     // ⭐ 핵심: mounted 이후에만 active 계산
                     const isActive =
-                        mounted && pathname.startsWith(href);
+                        mounted && routePathname.startsWith(href);
 
                     return (
                         <Link
                             key={tab.path}
-                            href={href}
+                            href={localizePath(href, locale)}
                             className={cn(
                                 'text-sm px-3 py-2 rounded-lg text-center w-full md:w-auto whitespace-nowrap transition duration-200',
                                 isActive

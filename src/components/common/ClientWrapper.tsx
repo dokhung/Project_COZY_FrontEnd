@@ -4,10 +4,22 @@ import LocaleSync from "@/components/common/LocaleSync";
 import I18nProvider from "@/components/common/I18nProvider";
 import AuthRefreshBridge from "@/components/common/AuthRefreshBridge";
 import Header from "@/components/Header/indext";
+import { Locale } from "@/enum/locale";
+import { useLocaleStore } from "@/store/useLocalStore";
 
-export default function ClientWrapper({ children }: { children: React.ReactNode }) {
+export default function ClientWrapper({
+    children,
+    initialLocale,
+}: {
+    children: React.ReactNode;
+    initialLocale: Locale;
+}) {
+    if (useLocaleStore.getState().locale !== initialLocale) {
+        useLocaleStore.setState({ locale: initialLocale });
+    }
+
     return (
-        <I18nProvider>
+        <I18nProvider initialLocale={initialLocale}>
             <LocaleSync />
             <AuthRefreshBridge />
             <Header />

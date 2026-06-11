@@ -607,7 +607,43 @@
     "noGitUrl": "No Git URL",
     "noDescription": "No description"
   },
+  "chat": {
+    "sidebar": "Chat",
+    "teamRoom": "Team chat",
+    "projectRoom": "Project chat",
+    "loading": "Loading messages...",
+    "emptyTitle": "No messages yet",
+    "emptyDescription": "Start the conversation with your teammates.",
+    "placeholder": "Write a message",
+    "send": "Send message",
+    "loadFailed": "Failed to load messages.",
+    "sendFailed": "Failed to send the message."
+    ,"me": "Me"
+    ,"currentSchedule": "Now: {{title}}"
+    ,"noCurrentSchedule": "No current schedule"
+    ,"rooms": "Chat rooms"
+    ,"createRoom": "Create chat room"
+    ,"noRooms": "You have no chat rooms yet."
+    ,"noMessages": "No messages yet."
+    ,"memberCount": "{{count}} members"
+    ,"leave": "Leave chat room"
+    ,"leaveConfirm": "Leave this chat room?"
+    ,"selectRoom": "Select a chat room or create a new one."
+    ,"groupRoom": "Group chat"
+    ,"directRoom": "Direct message"
+    ,"roomName": "Chat room name"
+    ,"selectOneMember": "Select one person to message."
+    ,"selectMembers": "Select people to invite."
+    ,"create": "Create"
+    ,"roomLoadFailed": "Failed to load chat rooms."
+    ,"candidateLoadFailed": "Failed to load users."
+    ,"createFailed": "Failed to create the chat room."
+    ,"leaveFailed": "Failed to leave the chat room."
+  },
   "projectList": {
+    "pageEyebrow": "Team Projects",
+    "pageTitle": "Team Project List",
+    "pageDescription": "View ongoing and completed projects at a glance.",
     "notFound": "Project not found",
     "emptyTitle": "You are not in any projects yet",
     "emptyDesc": "Create a project and invite teammates.",

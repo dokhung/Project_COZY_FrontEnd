@@ -4,14 +4,9 @@ import axios, {
     AxiosInstance,
     InternalAxiosRequestConfig,
 } from "axios";
-import { useUserStore } from "@/store/userStore";
+import { useUserStore } from '@/store/userStore';
 
-const API_BASE =
-    (
-        process.env.NEXT_PUBLIC_API_BASE ||
-        process.env.NEXT_PUBLIC_API_BASE_LOCAL ||
-        "http://13.114.84.210:18000"
-    ).replace(/\/+$/, "");
+const API_BASE = (process.env.NEXT_PUBLIC_API_BASE || (process.env.NODE_ENV === 'development' ? 'http://localhost:18000' : 'http://13.114.84.210:18000')).replace(/\/+$/, '');
 
 const apiClient: AxiosInstance = axios.create({
     baseURL: API_BASE,
