@@ -8,6 +8,7 @@ import { useEffect, useState } from "react";
 import { useThemeStore } from "@/store/themeStore";
 import { useUserStore } from "@/store/userStore";
 import { localizePath, normalizeLocale } from "@/lib/locale-routing";
+import { Globe2 } from "lucide-react";
 
 export default function Header() {
     const { t, i18n } = useTranslation();
@@ -91,6 +92,20 @@ export default function Header() {
                 </div>
 
                 <div className="flex items-center gap-2 md:gap-3">
+                    {user && (
+                        <Link
+                            href={localizePath("/community-world", locale)}
+                            className="
+                                hidden items-center gap-2 rounded-full border border-cyan-200/40
+                                bg-cyan-300/10 px-4 py-2 text-sm font-semibold text-white
+                                shadow-[0_0_24px_rgba(34,211,238,0.12)]
+                                transition hover:border-cyan-100/70 hover:bg-cyan-200/20 md:flex
+                            "
+                        >
+                            <Globe2 className="h-4 w-4" />
+                            {t("nav.communityWorld")}
+                        </Link>
+                    )}
                     <button
                         className="md:hidden rounded-full border border-white/30 bg-white/10 px-3 py-1 text-xs font-semibold text-white/90 transition hover:bg-white/20"
                         onClick={() => setOpen((v) => !v)}
@@ -104,6 +119,16 @@ export default function Header() {
             {open && (
                 <div className="md:hidden border-t border-white/10 px-4 pb-4 pt-2">
                     <nav className="flex flex-col gap-2">
+                        {user && (
+                            <Link
+                                href={localizePath("/community-world", locale)}
+                                className="flex items-center gap-2 rounded-lg border border-cyan-200/30 bg-cyan-300/10 px-3 py-2 text-sm font-semibold text-white hover:bg-cyan-200/20"
+                                onClick={() => setOpen(false)}
+                            >
+                                <Globe2 className="h-4 w-4" />
+                                {t("nav.communityWorld")}
+                            </Link>
+                        )}
                         <Link
                             href={localizePath("/feature", locale)}
                             className="rounded-lg px-3 py-2 text-sm font-semibold text-white/90 hover:bg-white/10"

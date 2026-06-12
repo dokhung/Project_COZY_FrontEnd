@@ -16,7 +16,8 @@
     "feature": "기능",
     "recruit": "모집",
     "help": "문의",
-    "admin": "관리자"
+    "admin": "관리자",
+    "communityWorld": "커뮤니티 월드 입장"
   },
   "admin": {
     "badge": "운영자 전용",
@@ -328,6 +329,17 @@
     "welcome": "welcome {{name}}",
     "statusPlaceholder": "상태 메시지를 입력하세요",
     "nicknameSuffix": "{{name}}님"
+  },
+  "communityWorld": {
+    "title": "COZY 커뮤니티 월드",
+    "subtitle": "광장을 걸으며 가까운 사람들과 가볍게 대화해 보세요.",
+    "controls": "WASD 또는 방향키로 이동",
+    "nearby": "월드 도우미 NPC",
+    "chat": "광장 대화",
+    "placeholder": "메시지를 입력하세요",
+    "send": "전송",
+    "empty": "가까운 사용자를 찾아 광장을 둘러보세요.",
+    "you": "나"
   },
   "solution": {
     "inProgress": "Solution 페이지 입니다. 아직 개발중 입니다."

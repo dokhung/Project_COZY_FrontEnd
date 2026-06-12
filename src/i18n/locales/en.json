@@ -16,7 +16,8 @@
     "feature": "Feature",
     "recruit": "Recruit",
     "help": "Help",
-    "admin": "Admin"
+    "admin": "Admin",
+    "communityWorld": "Enter Community World"
   },
   "admin": {
     "badge": "Operator Only",
@@ -319,6 +320,17 @@
     "welcome": "Welcome {{name}}",
     "statusPlaceholder": "Add a status message",
     "nicknameSuffix": "{{name}}"
+  },
+  "communityWorld": {
+    "title": "COZY Community World",
+    "subtitle": "Walk around the plaza and start a casual conversation.",
+    "controls": "Move with WASD or arrow keys",
+    "nearby": "World Helper NPCs",
+    "chat": "Plaza chat",
+    "placeholder": "Type a message",
+    "send": "Send",
+    "empty": "Explore the plaza to find someone nearby.",
+    "you": "You"
   },
   "footer": {
     "tagline": "A collaboration space for teams and projects",
