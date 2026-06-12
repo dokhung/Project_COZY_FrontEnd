@@ -1,38 +1,14 @@
 "use client";
 
-import { Canvas, useFrame } from "@react-three/fiber";
+import { Canvas, useFrame, useThree } from "@react-three/fiber";
 import { Float, Html, RoundedBox, Stars } from "@react-three/drei";
 import { useEffect, useMemo, useRef, useState } from "react";
 import * as THREE from "three";
-import { ChevronDown, ChevronLeft, ChevronRight, ChevronUp, MessageCircle, Navigation, Send, Users } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import { useUserStore } from "@/store/userStore";
-
-type ChatMessage = {
-    id: number;
-    author: string;
-    text: string;
-    own?: boolean;
-};
-
-type MovementKey = "forward" | "backward" | "left" | "right";
-
-type MovementState = Record<MovementKey, boolean>;
-
-const createMovementState = (): MovementState => ({
-    forward: false,
-    backward: false,
-    left: false,
-    right: false,
-});
-
-const worldHelpers = [
-    { name: "NOVA", role: "광장 안내", color: "#f472b6", position: [-4, 0, -3] as const, message: "COZY 월드에 오신 것을 환영해요!" },
-    { name: "ROUTE", role: "이동 안내", color: "#fbbf24", position: [4, 0, -2] as const, message: "WASD 또는 방향키로 이동할 수 있어요." },
-    { name: "TALKY", role: "대화 안내", color: "#a78bfa", position: [2.5, 0, 4] as const, message: "오른쪽 채팅창에서 메시지를 보내보세요." },
-    { name: "LINK", role: "커뮤니티 안내", color: "#34d399", position: [-5.5, 0, 3.8] as const, message: "다른 사용자와 가까이에서 대화해 보세요." },
-    { name: "HELPER", role: "도움말", color: "#fb7185", position: [6, 0, 3] as const, message: "월드 이용에 궁금한 점을 알려드릴게요." },
-];
+import type { BearExpression, ChatMessage, MovementKey, MovementState } from "./types";
+import { createMovementState, worldHelpers } from "./worldData";
+import { ChatHistory, ChatInput, MovementControls, WorldHeader } from "./WorldHud";
 
 function BearBody({
     color,
@@ -40,12 +16,14 @@ function BearBody({
     glow = false,
     moving,
     phase = 0,
+    expression = "neutral",
 }: {
     color: string;
     bellyColor: string;
     glow?: boolean;
     moving?: React.RefObject<boolean>;
     phase?: number;
+    expression?: BearExpression;
 }) {
     const root = useRef<THREE.Group>(null);
     const head = useRef<THREE.Group>(null);
@@ -115,18 +93,54 @@ function BearBody({
                     <sphereGeometry args={[0.25, 20, 20]} />
                     <meshStandardMaterial color={bellyColor} roughness={0.8} />
                 </mesh>
-                <mesh position={[-0.16, 1.53, 0.42]}>
-                    <sphereGeometry args={[0.045, 12, 12]} />
-                    <meshStandardMaterial color="#172033" roughness={0.4} />
-                </mesh>
-                <mesh position={[0.16, 1.53, 0.42]}>
-                    <sphereGeometry args={[0.045, 12, 12]} />
-                    <meshStandardMaterial color="#172033" roughness={0.4} />
-                </mesh>
+                {expression === "happy" ? (
+                    <>
+                        <mesh position={[-0.16, 1.53, 0.43]} rotation={[0, 0, 0.18]}>
+                            <torusGeometry args={[0.055, 0.014, 8, 18, Math.PI]} />
+                            <meshStandardMaterial color="#172033" roughness={0.4} />
+                        </mesh>
+                        <mesh position={[0.16, 1.53, 0.43]} rotation={[0, 0, 0.18]}>
+                            <torusGeometry args={[0.055, 0.014, 8, 18, Math.PI]} />
+                            <meshStandardMaterial color="#172033" roughness={0.4} />
+                        </mesh>
+                    </>
+                ) : (
+                    <>
+                        <mesh position={[-0.16, 1.53, 0.42]} scale={[1, expression === "sad" ? 1.25 : 1, 1]}>
+                            <sphereGeometry args={[0.045, 12, 12]} />
+                            <meshStandardMaterial color="#172033" roughness={0.4} />
+                        </mesh>
+                        <mesh position={[0.16, 1.53, 0.42]} scale={[1, expression === "sad" ? 1.25 : 1, 1]}>
+                            <sphereGeometry args={[0.045, 12, 12]} />
+                            <meshStandardMaterial color="#172033" roughness={0.4} />
+                        </mesh>
+                    </>
+                )}
                 <mesh position={[0, 1.39, 0.57]}>
                     <sphereGeometry args={[0.06, 12, 12]} />
                     <meshStandardMaterial color="#172033" roughness={0.4} />
                 </mesh>
+                {expression !== "neutral" && (
+                    <mesh
+                        position={[0, 1.28, 0.56]}
+                        rotation={[0, 0, expression === "happy" ? 0 : Math.PI]}
+                    >
+                        <torusGeometry args={[0.09, 0.018, 8, 20, Math.PI]} />
+                        <meshStandardMaterial color="#172033" roughness={0.4} />
+                    </mesh>
+                )}
+                {expression === "sad" && (
+                    <>
+                        <mesh position={[-0.17, 1.43, 0.47]} scale={[0.55, 1.15, 0.45]}>
+                            <sphereGeometry args={[0.055, 12, 12]} />
+                            <meshStandardMaterial color="#7dd3fc" transparent opacity={0.85} />
+                        </mesh>
+                        <mesh position={[0.17, 1.43, 0.47]} scale={[0.55, 1.15, 0.45]}>
+                            <sphereGeometry args={[0.055, 12, 12]} />
+                            <meshStandardMaterial color="#7dd3fc" transparent opacity={0.85} />
+                        </mesh>
+                    </>
+                )}
             </group>
 
             <group ref={torso}>
@@ -263,9 +277,18 @@ function WorldHelper({
     );
 }
 
-function Player({ name, speech }: { name: string; speech: string | null }) {
+function Player({ name, speech, expression }: { name: string; speech: string | null; expression: BearExpression }) {
+    const { gl } = useThree();
     const player = useRef<THREE.Group>(null);
     const isMoving = useRef(false);
+    const jumpVelocity = useRef(0);
+    const isGrounded = useRef(true);
+    const isCameraDragging = useRef(false);
+    const cameraYaw = useRef(0);
+    const cameraPitch = useRef(0);
+    const cameraDistance = useRef(11.5);
+    const targetCameraDistance = useRef(11.5);
+    const previousPointer = useRef({ x: 0, y: 0 });
     const keys = useRef<MovementState>(createMovementState());
     const lastPressedAt = useRef<Record<MovementKey, number>>({
         forward: 0,
@@ -275,6 +298,8 @@ function Player({ name, speech }: { name: string; speech: string | null }) {
     });
     const direction = useMemo(() => new THREE.Vector3(), []);
     const cameraTarget = useMemo(() => new THREE.Vector3(), []);
+    const cameraOffset = useMemo(() => new THREE.Vector3(), []);
+    const lookTarget = useMemo(() => new THREE.Vector3(), []);
 
     useEffect(() => {
         const resolveMovementKey = (event: KeyboardEvent): MovementKey | null => {
@@ -299,6 +324,14 @@ function Player({ name, speech }: { name: string; speech: string | null }) {
 
         const down = (event: KeyboardEvent) => {
             if (["INPUT", "TEXTAREA"].includes((event.target as HTMLElement).tagName)) return;
+            if (event.code === "Space") {
+                event.preventDefault();
+                if (isGrounded.current && player.current) {
+                    jumpVelocity.current = 7;
+                    isGrounded.current = false;
+                }
+                return;
+            }
             const movementKey = resolveMovementKey(event);
             if (!movementKey) return;
             event.preventDefault();
@@ -324,6 +357,67 @@ function Player({ name, speech }: { name: string; speech: string | null }) {
         };
     }, []);
 
+    useEffect(() => {
+        const canvas = gl.domElement;
+
+        const handleContextMenu = (event: MouseEvent) => {
+            event.preventDefault();
+        };
+        const handleWheel = (event: WheelEvent) => {
+            event.preventDefault();
+            targetCameraDistance.current = THREE.MathUtils.clamp(
+                targetCameraDistance.current + event.deltaY * 0.012,
+                4.5,
+                17
+            );
+        };
+        const handlePointerDown = (event: PointerEvent) => {
+            if (event.button !== 2) return;
+            event.preventDefault();
+            isCameraDragging.current = true;
+            previousPointer.current = { x: event.clientX, y: event.clientY };
+            canvas.setPointerCapture?.(event.pointerId);
+        };
+        const handlePointerMove = (event: PointerEvent) => {
+            if (!isCameraDragging.current) return;
+
+            const deltaX = event.clientX - previousPointer.current.x;
+            const deltaY = event.clientY - previousPointer.current.y;
+            previousPointer.current = { x: event.clientX, y: event.clientY };
+
+            cameraYaw.current -= deltaX * 0.006;
+            cameraPitch.current = THREE.MathUtils.clamp(
+                cameraPitch.current - deltaY * 0.012,
+                0,
+                3.8
+            );
+        };
+        const stopCameraDrag = (event?: PointerEvent) => {
+            isCameraDragging.current = false;
+            if (event && canvas.hasPointerCapture?.(event.pointerId)) {
+                canvas.releasePointerCapture(event.pointerId);
+            }
+        };
+
+        canvas.addEventListener("contextmenu", handleContextMenu);
+        canvas.addEventListener("wheel", handleWheel, { passive: false });
+        canvas.addEventListener("pointerdown", handlePointerDown);
+        canvas.addEventListener("pointermove", handlePointerMove);
+        canvas.addEventListener("pointerup", stopCameraDrag);
+        canvas.addEventListener("pointercancel", stopCameraDrag);
+        window.addEventListener("blur", stopCameraDrag);
+
+        return () => {
+            canvas.removeEventListener("contextmenu", handleContextMenu);
+            canvas.removeEventListener("wheel", handleWheel);
+            canvas.removeEventListener("pointerdown", handlePointerDown);
+            canvas.removeEventListener("pointermove", handlePointerMove);
+            canvas.removeEventListener("pointerup", stopCameraDrag);
+            canvas.removeEventListener("pointercancel", stopCameraDrag);
+            window.removeEventListener("blur", stopCameraDrag);
+        };
+    }, [gl]);
+
     useFrame((state, delta) => {
         if (!player.current) return;
         const now = performance.now();
@@ -341,14 +435,40 @@ function Player({ name, speech }: { name: string; speech: string | null }) {
             player.current.rotation.y = Math.atan2(direction.x, direction.z);
         }
 
-        cameraTarget.set(player.current.position.x, 7.4, player.current.position.z + 8.8);
+        if (!isGrounded.current || player.current.position.y > 0) {
+            jumpVelocity.current -= 18 * delta;
+            player.current.position.y += jumpVelocity.current * delta;
+
+            if (player.current.position.y <= 0) {
+                player.current.position.y = 0;
+                jumpVelocity.current = 0;
+                isGrounded.current = true;
+            }
+        }
+
+        cameraDistance.current = THREE.MathUtils.damp(
+            cameraDistance.current,
+            targetCameraDistance.current,
+            10,
+            delta
+        );
+        const distanceScale = cameraDistance.current / 11.5;
+        cameraOffset
+            .set(0, 7.4 * distanceScale, 8.8 * distanceScale)
+            .applyAxisAngle(THREE.Object3D.DEFAULT_UP, cameraYaw.current);
+        cameraTarget.copy(player.current.position).add(cameraOffset);
         state.camera.position.lerp(cameraTarget, 1 - Math.pow(0.002, delta));
-        state.camera.lookAt(player.current.position.x, 0.8, player.current.position.z);
+        lookTarget.set(
+            player.current.position.x,
+            0.8 + cameraPitch.current,
+            player.current.position.z
+        );
+        state.camera.lookAt(lookTarget);
     });
 
     return (
         <group ref={player} position={[0, 0, 2]}>
-            <BearBody color="#22d3ee" bellyColor="#cffafe" glow moving={isMoving} />
+            <BearBody color="#22d3ee" bellyColor="#cffafe" glow moving={isMoving} expression={expression} />
             <pointLight position={[0, 1, 0]} color="#22d3ee" intensity={1.4} distance={4} />
             <Html position={[0, 2.25, 0]} center distanceFactor={9}>
                 <div className="pointer-events-none flex min-w-max flex-col items-center">
@@ -427,6 +547,7 @@ export default function CommunityWorld() {
     const user = useUserStore((state) => state.user);
     const [draft, setDraft] = useState("");
     const [playerSpeech, setPlayerSpeech] = useState<string | null>(null);
+    const [playerExpression, setPlayerExpression] = useState<BearExpression>("neutral");
     const speechTimer = useRef<number | null>(null);
     const [messages, setMessages] = useState<ChatMessage[]>([
         { id: 1, author: "NOVA · NPC", text: "COZY 광장에 오신 걸 환영해요!" },
@@ -436,16 +557,23 @@ export default function CommunityWorld() {
     const sendMessage = () => {
         const text = draft.trim();
         if (!text) return;
+        const expression: BearExpression = /(?:ㅠㅠ+|ㅜㅜ+|😢|😭|슬프|흑흑)/i.test(text)
+            ? "sad"
+            : /(?:ㅋ{2,}|ㅎ{2,}|😂|🤣|😄|😁|웃)/i.test(text)
+                ? "happy"
+                : "neutral";
         setMessages((current) => [
             ...current.slice(-5),
             { id: Date.now(), author: user?.nickname || t("communityWorld.you"), text, own: true },
         ]);
         setPlayerSpeech(text);
+        setPlayerExpression(expression);
         if (speechTimer.current) {
             window.clearTimeout(speechTimer.current);
         }
         speechTimer.current = window.setTimeout(() => {
             setPlayerSpeech(null);
+            setPlayerExpression("neutral");
             speechTimer.current = null;
         }, 5000);
         setDraft("");
@@ -466,118 +594,25 @@ export default function CommunityWorld() {
         }, 50);
     };
 
+    const jumpPlayer = () => {
+        window.dispatchEvent(new KeyboardEvent("keydown", { code: "Space", key: " " }));
+    };
+
     return (
         <main className="relative h-[calc(100dvh-64px)] min-h-[620px] overflow-hidden bg-[#06182b] text-white">
             <Canvas shadows camera={{ position: [0, 7.4, 10.8], fov: 48 }} dpr={[1, 1.7]}>
                 <Plaza />
-                <Player name={user?.nickname || t("communityWorld.you")} speech={playerSpeech} />
+                <Player
+                    name={user?.nickname || t("communityWorld.you")}
+                    speech={playerSpeech}
+                    expression={playerExpression}
+                />
             </Canvas>
 
-            <section className="pointer-events-none absolute inset-x-0 top-0 flex items-start justify-between gap-4 p-4 md:p-6">
-                <div className="max-w-xl rounded-2xl border border-cyan-100/15 bg-slate-950/55 px-5 py-4 shadow-2xl backdrop-blur-xl">
-                    <p className="mb-1 text-xs font-bold uppercase tracking-[0.2em] text-cyan-300">COZY PLAZA · ONLINE</p>
-                    <h1 className="text-xl font-black md:text-2xl">{t("communityWorld.title")}</h1>
-                    <p className="mt-1 text-sm text-white/65">{t("communityWorld.subtitle")}</p>
-                    <div className="mt-3 flex items-center gap-2 text-xs font-semibold text-cyan-100/80">
-                        <Navigation className="h-4 w-4" />
-                        {t("communityWorld.controls")}
-                    </div>
-                </div>
-
-                <div className="hidden rounded-2xl border border-white/10 bg-slate-950/55 p-4 shadow-2xl backdrop-blur-xl md:block">
-                    <div className="mb-3 flex items-center gap-2 text-sm font-bold">
-                        <Users className="h-4 w-4 text-cyan-300" />
-                        {t("communityWorld.nearby")} · {worldHelpers.length}
-                    </div>
-                    <div className="space-y-2">
-                        {worldHelpers.map((helper) => (
-                            <div key={helper.name} className="flex items-center gap-2 text-xs text-white/75">
-                                <span className="h-2.5 w-2.5 rounded-full" style={{ backgroundColor: helper.color }} />
-                                <span>{helper.name}</span>
-                                <span className="text-[10px] text-white/40">{helper.role}</span>
-                            </div>
-                        ))}
-                    </div>
-                </div>
-            </section>
-
-            <div className="absolute bottom-5 left-5 grid grid-cols-3 gap-1 rounded-2xl border border-white/15 bg-slate-950/60 p-2 shadow-2xl backdrop-blur-xl md:bottom-6 md:left-6">
-                <span />
-                <button
-                    type="button"
-                    aria-label="W / 위로 이동"
-                    onClick={() => nudgePlayer("KeyW", "w")}
-                    className="flex h-10 w-10 items-center justify-center rounded-lg border border-white/10 bg-white/10 text-white transition hover:bg-cyan-300/25 active:scale-95"
-                >
-                    <ChevronUp className="h-5 w-5" />
-                </button>
-                <span />
-                <button
-                    type="button"
-                    aria-label="A / 왼쪽으로 이동"
-                    onClick={() => nudgePlayer("KeyA", "a")}
-                    className="flex h-10 w-10 items-center justify-center rounded-lg border border-white/10 bg-white/10 text-white transition hover:bg-cyan-300/25 active:scale-95"
-                >
-                    <ChevronLeft className="h-5 w-5" />
-                </button>
-                <button
-                    type="button"
-                    aria-label="S / 아래로 이동"
-                    onClick={() => nudgePlayer("KeyS", "s")}
-                    className="flex h-10 w-10 items-center justify-center rounded-lg border border-white/10 bg-white/10 text-white transition hover:bg-cyan-300/25 active:scale-95"
-                >
-                    <ChevronDown className="h-5 w-5" />
-                </button>
-                <button
-                    type="button"
-                    aria-label="D / 오른쪽으로 이동"
-                    onClick={() => nudgePlayer("KeyD", "d")}
-                    className="flex h-10 w-10 items-center justify-center rounded-lg border border-white/10 bg-white/10 text-white transition hover:bg-cyan-300/25 active:scale-95"
-                >
-                    <ChevronRight className="h-5 w-5" />
-                </button>
-            </div>
-
-            <section className="absolute bottom-4 right-4 w-[min(360px,calc(100%-2rem))] overflow-hidden rounded-2xl border border-white/15 bg-slate-950/70 shadow-2xl backdrop-blur-xl md:bottom-6 md:right-6">
-                <div className="flex items-center gap-2 border-b border-white/10 px-4 py-3 text-sm font-bold">
-                    <MessageCircle className="h-4 w-4 text-cyan-300" />
-                    {t("communityWorld.chat")}
-                </div>
-                <div className="flex h-36 flex-col justify-end gap-2 overflow-y-auto p-4">
-                    {messages.length === 0 && <p className="text-xs text-white/45">{t("communityWorld.empty")}</p>}
-                    {messages.map((message) => (
-                        <div key={message.id} className={`text-xs ${message.own ? "text-right" : ""}`}>
-                            <span className="mb-0.5 block font-bold text-cyan-300">{message.author}</span>
-                            <span className={`inline-block rounded-xl px-3 py-2 ${message.own ? "bg-cyan-500/25 text-cyan-50" : "bg-white/10 text-white/80"}`}>
-                                {message.text}
-                            </span>
-                        </div>
-                    ))}
-                </div>
-                <div className="flex gap-2 border-t border-white/10 p-3">
-                    <input
-                        value={draft}
-                        onChange={(event) => setDraft(event.target.value)}
-                        onKeyDown={(event) => {
-                            if (event.key === "Enter" && !event.nativeEvent.isComposing) {
-                                event.preventDefault();
-                                sendMessage();
-                            }
-                        }}
-                        placeholder={t("communityWorld.placeholder")}
-                        maxLength={120}
-                        className="min-w-0 flex-1 rounded-xl border border-white/10 bg-white/10 px-3 py-2 text-sm text-white outline-none placeholder:text-white/35 focus:border-cyan-300/60"
-                    />
-                    <button
-                        type="button"
-                        onClick={sendMessage}
-                        aria-label={t("communityWorld.send")}
-                        className="rounded-xl bg-cyan-500 px-3 text-slate-950 transition hover:bg-cyan-300"
-                    >
-                        <Send className="h-4 w-4" />
-                    </button>
-                </div>
-            </section>
+            <WorldHeader helpers={worldHelpers} t={t} />
+            <MovementControls onMove={nudgePlayer} onJump={jumpPlayer} />
+            <ChatHistory messages={messages} t={t} />
+            <ChatInput draft={draft} onDraftChange={setDraft} onSend={sendMessage} t={t} />
         </main>
     );
 }
