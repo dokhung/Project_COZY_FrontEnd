@@ -16,7 +16,8 @@
     "feature": "機能",
     "recruit": "募集",
     "help": "お問い合わせ",
-    "admin": "管理者"
+    "admin": "管理者",
+    "communityWorld": "コミュニティワールドへ"
   },
   "admin": {
     "badge": "運営者限定",
@@ -319,6 +320,17 @@
     "welcome": "ようこそ {{name}}",
     "statusPlaceholder": "ステータスメッセージを入力してください",
     "nicknameSuffix": "{{name}}さん"
+  },
+  "communityWorld": {
+    "title": "COZY コミュニティワールド",
+    "subtitle": "広場を歩きながら、近くの人と気軽に会話しましょう。",
+    "controls": "WASDまたは矢印キーで移動",
+    "nearby": "ワールド案内NPC",
+    "chat": "広場チャット",
+    "placeholder": "メッセージを入力",
+    "send": "送信",
+    "empty": "広場を歩いて近くのユーザーを探してみましょう。",
+    "you": "自分"
   },
   "footer": {
     "tagline": "チームとプロジェクトのための協業スペース",
